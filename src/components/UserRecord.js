@@ -7,7 +7,11 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
+import { useTranslation } from 'react-i18next';
+
 const Record = (props) => {
+  const { t } = useTranslation();
+
   return (
     <div>
       {_.map(props.records, (item, index) => (
@@ -26,7 +30,7 @@ const Record = (props) => {
                   {item.user.name}
                 </Typography>
                 <Typography sx={{ color: "text.secondary" }}>
-                  於 {item.time} 開啟
+                {t("at")} {item.time} {t("open")}
                 </Typography>
               </AccordionSummary>
             </Box>
@@ -46,10 +50,10 @@ const Record = (props) => {
                   id="panel1bh-header"
                 >
                   <Typography sx={{ width: "33%", flexShrink: 0 }}>
-                    管理員 - {item.user.name}
+                  {t("admin")} - {item.user.name}
                   </Typography>
                   <Typography sx={{ color: "text.secondary" }}>
-                    於 {item.time} 強制開啟
+                  {t("at")} {item.time} {t("forcedOpen")}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails

@@ -8,6 +8,7 @@ import MemberListDataGrid from "../components/MemberListDataGrid";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAdmin, getAdminList, clearState } from "../redux/adminSlice";
 import MemberOption from "../components/MemberOption";
+import { useTranslation } from 'react-i18next';
 
 const MemberList = () => {
   const [alertOpen, setAlertOpen] = React.useState(false);
@@ -18,6 +19,7 @@ const MemberList = () => {
   const [rows, setRows] = React.useState([]);
   const [rowId, setRowId] = React.useState("");
   const [refresh, setRefresh] = React.useState(false);
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
@@ -54,21 +56,21 @@ const MemberList = () => {
   const columns = [
     {
       field: "name",
-      headerName: "使用者名稱",
+      headerName: t('userName'),
       flex: 1,
       disableColumnMenu: true,
       sortable: false,
     },
     {
       field: "mail",
-      headerName: "信箱",
+      headerName: t('mail'),
       flex: 1,
       disableColumnMenu: true,
       sortable: false,
     },
     {
       field: "age",
-      headerName: "身份",
+      headerName: t('identity'),
       flex: 1,
       disableColumnMenu: true,
       sortable: false,
@@ -110,7 +112,7 @@ const MemberList = () => {
         setCheckAction={setCheckAction}
       />
       <div className="memberHeader">
-        <p>管理者列表</p>
+        <p>{t('adminList')}</p>
         <div>
           <Link to="/register">
             <Button
@@ -128,7 +130,7 @@ const MemberList = () => {
                 textDecoration: "none",
               }}
             >
-              新增管理者
+              {t('addAdmin')}
             </Button>
           </Link>
         </div>

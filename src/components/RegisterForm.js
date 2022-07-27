@@ -5,8 +5,10 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { addAdmin, selectAdmin, clearState } from "../redux/adminSlice";
 import toast, { Toaster } from "react-hot-toast";
+import { useTranslation } from 'react-i18next';
 
 const RegisterForm = (props) => {
+  const { t } = useTranslation();
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,7 +46,7 @@ const RegisterForm = (props) => {
       dispatch(clearState());
     }
     if (isSuccess) {
-      toast.success("新增成功");
+      toast.success(t("addSuccess"));
       dispatch(clearState());
       setTimeout(() => {
         navigate("/memberlist");
@@ -62,11 +64,11 @@ const RegisterForm = (props) => {
             <h1>Sign up</h1>
           </div>
           <div className="registerFormItemUser">
-            <h2>使用者名稱 Username</h2>
+            <h2>{t("userName")}</h2>
             <CssTextField
               type="text"
               id="input-text"
-              placeholder="請輸入名稱"
+              placeholder={t("inputUserName")}
               sx={{ width: "100%" }}
               inputProps={{
                 style: {
@@ -77,11 +79,11 @@ const RegisterForm = (props) => {
             />
           </div>
           <div className="registerFormItemEmail">
-            <h2>帳號 Email</h2>
+            <h2>{t("account")}</h2>
             <CssTextField
               type="email"
               id="input-email"
-              placeholder="請輸入帳號"
+              placeholder={t("inputAccount")}
               sx={{ width: "100%" }}
               inputProps={{
                 style: {
@@ -92,11 +94,11 @@ const RegisterForm = (props) => {
             />
           </div>
           <div className="registerFormItemPassword">
-            <h2>密碼 Password</h2>
+            <h2>{t("password")}</h2>
             <CssTextField
               type="password"
               id="input-password"
-              placeholder="請輸入密碼"
+              placeholder={t("inputPassword")}
               sx={{ width: "100%", borderColor: "#000" }}
               inputProps={{
                 style: {
@@ -107,11 +109,11 @@ const RegisterForm = (props) => {
             />
           </div>
           <div className="registerFormItemConfirm">
-            <h2>確認密碼 Confirm Password</h2>
+            <h2>{t("confirmPassword")}</h2>
             <CssTextField
               type="password"
               id="input-confirm"
-              placeholder="請輸入確認密碼"
+              placeholder={t("inputConfirmPassword")}
               sx={{ width: "100%", borderColor: "#000" }}
               inputProps={{
                 style: {
@@ -133,9 +135,9 @@ const RegisterForm = (props) => {
                 fontSize: 24,
               }}
             >
-              新增管理者
+              {t("addAdmin")}
             </Button>
-            <span>{isError ? toast.error("新增失敗") : null}</span>
+            <span>{isError ? toast.error(t("addFailed")) : null}</span>
           </div>
         </div>
       </form>

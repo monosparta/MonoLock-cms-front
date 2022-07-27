@@ -1,7 +1,10 @@
 import React from "react";
 import Button from "@mui/material/Button";
+import { useTranslation } from 'react-i18next';
 
 const MemberOption = (props) => {
+  const { t } = useTranslation();
+
   return (
     <div className="memberOption">
       <Button
@@ -22,7 +25,7 @@ const MemberOption = (props) => {
           margin: 5,
         }}
       >
-        修改密碼
+        {t('editPassword')}
       </Button>
 
       <img

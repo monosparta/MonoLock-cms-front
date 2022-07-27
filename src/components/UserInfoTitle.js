@@ -7,10 +7,12 @@ import UserDelete from "../components/UserDelete";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import Skeleton from "@mui/material/Skeleton";
+import { useTranslation } from 'react-i18next';
 
 const UserInfoTitle = (props) => {
   const location = useLocation();
   const { lockIsFetching } = useSelector(selectLock);
+  const { t } = useTranslation();
 
   return (
     <div className="userInfoLockNumber">
@@ -22,7 +24,7 @@ const UserInfoTitle = (props) => {
       ) : (
         <>
           {props.luckIconStatus === 1 ? <LockIcon /> : <LockOpenIcon />}
-          <h1>置物櫃 - {location.state}</h1>
+          <h1>{t('locker')} - {location.state}</h1>
 
           <UserDelete
             setLuckIconStatus={props.setLuckIconStatus}

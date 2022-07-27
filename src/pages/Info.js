@@ -21,11 +21,13 @@ import UserRecordSkeleton from "../components/UserRecordSkeleton";
 
 import RefreshIcon from "@mui/icons-material/Refresh";
 import Skeleton from "@mui/material/Skeleton";
+import { useTranslation } from 'react-i18next';
 
 const Info = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [luckIconStatus, setLuckIconStatus] = React.useState(null);
   const [userStatus, setUserStatus] = React.useState(null);
@@ -151,7 +153,7 @@ const Info = () => {
 
         <div className="userRecordSection">
           <p className="userRecordTitle">
-            <span>操作紀錄</span>
+            <span>{t('operationRecord')}</span>
             <RefreshIcon
               sx={{ cursor: "pointer", height: "20px" }}
               onClick={handleClickRefresh}
