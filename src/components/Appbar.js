@@ -37,9 +37,13 @@ const Appbar = () => {
     setAnchorEl(event.currentTarget);
   };
   const handleChangeLaungueClose = (laungue) => {
-    setLaungue(laungue);
-    i18n.changeLanguage(laungue);
-    setAnchorEl(null);
+    if (laungue != null) {
+      setLaungue(laungue);
+      i18n.changeLanguage(laungue);
+      setAnchorEl(null);
+    } else {
+      setAnchorEl(null);
+    }
   };
   return (
     <div className="Appbar">
@@ -47,7 +51,7 @@ const Appbar = () => {
         <Toolbar>
           <Link to="/" className="appbarHomePage">
             <img src="./mono.png" alt="" className="appbarLogo" />
-            <p className="appbarTitle">{t('systemName')}</p>
+            <p className="appbarTitle">{t("systemName")}</p>
           </Link>
           <Box sx={{ flexGrow: 1 }} />
           <div className="appbar">
@@ -73,13 +77,13 @@ const Appbar = () => {
                 TransitionComponent={Fade}
               >
                 <MenuItem onClick={() => handleChangeLaungueClose("zh-tw")}>
-                zh-tw
+                  zh-tw
                 </MenuItem>
                 <MenuItem onClick={() => handleChangeLaungueClose("en")}>
-                en
+                  en
                 </MenuItem>
                 <MenuItem onClick={() => handleChangeLaungueClose("de")}>
-                de
+                  de
                 </MenuItem>
               </Menu>
             </div>
