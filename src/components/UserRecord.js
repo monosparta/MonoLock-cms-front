@@ -30,7 +30,7 @@ const Record = (props) => {
                   {item.user.name}
                 </Typography>
                 <Typography sx={{ color: "text.secondary" }}>
-                {t("at")} {item.time} {t("open")}
+                {t("openAt",item.time)}
                 </Typography>
               </AccordionSummary>
             </Box>
@@ -53,7 +53,7 @@ const Record = (props) => {
                   {t("admin")} - {item.user.name}
                   </Typography>
                   <Typography sx={{ color: "text.secondary" }}>
-                  {t("at")} {item.time} {t("forcedOpen")}
+                  {t("forcedOpenAt",item.time)}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails

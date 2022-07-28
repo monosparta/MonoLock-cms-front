@@ -32,7 +32,7 @@ const LockStatus = () => {
               width: "16px",
             }}
           ></LockOpenIcon>
-          {t('opening')}
+          {t('unlocked')}
         </div>
         <div className="lockCirclePaper">
           <LockIcon
@@ -42,7 +42,7 @@ const LockStatus = () => {
               width: "16px",
             }}
           ></LockIcon>
-          {t('closing')}
+          {t('locked')}
         </div>
         <div className="lockCirclePaper">
           <CircleIcon
