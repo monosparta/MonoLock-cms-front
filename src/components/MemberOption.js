@@ -15,8 +15,6 @@ const MemberOption = (props) => {
           props.setRowId(props.id);
         }}
         style={{
-          width: 108,
-          height: 36,
           background: "#2F384F",
           color: "#fff",
           boxShadow: "none",
