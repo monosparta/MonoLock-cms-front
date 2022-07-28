@@ -78,6 +78,9 @@ const Appbar = () => {
                 <MenuItem onClick={() => handleChangeLaungueClose("en")}>
                 en
                 </MenuItem>
+                <MenuItem onClick={() => handleChangeLaungueClose("de")}>
+                de
+                </MenuItem>
               </Menu>
             </div>
             <div className="appbarUser">

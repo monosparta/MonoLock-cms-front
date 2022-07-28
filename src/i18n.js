@@ -2,6 +2,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import en from './assets/locales/en/translation.json';
 import tw from './assets/locales/zh-tw/translation.json';
+import de from './assets/locales/de/translation.json'
 const resources = {
     'en': {
       translation: en,
@@ -9,6 +10,9 @@ const resources = {
     'zh-TW': {
       translation: tw,
     },
+    'de':{
+      translation:de,
+    }
   };
   i18n.use(initReactI18next).init({
     resources,

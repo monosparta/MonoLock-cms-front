@@ -76,7 +76,7 @@ const InfoForm = (props) => {
     if (e.target.value.length <= 6 || e.target.value.length >= 16) {
       setErrorCard(true);
       setColorCard("#d32f2f");
-      setHelperCard(t('cardNnumberFormatDoesNotMatch'));
+      setHelperCard(t('cardNumberFormatDoesNotMatch'));
     } else {
       setErrorCard(false);
       setColorCard("gray");
