@@ -102,7 +102,7 @@ const Appbar = () => {
                 onClick={(e) => handleClick(e)}
               >
                 <LogoutIcon className="appbarLogoutIcon"></LogoutIcon>
-                Logout
+                {t("logout")}
               </Button>
             </div>
           </div>
