@@ -23,7 +23,7 @@ const Appbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(false);
-  const [laungue, setLaungue] = React.useState("zh-tw");
+  const [laungue, setLaungue] = React.useState(i18n.language);
   const name = localStorage.getItem("name");
 
   const handleClick = () => {
@@ -36,10 +36,11 @@ const Appbar = () => {
   const handleChangeLaungue = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleChangeLaungueClose = (laungue) => {
-    if (laungue != null) {
-      setLaungue(laungue);
-      i18n.changeLanguage(laungue);
+  const handleChangeLaungueClose = (e) => {
+    const lang = e.target.innerText;
+    if (lang != null) {
+      setLaungue(lang);
+      i18n.changeLanguage(lang);
       setAnchorEl(null);
     } else {
       setAnchorEl(null);
@@ -79,13 +80,13 @@ const Appbar = () => {
                 onClose={handleChangeLaungueCancel}
                 TransitionComponent={Fade}
               >
-                <MenuItem onClick={() => handleChangeLaungueClose("zh-tw")}>
+                <MenuItem onClick={handleChangeLaungueClose}>
                   zh-tw
                 </MenuItem>
-                <MenuItem onClick={() => handleChangeLaungueClose("en")}>
+                <MenuItem onClick={handleChangeLaungueClose}>
                   en
                 </MenuItem>
-                <MenuItem onClick={() => handleChangeLaungueClose("de")}>
+                <MenuItem onClick={handleChangeLaungueClose}>
                   de
                 </MenuItem>
               </Menu>
