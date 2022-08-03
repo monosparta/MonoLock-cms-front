@@ -48,7 +48,7 @@ const Appbar = () => {
   };
   const handleChangeLaungueCancel = () => {
     setAnchorEl(null);
-  }
+  };
   return (
     <div className="Appbar">
       <AppBar position="static" elevation={0} style={{ background: "#363F4E" }}>
@@ -80,15 +80,9 @@ const Appbar = () => {
                 onClose={handleChangeLaungueCancel}
                 TransitionComponent={Fade}
               >
-                <MenuItem onClick={handleChangeLaungueClose}>
-                  zh-tw
-                </MenuItem>
-                <MenuItem onClick={handleChangeLaungueClose}>
-                  en
-                </MenuItem>
-                <MenuItem onClick={handleChangeLaungueClose}>
-                  de
-                </MenuItem>
+                <MenuItem onClick={handleChangeLaungueClose}>zh-tw</MenuItem>
+                <MenuItem onClick={handleChangeLaungueClose}>en</MenuItem>
+                <MenuItem onClick={handleChangeLaungueClose}>de</MenuItem>
               </Menu>
             </div>
             <div className="appbarUser">
