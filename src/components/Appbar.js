@@ -45,6 +45,9 @@ const Appbar = () => {
       setAnchorEl(null);
     }
   };
+  const handleChangeLaungueCancel = () => {
+    setAnchorEl(null);
+  }
   return (
     <div className="Appbar">
       <AppBar position="static" elevation={0} style={{ background: "#363F4E" }}>
@@ -73,7 +76,7 @@ const Appbar = () => {
                 }}
                 anchorEl={anchorEl}
                 open={open}
-                onClose={handleChangeLaungueClose}
+                onClose={handleChangeLaungueCancel}
                 TransitionComponent={Fade}
               >
                 <MenuItem onClick={() => handleChangeLaungueClose("zh-tw")}>
