@@ -5,13 +5,14 @@ import { useDispatch } from "react-redux";
 import "./Lock.css";
 import LockContent from "../components/LockContent";
 import LockStatus from "../components/LockStatus";
+import { useTranslation } from 'react-i18next';
 
 import { Box, Paper } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
 const Luck = () => {
   const dispatch = useDispatch();
-
+  const { t } = useTranslation();
   const handleClickRefresh = () => {
     dispatch(lockStatus());
   };
@@ -28,7 +29,7 @@ const Luck = () => {
   return (
     <div id="Lock">
       <div className="lockHeader">
-        置物櫃當前使用狀態
+        {t('lockerCurrentStatus')}
         <RefreshIcon sx={{ cursor: "pointer" }} onClick={handleClickRefresh} />
       </div>
       <div className="lockContainer">

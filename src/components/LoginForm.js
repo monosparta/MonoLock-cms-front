@@ -2,17 +2,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { selectUser } from "../redux/userSlice";
 import { useSelector } from "react-redux";
-
+import { useTranslation } from 'react-i18next';
 import { TextField, Button, styled } from "@mui/material";
-
-// import {
-//   Checkbox,
-//   Typography,
-//   FormControlLabel,
-// } from "@mui/material";
 
 const LoginForm = (props) => {
   const { register, handleSubmit } = useForm();
+  const { t } = useTranslation();
 
   const { isFetching, isError } = useSelector(selectUser);
 
@@ -47,12 +42,12 @@ const LoginForm = (props) => {
             <h1>Sign in</h1>
           </div>
           <div className="loginFormItemUser">
-            <h2>帳號 Email</h2>
+            <h2>{t('account')} Email</h2>
             <CssTextField
               required
               type="email"
               id="input-email"
-              placeholder="請輸入帳號"
+              placeholder={t('inputAccount')}
               sx={{ width: "100%" }}
               inputProps={{
                 style: {
@@ -63,12 +58,12 @@ const LoginForm = (props) => {
             />
           </div>
           <div className="loginFormItemPassword">
-            <h2>密碼 Password</h2>
+            <h2>{t('password')} Password</h2>
             <CssTextField
               required
               type="password"
               id="input-password"
-              placeholder="請輸入密碼"
+              placeholder={t('inputPassword')}
               sx={{ width: "100%", borderColor: "#000" }}
               inputProps={{
                 style: {
@@ -78,18 +73,12 @@ const LoginForm = (props) => {
               {...register("password")}
             />
           </div>
-          {/* <div className="loginFormItemCheck">
-            <FormControlLabel
-              control={<Checkbox size="small" style={{ color: "#363F4E" }} />}
-              label={<Typography sx={{ fontSize: 12 }}>保持登入</Typography>}
-            />
-          </div> */}
           <div className="loginFormItemButton">
             <span>
               {isFetching
-                ? props.toast.loading("登入中", { id: "loading" })
+                ? props.toast.loading(t('logining'), { id: "loading" })
                 : props.toast.remove("loading")}
-              {isError ? props.toast.error("帳號或密碼錯誤") : null}
+              {isError ? props.toast.error(t('accountOrPasswordIncorrect')) : null}
             </span>
             <Button
               type="submit"
@@ -102,7 +91,7 @@ const LoginForm = (props) => {
                 fontSize: 24,
               }}
             >
-              立即登入
+              {t("signInNow")}
             </Button>
           </div>
         </div>

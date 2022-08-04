@@ -4,8 +4,11 @@ import { Box, Paper } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
+import { useTranslation } from "react-i18next";
 
 const LockStatus = () => {
+  const { t} = useTranslation();
+
   return (
     <Box
       sx={{
@@ -29,7 +32,7 @@ const LockStatus = () => {
               width: "16px",
             }}
           ></LockOpenIcon>
-          開啟中
+          {t('unlocked')}
         </div>
         <div className="lockCirclePaper">
           <LockIcon
@@ -39,7 +42,7 @@ const LockStatus = () => {
               width: "16px",
             }}
           ></LockIcon>
-          關閉中
+          {t('locked')}
         </div>
         <div className="lockCirclePaper">
           <CircleIcon
@@ -49,7 +52,7 @@ const LockStatus = () => {
               width: "16px",
             }}
           ></CircleIcon>
-          使用中
+          {t('using')}
         </div>
         <div className="lockCirclePaper">
           <CircleIcon
@@ -63,7 +66,7 @@ const LockStatus = () => {
               border: "1px solid #000",
             }}
           ></CircleIcon>
-          可使用
+          {t('canUse')}
         </div>
         <div className="lockCirclePaper">
           <CircleIcon
@@ -73,7 +76,7 @@ const LockStatus = () => {
               width: "16px",
             }}
           ></CircleIcon>
-          異常&ensp;{" "}
+          {t('error')}&ensp;{" "}
         </div>
       </Paper>
     </Box>
@@ -81,85 +84,3 @@ const LockStatus = () => {
 };
 
 export default LockStatus;
-
-// const Available = () => {
-//   return (
-//     <div
-//       style={{
-//         background: "#FFFFFF",
-//         color: "#363F4E",
-//         border: "1px solid #000",
-//         cursor: "pointer",
-//       }}
-//     ></div>
-//   );
-// };
-
-// const unAvailable = () => {
-//   return (
-//     <div
-//       style={{
-//         background: "#FF5A5A",
-//         color: "#FFFFFF",
-//         border: "1px solid #000",
-//         cursor: "pointer",
-//       }}
-//     ></div>
-//   );
-// };
-
-// const Block = () => {
-//   return (
-//     <div
-//       style={{
-//         background: "#FFFFFF",
-//         border: "1px dashed",
-//       }}
-//     ></div>
-//   );
-// };
-
-// const Locked = () => {
-//   return (
-//     <div
-//       style={{
-//         background: "#FFFFFF",
-//         color: "#363F4E",
-//         border: "1px solid #000",
-//         cursor: "pointer",
-//       }}
-//     >
-//       <LockIcon
-//         sx={{
-//           position: "absolute",
-//           top: "5px",
-//           right: "5px",
-//           height: "16px",
-//           width: "16px",
-//         }}
-//       />
-//     </div>
-//   );
-// };
-
-// const unLocked = () => {
-//   return (
-//     <div
-//       style={{
-//         background: "#FFFFFF",
-//         color: "#363F4E",
-//         border: "1px solid #000",
-//       }}
-//     >
-//       <LockOpenIcon
-//         sx={{
-//           position: "absolute",
-//           top: "5px",
-//           right: "5px",
-//           height: "16px",
-//           width: "16px",
-//         }}
-//       />
-//     </div>
-//   );
-// };

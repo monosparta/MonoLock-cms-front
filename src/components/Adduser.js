@@ -4,9 +4,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import { selectUser } from "../redux/userSlice";
 import { useSelector } from "react-redux";
 import Skeleton from "@mui/material/Skeleton";
-
+import { useTranslation } from "react-i18next";
 const Adduser = (props) => {
   const { isFetching } = useSelector(selectUser);
+  const { t } = useTranslation();
 
   const handleAdd = () => {
     props.setUserStatus("AddStatus");
@@ -31,7 +32,7 @@ const Adduser = (props) => {
           }}
           startIcon={<EditIcon />}
         >
-          新增會員資訊
+          {t('addMemberInfo')}
         </Button>
       )}
     </div>

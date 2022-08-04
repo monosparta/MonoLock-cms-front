@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { login, clearState, selectUser } from "../redux/userSlice";
+import { useTranslation } from 'react-i18next';
 
 import "./Login.css";
 import LoginForm from "../components/LoginForm";
@@ -10,12 +11,13 @@ import LoginForm from "../components/LoginForm";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { isFetching, isSuccess, isError } = useSelector(selectUser);
 
   const onSubmit = (data) => {
     if (data.email === null || data.password === null) {
-      toast.error("帳號或密碼錯誤");
+      toast.error(t('accountOrPasswordIncorrect'));
     }
     dispatch(login(data));
   };
@@ -45,7 +47,7 @@ const Login = () => {
     <div id="login">
       <Toaster />
       <div className="loginBoard">
-        <p className="loginBoardTitle">會員置物櫃管理系統</p>
+        <p className="loginBoardTitle">{t('systemName')}</p>
         <img src="./mono-l.png" alt="" className="loginBoardLogo" />
       </div>
       <div className="loginArea">

@@ -9,6 +9,6 @@ test("renders luck link", () => {
       <App />
     </Provider>
   );
-  const linkElement = screen.getByText(/會員置物櫃管理系統/i);
+  const linkElement = screen.getByText(/systemName/i);
   expect(linkElement).toBeInTheDocument();
 });

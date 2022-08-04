@@ -18,17 +18,17 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { userUnlock } from "../redux/userSlice";
-import { useSelector } from "react-redux";
-import { selectUser } from "../redux/userSlice";
+import { userUnlock, selectUser, userInfo } from "../redux/userSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { lockStatus } from "../redux/lockSlice";
-import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { userInfo } from "../redux/userSlice";
+import { useTranslation } from "react-i18next";
 
 import "./Readmode.css";
 
 const Readmode = (props) => {
+  const { t } = useTranslation();
+
   const [open, setOpen] = React.useState(false);
   const [alertValue, setAlertValue] = React.useState({
     show: false,
@@ -45,7 +45,6 @@ const Readmode = (props) => {
 
   const handleEdit = () => {
     props.setUserStatus("EditStatus");
-    // props.setMode("Editmode");
   };
 
   const handleClickOpen = () => {
@@ -74,13 +73,13 @@ const Readmode = (props) => {
     if (a.payload === 0) {
       setAlertValue({
         type: "success",
-        text: "已完成強制開鎖",
+        text: t("finishForced"),
         show: true,
       });
     } else {
       setAlertValue({
         type: "error",
-        text: "強制開鎖失敗",
+        text: t("failedForced"),
         show: true,
       });
     }
@@ -158,7 +157,7 @@ const Readmode = (props) => {
           }}
           startIcon={<EditIcon />}
         >
-          編輯資訊
+          {t("edit")}
         </Button>
 
         <LoadingButton
@@ -176,7 +175,7 @@ const Readmode = (props) => {
           }}
           startIcon={<LockOpenIcon />}
         >
-          強制開鎖
+          {t("forced")}
         </LoadingButton>
 
         <Dialog
@@ -204,7 +203,7 @@ const Readmode = (props) => {
           }}
         >
           <DialogTitle id="alert-dialog-title" sx={{ textAlign: "center" }}>
-            {"強制開鎖原因"}
+            {t("forcedReason")}
           </DialogTitle>
           <div className="diacontent">
             <DialogContent sx={{ m: "0 auto", width: 328, height: 156 }}>
@@ -214,7 +213,7 @@ const Readmode = (props) => {
                 value={inputDescription}
                 onChange={(e) => setInputDescription(e.target.value)}
                 id="input-reason"
-                placeholder="請輸入提醒內容"
+                placeholder={t("reminderContent")}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     display: "flex",
@@ -240,7 +239,7 @@ const Readmode = (props) => {
                 margin: 5,
               }}
             >
-              提交
+              {t("submit")}
             </Button>
             <Button
               variant="contained"
@@ -256,7 +255,7 @@ const Readmode = (props) => {
                 border: "1px solid #2F384F",
               }}
             >
-              取消
+              {t("cancel")}
             </Button>
           </DialogActions>
         </Dialog>
@@ -295,7 +294,7 @@ const Readmode = (props) => {
           >
             <div className="alert">
               <img src="./alert.png" alt="" className="alert" />
-              <p>確定要執行強制開鎖的動作嗎？</p>
+              <p>{t("performForcedUnlocking")}</p>
             </div>
           </DialogTitle>
           <DialogActions sx={{ width: 244 }}>
@@ -311,7 +310,7 @@ const Readmode = (props) => {
                 margin: 5,
               }}
             >
-              確認
+              {t("confirm")}
             </Button>
             <Button
               variant="contained"
@@ -327,7 +326,7 @@ const Readmode = (props) => {
                 border: "1px solid #2F384F",
               }}
             >
-              取消
+              {t("cancel")}
             </Button>
           </DialogActions>
         </Dialog>
