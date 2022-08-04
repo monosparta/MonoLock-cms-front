@@ -118,8 +118,6 @@ const MemberList = () => {
             <Button
               variant="contained"
               style={{
-                width: 124,
-                height: 44,
                 border: "1px solid #2F384F",
                 background: "transparent",
                 color: "#2F384F",
