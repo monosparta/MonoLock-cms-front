@@ -1,17 +1,15 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import Skeleton from "@mui/material/Skeleton";
-import { useSelector } from "react-redux";
-import { selectUser } from "../redux/userSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, userAdd, userUpdate } from "../redux/userSlice";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import { userAdd, userUpdate } from "../redux/userSlice";
 import "./InfoForm.css";
 import { useTranslation } from "react-i18next";
 
@@ -38,7 +36,7 @@ const InfoForm = (props) => {
   const [helperPhone, setHelperPhone] = React.useState(false);
   const [helperEmail, setHelperEmail] = React.useState(false);
   const emailRule =
-    /^[\w!#$%&'*+-/=?^_`{|}~]+(.[\w!#$%&'*+-/=?^_`{|}~]+)*@[\w-]+(.[\w-]+)+$/;
+    /^[\w!#$%&'*+/=?^_`{|}~-]+(\.[\w!#$%&'*+/=?^`{|}~-]+)*@[\w-]{1,63}(\.[\w-]{1,63})+$/;
   const phoneRule = "^(09)[0-9]{8}$";
   const globalPhoneRule = "^(886)[0-9]{9}$";
   const handleLeave = () => {
@@ -65,7 +63,7 @@ const InfoForm = (props) => {
     if (e.target.value.length <= 0) {
       setErrorName(true);
       setColorName("#d32f2f");
-      setHelperName(t('mustEnorCh'));
+      setHelperName(t("mustEnorCh"));
     } else {
       setErrorName(false);
       setColorName("gray");
@@ -76,7 +74,7 @@ const InfoForm = (props) => {
     if (e.target.value.length <= 6 || e.target.value.length >= 16) {
       setErrorCard(true);
       setColorCard("#d32f2f");
-      setHelperCard(t('cardNumberFormatDoesNotMatch'));
+      setHelperCard(t("cardNumberFormatDoesNotMatch"));
     } else {
       setErrorCard(false);
       setColorCard("gray");
@@ -85,30 +83,17 @@ const InfoForm = (props) => {
   };
 
   const verifyPhone = (e) => {
-    if (e.target.value.length <= 0) {
-      setErrorPhone(true);
-      setColorPhone("#d32f2f");
-      setHelperPhone(t('phoneNumberFormatDoesNotMatch'));
-    } else if (
-      e.target.value.startsWith("09") &&
-      e.target.value.search(phoneRule) === -1
-    ) {
-      setErrorPhone(true);
-      setColorPhone("#d32f2f");
-      setHelperPhone(t('phoneNumberFormatDoesNotMatch'));
-    } else if (
-      e.target.value.startsWith("8869") &&
-      e.target.value.search(globalPhoneRule) === -1
-    ) {
-      setErrorPhone(true);
-      setColorPhone("#d32f2f");
-      setHelperPhone(t('phoneNumberFormatDoesNotMatch'));
-    } else if (
+    if (
+      e.target.value.length <= 0 ||
+      (e.target.value.startsWith("09") &&
+        e.target.value.search(phoneRule) === -1) ||
+      (e.target.value.startsWith("8869") &&
+        e.target.value.search(globalPhoneRule) === -1) ||
       !(e.target.value.startsWith("8869") || e.target.value.startsWith("09"))
     ) {
       setErrorPhone(true);
       setColorPhone("#d32f2f");
-      setHelperPhone(t('phoneNumberFormatDoesNotMatch'));
+      setHelperPhone(t("phoneNumberFormatDoesNotMatch"));
     } else {
       setErrorPhone(false);
       setColorPhone("gray");
@@ -120,7 +105,7 @@ const InfoForm = (props) => {
     if (e.target.value.search(emailRule) === -1 || e.target.value.length <= 0) {
       setErrorEmail(true);
       setColorEmail("#d32f2f");
-      setHelperEmail(t('emailFormatDoesNotMatch'));
+      setHelperEmail(t("emailFormatDoesNotMatch"));
     } else {
       setErrorEmail(false);
       setColorEmail("gray");
@@ -132,22 +117,22 @@ const InfoForm = (props) => {
     if (inputName === undefined) {
       setErrorName(true);
       setColorName("#d32f2f");
-      setHelperName(t('mustEnorCh'));
+      setHelperName(t("mustEnorCh"));
     }
     if (inputPhone === undefined) {
       setErrorPhone(true);
       setColorPhone("#d32f2f");
-      setHelperPhone(t('cardNumberFormatDoesNotMatch'));
+      setHelperPhone(t("cardNumberFormatDoesNotMatch"));
     }
     if (inputCard === undefined) {
       setErrorCard(true);
       setColorCard("#d32f2f");
-      setHelperCard(t('phoneNumberFormatDoesNotMatch'));
+      setHelperCard(t("phoneNumberFormatDoesNotMatch"));
     }
     if (inputEmail === undefined) {
       setErrorEmail(true);
       setColorEmail("#d32f2f");
-      setHelperEmail(t('emailFormatDoesNotMatch'));
+      setHelperEmail(t("emailFormatDoesNotMatch"));
     }
     if (
       errorName === false &&
@@ -223,7 +208,7 @@ const InfoForm = (props) => {
                 },
               },
             }}
-            label={t('name')}
+            label={t("name")}
             autoComplete="current-password"
             inputProps={{
               size: "small",
@@ -264,7 +249,7 @@ const InfoForm = (props) => {
                 },
               },
             }}
-            label={t('cardId')}
+            label={t("cardId")}
             autoComplete="current-password"
             inputProps={{
               style: {},
@@ -303,7 +288,7 @@ const InfoForm = (props) => {
                 },
               },
             }}
-            label={t('phone')}
+            label={t("phone")}
             autoComplete="current-password"
             inputProps={{
               style: {},
@@ -326,7 +311,7 @@ const InfoForm = (props) => {
             }}
             onChange={(e) => {
               setInputEmail(
-                e.target.value.replace(/[^\w!#$%&'*+-/=?^_`{|}~@]|_/gi, "")
+                e.target.value.replace(/[^\w!#$%&'*+-/=?^`{|}~@]|_/gi, "")
               );
               setErrorEmail(false);
             }}
@@ -343,7 +328,7 @@ const InfoForm = (props) => {
                 },
               },
             }}
-            label={t('mail')}
+            label={t("mail")}
             autoComplete="current-password"
             inputProps={{
               style: {},
@@ -365,7 +350,7 @@ const InfoForm = (props) => {
             margin: 5,
           }}
         >
-          {t('save')}
+          {t("save")}
         </Button>
 
         <Button
@@ -380,7 +365,7 @@ const InfoForm = (props) => {
             margin: 5,
           }}
         >
-          {t('cancel')}
+          {t("cancel")}
         </Button>
       </div>
     </div>

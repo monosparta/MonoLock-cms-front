@@ -47,7 +47,7 @@ const Appbar = () => {
   };
   const handleChangeLaungueCancel = () => {
     setAnchorEl(null);
-  }
+  };
   return (
     <div className="Appbar">
       <AppBar position="static" elevation={0} style={{ background: "#363F4E" }}>
@@ -109,7 +109,7 @@ const Appbar = () => {
                   width: 116,
                   textTransform: "none",
                 }}
-                onClick={(e) => handleClick(e)}
+                onClick={handleClick}
               >
                 <LogoutIcon className="appbarLogoutIcon"></LogoutIcon>
                 {t("SignOut")}
