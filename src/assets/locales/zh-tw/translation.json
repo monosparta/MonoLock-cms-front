@@ -60,5 +60,7 @@
     "at":"於",
     "open":"開啟",
     "admin":"管理員",
-    "forcedOpen":"強制開啟"
+    "forcedOpen":"強制開啟",
+    "logout":"登出"
+
 }
