@@ -2,8 +2,8 @@
   "lockerCurrentStatus": "Aktueller Status der Schließfächer",
   "operationRecord": "Betriebsprotokoll",
   "systemName": "Schließfachverwaltungssystem für Mitglieder",
-  "opening": "open",
-  "closing": "Schließen",
+  "unlocked": "entsperrt",
+  "locked": "gesperrt",
   "using": "Verwenden",
   "canUse": "verwendbar sein",
   "error": "abnormal",
@@ -33,8 +33,6 @@
   "cardId": "Kartennummer",
   "phone": "Telefon",
   "save": "Laden",
-  "locked": "gesperrt",
-  "unlocked": "entsperrt",
   "account": "account",
   "inputAccount": "Please enter your account",
   "password": "Passwort",
@@ -57,9 +55,8 @@
   "addFailed": "added failed",
   "sureDeleteMember": "Möchten Sie das Mitgliedsprofil wirklich löschen?",
   "deleted": "Das Mitgliedsprofil wurde gelöscht",
-  "at": "Bei",
-  "open": "einschalten",
   "admin": "Administrator",
-  "forcedOpen": "Öffnen erzwingen",
-  "logout": "Ausloggen"
+  "openAt": "Entsperrt um {{time}}",
+  "forcedOpenAt": "Entsperren um {{time}} erzwingen",
+  "SignOut": "Ausloggen"
 }

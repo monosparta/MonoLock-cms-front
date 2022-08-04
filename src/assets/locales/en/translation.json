@@ -2,8 +2,8 @@
   "lockerCurrentStatus": "Current status of lockers",
   "operationRecord": "Operation record",
   "systemName": "Member locker management system",
-  "opening": "open",
-  "closing": "closing",
+  "unlocked": "open",
+  "locked": "locked",
   "using": "Using",
   "canUse": "be usable",
   "error": "abnormal",
@@ -33,8 +33,6 @@
   "cardId": "card number",
   "phone": "Telephone",
   "save": "save",
-  "locked": "locked",
-  "unlocked": "unlocked",
   "account": "account",
   "inputAccount": "Please enter your account",
   "password": "password",
@@ -57,9 +55,8 @@
   "addFailed": "added failed",
   "sureDeleteMember": "Are you sure you want to delete member profile?",
   "deleted": "The member profile has been deleted",
-  "at": "At",
-  "open": "turn on",
   "admin": "administrator",
-  "forcedOpen": "Force open",
-  "logout": "Logout"
+  "openAt": "Unlocked at {{time}}",
+  "forcedOpenAt": "Force unlock at {{time}}",
+  "SignOut": "Sign out"
 }
