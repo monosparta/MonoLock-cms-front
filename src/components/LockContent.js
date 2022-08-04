@@ -9,9 +9,11 @@ import _ from "lodash";
 import { Box, Skeleton, Tooltip } from "@mui/material";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
+import { useTranslation } from 'react-i18next';
 
 const LockContent = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { lockIsFetching, lockList } = useSelector(selectLock);
 
@@ -80,7 +82,7 @@ const LockContent = () => {
               >
                 {item.lockerNo}
                 {item.userId !== null && item.lockUp === 1 ? (
-                  <Tooltip title="已鎖上" placement="top">
+                  <Tooltip title={t('locked')} placement="top">
                     <LockIcon
                       sx={{
                         position: "absolute",
@@ -95,7 +97,7 @@ const LockContent = () => {
                   ""
                 )}
                 {item.userId !== null && item.lockUp === 0 ? (
-                  <Tooltip title="已解鎖" placement="top">
+                  <Tooltip title={t('unlocked')} placement="top">
                     <LockOpenIcon
                       sx={{
                         position: "absolute",

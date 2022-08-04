@@ -4,8 +4,11 @@ import { Box, Paper } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
+import { useTranslation } from "react-i18next";
 
 const LockStatus = () => {
+  const { t} = useTranslation();
+
   return (
     <Box
       sx={{
@@ -29,7 +32,7 @@ const LockStatus = () => {
               width: "16px",
             }}
           ></LockOpenIcon>
-          開啟中
+          {t('opening')}
         </div>
         <div className="lockCirclePaper">
           <LockIcon
@@ -39,7 +42,7 @@ const LockStatus = () => {
               width: "16px",
             }}
           ></LockIcon>
-          關閉中
+          {t('closing')}
         </div>
         <div className="lockCirclePaper">
           <CircleIcon
@@ -49,7 +52,7 @@ const LockStatus = () => {
               width: "16px",
             }}
           ></CircleIcon>
-          使用中
+          {t('using')}
         </div>
         <div className="lockCirclePaper">
           <CircleIcon
@@ -63,7 +66,7 @@ const LockStatus = () => {
               border: "1px solid #000",
             }}
           ></CircleIcon>
-          可使用
+          {t('canUse')}
         </div>
         <div className="lockCirclePaper">
           <CircleIcon
@@ -73,7 +76,7 @@ const LockStatus = () => {
               width: "16px",
             }}
           ></CircleIcon>
-          異常&ensp;{" "}
+          {t('error')}&ensp;{" "}
         </div>
       </Paper>
     </Box>
