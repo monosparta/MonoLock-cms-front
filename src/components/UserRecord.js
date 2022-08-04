@@ -74,4 +74,4 @@ const UserRecord = (props) => {
   );
 };
 
-export default Record;
+export default UserRecord;
