@@ -5,9 +5,9 @@ import { useDispatch } from "react-redux";
 import "./Lock.css";
 import LockContent from "../components/LockContent";
 import LockStatus from "../components/LockStatus";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
-import { Box, Paper } from "@mui/material";
+import { Box, Paper, Grid } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
 const Luck = () => {
@@ -29,10 +29,16 @@ const Luck = () => {
   return (
     <div id="Lock">
       <div className="lockHeader">
-        {t('lockerCurrentStatus')}
+        {t("lockerCurrentStatus")}
         <RefreshIcon sx={{ cursor: "pointer" }} onClick={handleClickRefresh} />
       </div>
-      <div className="lockContainer">
+      <Grid
+        container
+        direction="row"
+        wrap="nowrap"
+        justifyContent="space-between"
+        alignItems="flex-end"
+      >
         <div className="lockStatusDisable">
           <Box
             sx={{
@@ -50,13 +56,9 @@ const Luck = () => {
             <Paper className="lockStatusPaper" elevation={0}></Paper>
           </Box>
         </div>
-        <div className="lockContent">
-          <LockContent />
-        </div>
-        <div className="lockStatus">
-          <LockStatus />
-        </div>
-      </div>
+        <LockContent />
+        <LockStatus />
+      </Grid>
     </div>
   );
 };

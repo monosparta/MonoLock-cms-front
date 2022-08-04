@@ -6,12 +6,6 @@
   height: 100%;
   width: 100%;
 }
-.lockItem {
-  display: flex;
-  align-items: flex-end;
-  /* margin-left: 50px; */
-  /* min-width: 900px; */
-}
 .lockHeader {
   text-align: center;
   font-size: 28px;
@@ -27,10 +21,6 @@
   font-weight: 700;
   /* font-family: "Roboto";
 	font-style: normal; */
-}
-
-.lockContent {
-  margin: 0 80px;
 }
 
 .lockContainer {

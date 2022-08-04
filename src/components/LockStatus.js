@@ -78,7 +78,7 @@ const LockStatus = () => {
   return (
     <Box
       sx={{
-        borderRadius: "10%",
+        borderRadius: "10px",
         borderColor: "#000000",
         border: "1px solid ",
         padding: "10px 16px",
