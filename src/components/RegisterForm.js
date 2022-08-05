@@ -7,7 +7,7 @@ import { addAdmin, selectAdmin, clearState } from "../redux/adminSlice";
 import toast, { Toaster } from "react-hot-toast";
 import { useTranslation } from 'react-i18next';
 
-const RegisterForm = (props) => {
+const RegisterForm = () => {
   const { t } = useTranslation();
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();

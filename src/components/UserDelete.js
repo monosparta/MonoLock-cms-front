@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userDelete } from "../redux/userSlice";
-import { selectUser } from "../redux/userSlice";
+import { userDelete, selectUser } from "../redux/userSlice";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -11,7 +10,7 @@ import Collapse from "@mui/material/Collapse";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CheckIcon from "@mui/icons-material/Check";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const UserDelete = (props) => {
   const dispatch = useDispatch();

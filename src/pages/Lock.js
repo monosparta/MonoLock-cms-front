@@ -36,7 +36,7 @@ const Luck = () => {
         container
         direction="row"
         wrap="nowrap"
-        justifyContent="space-between"
+        justifyContent="space-around"
         alignItems="flex-end"
       >
         <div className="lockStatusDisable">

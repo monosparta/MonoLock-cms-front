@@ -14,12 +14,6 @@ import {
 } from "@mui/material";
 import PublicIcon from "@mui/icons-material/Public";
 
-// import {
-//   Checkbox,
-//   Typography,
-//   FormControlLabel,
-// } from "@mui/material";
-
 const LoginForm = (props) => {
   const { register, handleSubmit } = useForm();
   const { t, i18n } = useTranslation();
@@ -143,12 +137,6 @@ const LoginForm = (props) => {
               {...register("password")}
             />
           </div>
-          {/* <div className="loginFormItemCheck">
-            <FormControlLabel
-              control={<Checkbox size="small" style={{ color: "#363F4E" }} />}
-              label={<Typography sx={{ fontSize: 12 }}>保持登入</Typography>}
-            />
-          </div> */}
           <div className="loginFormItemButton">
             <span>
               {isFetching

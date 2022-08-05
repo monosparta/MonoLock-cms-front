@@ -9,7 +9,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
 import { useTranslation } from 'react-i18next';
 
-const Record = (props) => {
+const UserRecord = (props) => {
   const { t } = useTranslation();
 
   return (
@@ -74,4 +74,4 @@ const Record = (props) => {
   );
 };
 
-export default Record;
+export default UserRecord;

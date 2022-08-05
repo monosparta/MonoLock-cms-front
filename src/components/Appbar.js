@@ -104,7 +104,7 @@ const Appbar = () => {
                   width: 116,
                   textTransform: "none",
                 }}
-                onClick={(e) => handleClick(e)}
+                onClick={handleClick}
               >
                 <LogoutIcon className="appbarLogoutIcon"></LogoutIcon>
                 {t("SignOut")}
