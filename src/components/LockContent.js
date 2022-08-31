@@ -31,93 +31,93 @@ const LockContent = () => {
   let loadingArray = new Array(42);
 
   return (
-    <>
-      {lockIsFetching ? (
-        <Box sx={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)" }}>
-          {_.map(loadingArray, (index) => (
+    <Box sx={{ display: "grid", gridTemplateColumns: "repeat(7, auto)" }}>
+      {lockIsFetching
+        ? _.map(loadingArray, (index) => (
             <Skeleton
               key={index}
               variant="rectangular"
-              width="82px"
-              height="82px"
-              sx={{ margin: "5px 5px 5px 5px", borderRadius: "12%" }}
+              sx={{
+                width: "8vw",
+                height: "8vw",
+                minWidth: "30px",
+                minHeight: "30px",
+                maxWidth: "80px",
+                maxHeight: "80px",
+                borderRadius: "12%",
+                padding: "1px",
+                margin: { xs: "2px", sm: "3px", md: "4px", lg: "5px" },
+              }}
             />
-          ))}
-        </Box>
-      ) : (
-        <div className="lockItem" style={{ width: " 100 %" }}>
-          <Box sx={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)" }}>
-            {_.map(lockList, (item, index) => {
-              let lockBackGround = "#FFFFFF";
-              let lockColor = "#000000";
-              let lockBorder = "1px solid #000";
-              if (item.userId !== null) {
-                if (item.error === 1) {
-                  lockBackGround = "#FF5A5A";
-                  lockColor = "#FFFFFF";
-                  lockBorder = "1px solid #363F4E";
-                } else {
-                  lockBackGround = "#363F4E";
-                  lockColor = "#FFFFFF";
+          ))
+        : _.map(lockList, (item, index) => {
+            let lockBackGround = "#FFFFFF";
+            let lockColor = "#000000";
+            let lockBorder = "1px solid #000";
+            if (item.userId !== null) {
+              if (item.error === 1) {
+                lockBackGround = "#FF5A5A";
+                lockColor = "#FFFFFF";
+                lockBorder = "1px solid #363F4E";
+              } else {
+                lockBackGround = "#363F4E";
+                lockColor = "#FFFFFF";
+              }
+            }
+            if (item.lockerNo === null) {
+              lockBorder = "1px dashed";
+            }
+            return (
+              <Lock
+                key={index}
+                onClickCapture={
+                  item.lockerNo !== null
+                    ? (e) => handleClick(e)
+                    : () => handleClickStop
                 }
-              }
-              if (item.lockerNo === null) {
-                lockBorder = "1px dashed";
-              }
-              return (
-                <Lock
-                  key={index}
-                  onClickCapture={
-                    item.lockerNo !== null
-                      ? (e) => handleClick(e)
-                      : () => handleClickStop
-                  }
-                  sx={{
-                    cursor: item.lockerNo !== null ? "pointer" : "",
-                    position: "relative",
-                    background: lockBackGround,
-                    color: lockColor,
-                    border: lockBorder,
-                  }}
-                >
-                  {item.lockerNo}
-                  {item.userId !== null && item.lockUp === 1 ? (
-                    <Tooltip title={t("locked")} placement="top">
-                      <LockIcon
-                        sx={{
-                          position: "absolute",
-                          top: "5px",
-                          right: "5px",
-                          height: "16px",
-                          width: "16px",
-                        }}
-                      />
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
-                  {item.userId !== null && item.lockUp === 0 ? (
-                    <Tooltip title={t("unlocked")} placement="top">
-                      <LockOpenIcon
-                        sx={{
-                          position: "absolute",
-                          top: "8px",
-                          right: "5px",
-                          height: "16px",
-                          width: "16px",
-                        }}
-                      />
-                    </Tooltip>
-                  ) : (
-                    ""
-                  )}
-                </Lock>
-              );
-            })}
-          </Box>
-        </div>
-      )}
-    </>
+                sx={{
+                  cursor: item.lockerNo !== null ? "pointer" : "",
+                  position: "relative",
+                  background: lockBackGround,
+                  color: lockColor,
+                  border: lockBorder,
+                }}
+              >
+                {item.lockerNo}
+                {item.userId !== null && item.lockUp === 1 ? (
+                  <Tooltip title={t("locked")} placement="top">
+                    <LockIcon
+                      sx={{
+                        position: "absolute",
+                        top: "5px",
+                        right: "5px",
+                        height: "16px",
+                        width: "16px",
+                      }}
+                    />
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
+                {item.userId !== null && item.lockUp === 0 ? (
+                  <Tooltip title={t("unlocked")} placement="top">
+                    <LockOpenIcon
+                      sx={{
+                        position: "absolute",
+                        top: "8px",
+                        right: "5px",
+                        height: "16px",
+                        width: "16px",
+                      }}
+                    />
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
+              </Lock>
+            );
+          })}
+    </Box>
   );
 };
 

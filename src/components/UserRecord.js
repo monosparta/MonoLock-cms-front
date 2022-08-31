@@ -7,7 +7,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const UserRecord = (props) => {
   const { t } = useTranslation();
@@ -16,7 +16,7 @@ const UserRecord = (props) => {
     <div>
       {_.map(props.records, (item, index) => (
         <div key={index}>
-          {item.user.permission !== 0 ? (
+          {item.description === null ? (
             <Box
               sx={{
                 marginBottom: "16px",
@@ -30,7 +30,7 @@ const UserRecord = (props) => {
                   {item.user.name}
                 </Typography>
                 <Typography sx={{ color: "text.secondary" }}>
-                {t("openAt",item.time)}
+                  {t("openAt", { time: item.time })}
                 </Typography>
               </AccordionSummary>
             </Box>
@@ -50,10 +50,10 @@ const UserRecord = (props) => {
                   id="panel1bh-header"
                 >
                   <Typography sx={{ width: "33%", flexShrink: 0 }}>
-                  {t("admin")} - {item.user.name}
+                    {t("admin")} - {item.user.name}
                   </Typography>
                   <Typography sx={{ color: "text.secondary" }}>
-                  {t("forcedOpenAt",item.time)}
+                    {t("forcedOpenAt", { time: item.time })}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails

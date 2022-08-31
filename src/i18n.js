@@ -4,13 +4,13 @@ import en from "./assets/locales/en/translation.json";
 import tw from "./assets/locales/zh-tw/translation.json";
 import de from "./assets/locales/de/translation.json";
 const resources = {
-  en: {
+  "en": {
     translation: en,
   },
   "zh-TW": {
     translation: tw,
   },
-  de: {
+  "de": {
     translation: de,
   },
 };
