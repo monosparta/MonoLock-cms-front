@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Lock from "./Lock";
 import _ from "lodash";
 
-import { Box, Skeleton, Tooltip } from "@mui/material";
+import { Box, Skeleton, Tooltip, Typography } from "@mui/material";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import { useTranslation } from "react-i18next";
@@ -39,12 +39,12 @@ const LockContent = () => {
             key={index}
             variant="rectangular"
             sx={{
-              width: "8vw",
-              height: "8vw",
+              width: "12vw",
+              height: "12vw",
               minWidth: "30px",
               minHeight: "30px",
-              maxWidth: "80px",
-              maxHeight: "80px",
+              maxWidth: "120px",
+              maxHeight: "120px",
               borderRadius: "12%",
               padding: "1px",
               margin: { xs: "2px", sm: "3px", md: "4px", lg: "5px" },
@@ -55,7 +55,7 @@ const LockContent = () => {
           let lockBackGround = "#FFFFFF";
           let lockColor = "#000000";
           let lockBorder = "1px solid #000";
-          if (item.userId !== null) {
+          if (item.user !== null) {
             if (item.error === 1) {
               lockBackGround = "#FF5A5A";
               lockColor = "#FFFFFF";
@@ -84,8 +84,11 @@ const LockContent = () => {
                 border: lockBorder,
               }}
             >
-              {item.lockerNo}
-              {item.userId !== null && item.lockUp === 1 ? (
+              <Typography fontWeight="bold" fontSize={{ xs: "h6.fontSize", md: "h5.fontSize" }}>{item.lockerNo}</Typography>
+              <Typography fontSize={{xs: "6px", md:"12px"}} >{item.lockerEncoding}</Typography>
+              <Typography fontWeight="bold">{item.user?.name || ''}</Typography>
+              <Typography fontSize={{xs: "6px", md:"12px"}}>{item.user?.cardId || ''}</Typography>
+              {item.user !== null && item.lockUp === 1 ? (
                 <Tooltip title={t("locked")} placement="top">
                   <LockIcon
                     sx={{
@@ -100,7 +103,7 @@ const LockContent = () => {
               ) : (
                 ""
               )}
-              {item.userId !== null && item.lockUp === 0 ? (
+              {item.user !== null && item.lockUp === 0 ? (
                 <Tooltip title={t("unlocked")} placement="top">
                   <LockOpenIcon
                     sx={{
