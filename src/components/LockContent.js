@@ -87,7 +87,7 @@ const LockContent = () => {
               <Typography fontFamily="Mulish" fontWeight="bold" fontSize={{ xs: "h6.fontSize", md: "h5.fontSize" }}>{item.lockerNo}</Typography>
               <Typography fontFamily="Mulish" fontSize={{ xs: "6px", md: "12px" }} >{item.lockerEncoding}</Typography>
               <Typography fontFamily="Mulish" fontWeight="bold">{item.user?.name || ''}</Typography>
-              <Typography fontFamily="Mulish" fontSize={{xs: "6px", md:"12px"}}>{item.user?.cardId || ''}</Typography>
+              <Typography fontFamily="Mulish" fontSize={{ xs: "6px", md: "12px" }}>{item.user?.cardId || ''}</Typography>
               {item.user !== null && item.lockUp === 1 ? (
                 <Tooltip title={t("locked")} placement="top">
                   <LockIcon
