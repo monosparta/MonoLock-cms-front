@@ -84,7 +84,7 @@ const LoginForm = (props) => {
                   direction="row"
                   gap={1}
                   justifyContent="flex-start"
-                  style={{ width: "5rem" }}
+                  style={{ width: "7rem" }}
                 >
                   <PublicIcon />
                   <p>{language}</p>
