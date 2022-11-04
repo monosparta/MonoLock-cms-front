@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
@@ -79,27 +79,27 @@ const LockStatus = () => {
     <Box
       sx={{
         borderRadius: "10px",
-        borderColor: "#000000",
-        border: "1px solid ",
+        border: "1px solid #000",
         padding: "10px 16px",
+        display: "flex",
+        flexWrap: { xs: "wrap", lg: "nowrap" },
+        flexDirection: { xs: "row", lg: "column" },
+        gap: 1,
+        justifyContent: "center",
       }}
+      className="lockStatusGrid"
     >
-      <Grid
-        container
-        gap={1}
-        direction={{ xs: "column", sm: "row", md: "column" }}
-        wrap="nowrap"
-        className="lockStatusGrid"
-      >
-        {statusList.map((status) => {
-          return (
-            <Grid container gap={1} direction="row" wrap="nowrap">
-              {status.icon}
-              <span style={{ whiteSpace: "nowrap" }}>{status.text}</span>
-            </Grid>
-          );
-        })}
-      </Grid>
+      {statusList.map((status) => {
+        return (
+          <Box
+            key={status.text}
+            sx={{ display: "inline-flex", flexWrap: "nowrap", gap: 1 }}
+          >
+            {status.icon}
+            <span style={{ whiteSpace: "nowrap" }}>{status.text}</span>
+          </Box>
+        );
+      })}
     </Box>
   );
 };
