@@ -84,17 +84,24 @@ const Info = () => {
   };
 
   const selectFormMode = () => {
-    return user.id === undefined ? (
-      userStatus === "AddStatus" ? (
-        <InfoForm setUserStatus={setUserStatus} userStatus={userStatus} />
-      ) : (
-        <Adduser setUserStatus={setUserStatus} />
-      )
-    ) : userStatus === "EditStatus" ? (
-      <InfoForm setUserStatus={setUserStatus} userStatus={userStatus} />
-    ) : (
-      <Readmode setUserStatus={setUserStatus} />
-    );
+    if (userStatus === "AddStatus" || userStatus === "EditStatus") {
+      return <InfoForm setUserStatus={setUserStatus} userStatus={userStatus} />;
+    } else if (user.id === undefined) {
+      return <Adduser setUserStatus={setUserStatus} />;
+    } else {
+      return <Readmode setUserStatus={setUserStatus} />;
+    }
+  };
+
+
+  const selectIconStyle = () => {
+    if (error) {
+      return <CancelIconStyle />;
+    } else if (user.id !== undefined) {
+      return <CheckCircleIconStyle />
+    } else {
+      return <AccessTimeFilledIconStyle />
+    }
   };
 
   useEffect(() => {
@@ -139,13 +146,7 @@ const Info = () => {
                     display: "flex",
                     alignItems: "center",}}
                 />
-              ) : error ? (
-                <CancelIconStyle />
-              ) : user.id !== undefined ? (
-                <CheckCircleIconStyle />
-              ) : (
-                <AccessTimeFilledIconStyle />
-              )}
+              ) : selectIconStyle()}
             </div>
             <div className="userInfoMode">{selectFormMode()}</div>
           </div>
