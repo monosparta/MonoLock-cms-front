@@ -54,13 +54,13 @@ const LockContent = () => {
         : _.map(lockList, (item, index) => {
           let lockBackGround = "#FFFFFF";
           let lockColor = "#000000";
-          let lockBorder = "1px solid #000";
-          if (item.user !== null) {
-            if (item.error === 1) {
-              lockBackGround = "#FF5A5A";
-              lockColor = "#FFFFFF";
-              lockBorder = "1px solid #363F4E";
-            } else {
+          let lockBorder = "1px solid #363F4E";
+          if (item.error === 1) {
+            lockBackGround = "#FF5A5A";
+            lockColor = "#FFFFFF";
+            lockBorder = "1px solid #FF5A5A";
+          } else {
+            if (item.user !== null) {
               lockBackGround = "#363F4E";
               lockColor = "#FFFFFF";
             }
