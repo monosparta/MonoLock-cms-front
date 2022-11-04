@@ -93,10 +93,10 @@ const LockContent = () => {
                   <LockIcon
                     sx={{
                       position: "absolute",
-                      top: "5px",
-                      right: "5px",
-                      height: "16px",
-                      width: "16px",
+                      top: { xs: "4px", sm: "8px" },
+                      right: { xs: "2px", sm: "5px" },
+                      height: { xs: "10px", sm: "16px" },
+                      width: { xs: "10px", sm: "16px" },
                     }}
                   />
                 </Tooltip>
@@ -108,10 +108,10 @@ const LockContent = () => {
                   <LockOpenIcon
                     sx={{
                       position: "absolute",
-                      top: "8px",
-                      right: "5px",
-                      height: "16px",
-                      width: "16px",
+                      top: { xs: "4px", sm: "8px" },
+                      right: { xs: "2px", sm: "5px" },
+                      height: { xs: "10px", sm: "16px" },
+                      width: { xs: "10px", sm: "16px" },
                     }}
                   />
                 </Tooltip>
