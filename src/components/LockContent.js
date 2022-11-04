@@ -34,7 +34,7 @@ const LockContent = () => {
   return (
     <Box sx={{ display: "grid", gridTemplateColumns: "repeat(7, auto)" }}>
       {lockIsFetching
-        ? _.map(loadingArray, (index) => (
+        ? _.map(loadingArray, (_, index) => (
           <Skeleton
             key={index}
             variant="rectangular"
@@ -51,7 +51,7 @@ const LockContent = () => {
             }}
           />
         ))
-        : _.map(lockList, (item, index) => {
+        : _.map(lockList, (item) => {
           let lockBackGround = "#FFFFFF";
           let lockColor = "#000000";
           let lockBorder = "1px solid #363F4E";
@@ -70,7 +70,7 @@ const LockContent = () => {
           }
           return (
             <Lock
-              key={index + item}
+              key={item.id}
               onClickCapture={
                 item.lockerNo !== null
                   ? () => handleClick(item.lockerNo)
