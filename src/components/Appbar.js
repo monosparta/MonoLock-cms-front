@@ -14,6 +14,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { clearToken, logout } from "../redux/userSlice";
 import PersonIcon from "@mui/icons-material/Person";
 import PublicIcon from "@mui/icons-material/Public";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import "./Appbar.css";
 import { useTranslation } from "react-i18next";
 
@@ -71,6 +72,7 @@ const Appbar = () => {
             <Box className="appbarUser" sx={{ display: { xs: 'none', sm: 'flex' } }}>
               <Button
                 id="fade-language-button"
+                sx={{ color: '#fff' }}
                 aria-controls={languageOpen ? "fade-language-menu" : undefined}
                 aria-haspopup="true"
                 aria-expanded={languageOpen ? "true" : undefined}
@@ -78,6 +80,7 @@ const Appbar = () => {
               >
                 <PublicIcon />
                 <p className="appbarUsername">{language}</p>
+                <ArrowDropDownIcon />
               </Button>
               <Menu
                 id="fade-language-menu"
@@ -103,6 +106,7 @@ const Appbar = () => {
             <Box className="appbarUser" sx={{ display: { xs: 'flex', sm: 'none' } }}>
               <Button
                 id="fade-user-button"
+                sx={{ color: '#fff' }}
                 aria-controls={userOpen ? "fade-user-menu" : undefined}
                 aria-haspopup="true"
                 aria-expanded={userOpen ? "true" : undefined}
@@ -110,6 +114,7 @@ const Appbar = () => {
               >
                 <PersonIcon />
                 <p className="appbarUsername"> {name} </p>
+                <ArrowDropDownIcon />
               </Button>
               <Menu
                 id="fade-user-menu"
@@ -131,6 +136,7 @@ const Appbar = () => {
                   >
                     <PublicIcon />
                     {language}
+                    <ArrowDropDownIcon />
                   </Link>
                 </MenuItem>
                 <MenuItem className="menuUser" onClick={handleUserCancel}>

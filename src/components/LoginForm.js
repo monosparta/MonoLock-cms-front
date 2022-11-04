@@ -13,6 +13,7 @@ import {
   Fade,
 } from "@mui/material";
 import PublicIcon from "@mui/icons-material/Public";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const LoginForm = (props) => {
   const { register, handleSubmit } = useForm();
@@ -87,6 +88,7 @@ const LoginForm = (props) => {
                 >
                   <PublicIcon />
                   <p>{language}</p>
+                  <ArrowDropDownIcon />
                 </Grid>
               </Button>
               <Menu
