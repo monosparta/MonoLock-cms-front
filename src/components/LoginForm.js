@@ -108,7 +108,7 @@ const LoginForm = (props) => {
             </Grid>
           </div>
           <div className="loginFormItemUser">
-            <h2>{t("account")} Email</h2>
+            <h2>{t("account")} {language !== 'en' ? <span style={{ color: '#aaa'}}>Email</span> : ''}</h2>
             <CssTextField
               required
               type="email"
@@ -124,7 +124,7 @@ const LoginForm = (props) => {
             />
           </div>
           <div className="loginFormItemPassword">
-            <h2>{t("password")} Password</h2>
+            <h2>{t("password")} {language !== 'en' ? <span style={{ color: '#aaa'}}>Password</span> : ''}</h2>
             <CssTextField
               required
               type="password"
