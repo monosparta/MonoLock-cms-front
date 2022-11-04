@@ -24,8 +24,8 @@
   display: flex;
 }
 .appbarUser,
+.menuUser,
 .appbarLogout {
-  display: flex;
   align-items: center;
   margin: 0 20px;
 }
@@ -35,8 +35,18 @@
   color: #fff;
   text-decoration: none;
 }
-.appbarLogoutIcon {
-  padding-right: 5px;
+
+.menuUser{
+  gap: 0.5em;
+}
+
+.menuUser a {
+  display: flex;
+  align-items: center;
+  color: #000;
+  text-decoration: none;
+  width: 100%;
+  gap: 0.5em;
 }
 
 .appbarHomePage{
@@ -44,4 +54,5 @@
   align-items: center;
   color: #fff;
   text-decoration: none;
+  flex-grow: 1;
 }
