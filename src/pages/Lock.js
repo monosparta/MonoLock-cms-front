@@ -34,15 +34,16 @@ const Luck = () => {
       </div>
       <Grid
         container
-        direction="row"
+        direction= {{xs: "column", md: "row"}}
         wrap="nowrap"
-        justifyContent="space-around"
-        alignItems="flex-end"
+        justifyContent="center"
+        gap={4}
+        alignItems={{ xs: "center", md: "flex-end" }}
       >
         <div className="lockStatusDisable">
           <Box
             sx={{
-              display: "flex",
+              display: { xs: "none", md: "flex"},
               flexWrap: "wrap",
               "& > :not(style)": {
                 width: 128,
