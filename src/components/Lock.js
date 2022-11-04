@@ -19,7 +19,6 @@ export default function Lock(props) {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        fontFamily: "Mulish",
         margin: { xs: "2px", sm: "3px", md: "4px", lg: "5px" },
         ...sx,
       }}
