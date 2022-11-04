@@ -22,13 +22,15 @@
 
 .appbar {
   display: flex;
+  gap: 2em;
 }
+
 .appbarUser,
 .menuUser,
 .appbarLogout {
   align-items: center;
-  margin: 0 20px;
 }
+
 .appbarUser a{
   display: flex;
   align-items: center;
