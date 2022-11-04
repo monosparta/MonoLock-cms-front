@@ -39,6 +39,7 @@ const Luck = () => {
         justifyContent="center"
         gap={4}
         alignItems={{ xs: "center", lg: "flex-end" }}
+        padding={{ xs: 2, sm: 1 }}
       >
         <div className="lockStatusDisable">
           <Box
