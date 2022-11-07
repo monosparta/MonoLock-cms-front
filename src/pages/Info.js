@@ -146,7 +146,7 @@ const Info = () => {
                 />
               ) : selectIconStyle()}
             </div>
-            <div className="userInfoMode">{selectFormMode()}</div>
+            <div className="userInfoMode">{lockIsFetching ? "" : selectFormMode()}</div>
           </div>
         </div>
 
