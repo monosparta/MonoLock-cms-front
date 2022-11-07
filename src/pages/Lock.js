@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { lockStatus, lockStatusNoLoading } from "../redux/lockSlice";
-import { useDispatch } from "react-redux";
+import { lockStatus, lockStatusNoLoading, selectLock } from "../redux/lockSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./Lock.css";
 import LockContent from "../components/LockContent";
@@ -13,12 +13,13 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 const Luck = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { lockList } = useSelector(selectLock);
   const handleClickRefresh = () => {
     dispatch(lockStatus());
   };
 
   useEffect(() => {
-    dispatch(lockStatus());
+    if (lockList.length === 0) dispatch(lockStatus());
     let refresh = setInterval(() => {
       dispatch(lockStatusNoLoading());
     }, 3000);
