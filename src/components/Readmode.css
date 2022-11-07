@@ -38,6 +38,13 @@
     height: 60vh;
   }
 }
+
+@media (max-width: 900px) {
+  .MuiAccordionSummary-content{
+    flex-direction: column
+  }
+}
+
 .userInfo {
   width: 90%;
   height: 64px;
