@@ -45,22 +45,20 @@ const Info = () => {
     dispatch(clearState());
     dispatch(clearMsg());
     dispatch(userInfo(location.state));
-    _.map(lockList, (item, index) => {
-      if (item.lockerNo === location.state) {
-        setLuckIconStatus(item.lockUp);
-        setError(item.error);
-      }
-    });
+    const state = _.find(lockList, (item) => item.lockerNo === location.state);
+    if (state) {
+      setLuckIconStatus(state.lockUp);
+      setError(state.error);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userStatus]);
 
   useEffect(() => {
-    _.map(lockList, (item, index) => {
-      if (item.lockerNo === location.state) {
-        setLuckIconStatus(item.lockUp);
-        setError(item.error);
-      }
-    });
+    const state = _.find(lockList, (item) => item.lockerNo === location.state);
+    if (state) {
+      setLuckIconStatus(state.lockUp);
+      setError(state.error);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lockList]);
 
