@@ -19,6 +19,7 @@ import {
 } from "../components/IconStyle";
 import UserRecordSkeleton from "../components/UserRecordSkeleton";
 
+import { Grid } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import Skeleton from "@mui/material/Skeleton";
 import { useTranslation } from 'react-i18next';
@@ -125,48 +126,53 @@ const Info = () => {
       </div>
 
       <div className="userInfoSection">
-        <div className="userInfoContainer">
-          <div className="userInfoTitle">
-            <UserInfoTitle
-              luckIconStatus={luckIconStatus}
-              setUserStatus={setUserStatus}
-              user={user}
-              handleClickRefresh={handleClickRefresh}
-            />
-            <div className="userInfoLockState">
-              {lockIsFetching ? (
-                <Skeleton
-                  animation="wave"
-                  sx={{
-                    width: "50%",
-                    height: "24px",
-                    marginLeft: "15%",
-                    display: "flex",
-                    alignItems: "center",}}
-                />
-              ) : selectIconStyle()}
+        <Grid container spacing={2} sx={{padding: "2vh 0"}}>
+          <Grid item xs={12} sm={5} md={4}>
+            <div className="userInfoContainer">
+              <UserInfoTitle
+                luckIconStatus={luckIconStatus}
+                setUserStatus={setUserStatus}
+                user={user}
+                handleClickRefresh={handleClickRefresh}
+              />
+              <div className="userInfoLockState">
+                {lockIsFetching ? (
+                  <Skeleton
+                    animation="wave"
+                    sx={{
+                      width: "50%",
+                      height: "24px",
+                      marginLeft: `${24+15}px`,
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  />
+                ) : selectIconStyle()}
+              </div>
+              <div className="userInfoMode">{lockIsFetching ? "" : selectFormMode()}</div>
             </div>
-            <div className="userInfoMode">{lockIsFetching ? "" : selectFormMode()}</div>
-          </div>
-        </div>
+          </Grid>
 
-        <div className="userRecordSection">
-          <p className="userRecordTitle">
-            <span>{t('operationRecord')}</span>
-            <RefreshIcon
-              sx={{ cursor: "pointer", height: "20px" }}
-              onClick={handleClickRefresh}
-            />
-          </p>
+          <Grid item xs={12} sm={7} md={8} sx={{ height: "100%" }}>
+            <div className="userRecordSection">
+              <p className="userRecordTitle">
+                <span>{t('operationRecord')}</span>
+                <RefreshIcon
+                  sx={{ cursor: "pointer", height: "20px" }}
+                  onClick={handleClickRefresh}
+                />
+              </p>
 
-          <div className="userRecord">
-            {isFetching ? (
-              <UserRecordSkeleton />
-            ) : (
-              <UserRecord records={records} />
-            )}
-          </div>
-        </div>
+              <div className="userRecord">
+                {isFetching ? (
+                  <UserRecordSkeleton />
+                ) : (
+                  <UserRecord records={records} />
+                )}
+              </div>
+            </div>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );

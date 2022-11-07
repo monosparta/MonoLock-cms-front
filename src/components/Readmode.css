@@ -12,38 +12,31 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
-  padding: 12px 0px 12px 24px;
 }
 .userInfoContainer {
-  width: 30%;
-  height: 95%;
-  margin-left: 60px;
-  min-width: 235px;
   background-color: #fff;
   box-shadow: 4px -4px 8px rgba(54, 63, 78, 0.1),
     -4px 4px 8px rgba(54, 63, 78, 0.1);
   border-radius: 10px;
-  padding: 5px;
+  padding: 24px 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.userInfoTitle {
-  padding: 0 25px 25px 25px;
-}
 .userRecordSection {
-  width: 60%;
-  height: 95%;
-  margin-right: 100px;
-  margin-left: 70px;
-  min-width: 490px;
   background-color: #fff;
   box-shadow: 4px -4px 8px rgba(54, 63, 78, 0.1),
     -4px 4px 8px rgba(54, 63, 78, 0.1);
-  padding: 5px;
+  padding: 24px 12px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+}
+
+@media (min-width: 600px) {
+  .userInfoContainer, .userRecordSection {
+    height: 60vh;
+  }
 }
 .userInfo {
   width: 90%;
