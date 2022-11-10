@@ -19,7 +19,11 @@ const Luck = () => {
   };
 
   useEffect(() => {
-    if (lockList.length === 0) dispatch(lockStatus());
+    if (lockList.length === 0) {
+      dispatch(lockStatus());
+    } else {
+      dispatch(lockStatusNoLoading());
+    }
     let refresh = setInterval(() => {
       dispatch(lockStatusNoLoading());
     }, 3000);
