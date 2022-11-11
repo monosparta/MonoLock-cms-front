@@ -153,7 +153,7 @@ const Info = () => {
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={7} md={8} sx={{ height: "100%" }}>
+          <Grid item xs={12} sm={7} md={8}>
             <div className="userRecordSection">
               <p className="userRecordTitle">
                 <span>{t('operationRecord')}</span>

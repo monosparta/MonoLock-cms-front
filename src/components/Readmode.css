@@ -36,6 +36,7 @@
 @media (min-width: 600px) {
   .userInfoContainer, .userRecordSection {
     height: 60vh;
+    min-height: 503px;
   }
 }
 
