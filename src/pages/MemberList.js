@@ -69,13 +69,6 @@ const MemberList = () => {
       sortable: false,
     },
     {
-      field: "age",
-      headerName: t('identity'),
-      flex: 1,
-      disableColumnMenu: true,
-      sortable: false,
-    },
-    {
       field: "button",
       headerName: "",
       flex: 1,
