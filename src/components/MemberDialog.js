@@ -100,7 +100,7 @@ const MemberDialog = (props) => {
         }}
       >
         <DialogTitle id="alert-dialog-title" sx={{ textAlign: "center" }}>
-        {t('resetPassword')}
+          {t('resetPassword')}
         </DialogTitle>
         <div className="diacontent">
           <DialogContent sx={{ m: "0 auto" }}>
@@ -145,7 +145,7 @@ const MemberDialog = (props) => {
             />
           </DialogContent>
         </div>
-        <DialogActions sx={{ width: 328 }}>
+        <DialogActions sx={{ justifyContent: "center" }}>
           <Button
             variant="contained"
             onClick={() => {
@@ -242,7 +242,7 @@ const MemberDialog = (props) => {
             <p>{t('sure')}{props.alertText}？</p>
           </div>
         </DialogTitle>
-        <DialogActions sx={{ width: 244 }}>
+        <DialogActions>
           <Button
             variant="contained"
             onClick={() => {
