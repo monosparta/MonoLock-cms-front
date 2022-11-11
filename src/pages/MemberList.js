@@ -123,7 +123,7 @@ const MemberList = () => {
                 color: "#2F384F",
                 boxShadow: "none",
                 borderRadius: "10px",
-                fontSize: 16,
+                fontSize: {xs: 10, md: 16},
                 textAlign: "left",
                 textDecoration: "none",
               }}
