@@ -46,7 +46,7 @@ export const lockSlice = createSlice({
   initialState: {
     lockList: [{}],
     currentNumber: "",
-    locklockIsFetching: false,
+    lockIsFetching: true,
     isSuccess: false,
     isError: false,
     errorMessage: "",
@@ -56,7 +56,7 @@ export const lockSlice = createSlice({
       state.lockList = [{}];
       state.isError = false;
       state.isSuccess = false;
-      state.locklockIsFetching = false;
+      state.lockIsFetching = true;
 
       return state;
     },

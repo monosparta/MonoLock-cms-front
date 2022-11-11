@@ -87,7 +87,7 @@ const LockStatus = () => {
       <Grid
         container
         gap={1}
-        direction="column"
+        direction={{ xs: "column", sm: "row", md: "column" }}
         wrap="nowrap"
         className="lockStatusGrid"
       >

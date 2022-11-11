@@ -7,19 +7,18 @@ export default function Lock(props) {
   return (
     <Box
       sx={{
-        width: "8vw",
-        height: "8vw",
+        width: "12vw",
+        height: "12vw",
         minWidth: "35px",
         minHeight: "35px",
-        maxWidth: "80px",
-        maxHeight: "80px",
-        fontWeight: "bold",
+        maxWidth: "120px",
+        maxHeight: "120px",
         borderRadius: "12%",
         border: "1px solid #000",
-        fontSize: "21px",
-        textAlign: "center",
-        lineHeight: "80px",
-        fontFamily: "Mulish",
+        display: "inline-flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
         margin: { xs: "2px", sm: "3px", md: "4px", lg: "5px" },
         ...sx,
       }}
