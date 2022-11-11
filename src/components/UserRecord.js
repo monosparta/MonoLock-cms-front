@@ -44,12 +44,12 @@ const UserRecord = (props) => {
                 }}
               >
                 <AccordionSummary
-                  sx={{ height: 64 }}
+                  sx={{ minHeight: 64 }}
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
                 >
-                  <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                  <Typography sx={{ width: { xs: "100%", md: "33%" }, flexShrink: 0 }}>
                     {t("admin")} - {item.user.name}
                   </Typography>
                   <Typography sx={{ color: "text.secondary" }}>

@@ -55,6 +55,12 @@ const RegisterForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError, isSuccess]);
 
+  useEffect(() => {
+    dispatch(clearState());
+    toast.remove("loading");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Toaster />

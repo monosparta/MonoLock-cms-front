@@ -6,15 +6,15 @@
   max-width: 1200px;
   height: 100%;
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 0 5vw;
 }
-.pre-page {
+.previousPage {
   border: none;
   background-color: transparent;
   cursor: pointer;
-  padding: 12px 0px 12px 24px;
+  padding: 2vh 0;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 ::-webkit-scrollbar {
   width: 7px;

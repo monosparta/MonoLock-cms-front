@@ -69,13 +69,6 @@ const MemberList = () => {
       sortable: false,
     },
     {
-      field: "age",
-      headerName: t('identity'),
-      flex: 1,
-      disableColumnMenu: true,
-      sortable: false,
-    },
-    {
       field: "button",
       headerName: "",
       flex: 1,
@@ -123,7 +116,7 @@ const MemberList = () => {
                 color: "#2F384F",
                 boxShadow: "none",
                 borderRadius: "10px",
-                fontSize: 16,
+                fontSize: {xs: 10, md: 16},
                 textAlign: "left",
                 textDecoration: "none",
               }}

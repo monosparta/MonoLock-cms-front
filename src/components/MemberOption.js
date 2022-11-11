@@ -14,13 +14,15 @@ const MemberOption = (props) => {
           props.setCheckAction("edit");
           props.setRowId(props.id);
         }}
-        style={{
+        size="small"
+        sx={{
           background: "#2F384F",
           color: "#fff",
           boxShadow: "none",
           borderRadius: "10px",
-          fontSize: 14,
-          margin: 5,
+          padding: { xs: "4px", sm: "4px 16px" },
+          fontSize: { xs: 8, sm: 14 },
+          whiteSpace: { xs: "break-spaces", md: "no-wrap" },
         }}
       >
         {t('editPassword')}
