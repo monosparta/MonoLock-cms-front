@@ -33,10 +33,11 @@
   text-align: justify;
 }
 .memberOption {
-  width: 70%;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 1em;
 }
 .css-1jbbcbn-MuiDataGrid-columnHeaderTitle {
   text-overflow: ellipsis;
