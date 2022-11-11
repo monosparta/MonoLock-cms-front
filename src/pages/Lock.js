@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { lockStatus, lockStatusNoLoading } from "../redux/lockSlice";
-import { useDispatch } from "react-redux";
+import { lockStatus, lockStatusNoLoading, selectLock } from "../redux/lockSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./Lock.css";
 import LockContent from "../components/LockContent";
@@ -13,12 +13,17 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 const Luck = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { lockList } = useSelector(selectLock);
   const handleClickRefresh = () => {
     dispatch(lockStatus());
   };
 
   useEffect(() => {
-    dispatch(lockStatus());
+    if (lockList.length === 0) {
+      dispatch(lockStatus());
+    } else {
+      dispatch(lockStatusNoLoading());
+    }
     let refresh = setInterval(() => {
       dispatch(lockStatusNoLoading());
     }, 3000);
@@ -34,16 +39,17 @@ const Luck = () => {
       </div>
       <Grid
         container
-        direction= {{xs: "column", md: "row"}}
+        direction={{ xs: "column", lg: "row" }}
         wrap="nowrap"
         justifyContent="center"
         gap={4}
-        alignItems={{ xs: "center", md: "flex-end" }}
+        alignItems={{ xs: "center", lg: "flex-end" }}
+        padding={{ xs: 2, sm: 1 }}
       >
         <div className="lockStatusDisable">
           <Box
             sx={{
-              display: { xs: "none", md: "flex"},
+              display: { xs: "none", lg: "flex" },
               flexWrap: "wrap",
               "& > :not(style)": {
                 width: 128,

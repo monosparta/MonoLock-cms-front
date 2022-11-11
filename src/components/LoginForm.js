@@ -13,6 +13,7 @@ import {
   Fade,
 } from "@mui/material";
 import PublicIcon from "@mui/icons-material/Public";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const LoginForm = (props) => {
   const { register, handleSubmit } = useForm();
@@ -83,10 +84,11 @@ const LoginForm = (props) => {
                   direction="row"
                   gap={1}
                   justifyContent="flex-start"
-                  style={{ width: "5rem" }}
+                  style={{ width: "7rem" }}
                 >
                   <PublicIcon />
                   <p>{language}</p>
+                  <ArrowDropDownIcon />
                 </Grid>
               </Button>
               <Menu
@@ -106,7 +108,7 @@ const LoginForm = (props) => {
             </Grid>
           </div>
           <div className="loginFormItemUser">
-            <h2>{t("account")} Email</h2>
+            <h2>{t("account")} {language !== 'en' ? <span style={{ color: '#aaa'}}>Email</span> : ''}</h2>
             <CssTextField
               required
               type="email"
@@ -122,7 +124,7 @@ const LoginForm = (props) => {
             />
           </div>
           <div className="loginFormItemPassword">
-            <h2>{t("password")} Password</h2>
+            <h2>{t("password")} {language !== 'en' ? <span style={{ color: '#aaa'}}>Password</span> : ''}</h2>
             <CssTextField
               required
               type="password"

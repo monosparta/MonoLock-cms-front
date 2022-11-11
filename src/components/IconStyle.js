@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 const divStyle = {
   width: "100%",
-  marginLeft: "15%",
+  paddingLeft: `${24 + 15}px`,
   display: "flex",
   alignItems: "center",
 };

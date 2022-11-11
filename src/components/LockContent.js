@@ -31,10 +31,41 @@ const LockContent = () => {
 
   let loadingArray = new Array(42);
 
+  const lockerColor = {
+    noLocker: {
+      background: "#FFF",
+      foreground: "#FFF",
+      border: "1px dashed #363F4E"
+    },
+    error: {
+      background: "#FF5A5A",
+      foreground: "#FFF",
+      border: "1px solid #FF5A5A"
+    },
+    empty: {
+      background: "#FFF",
+      foreground: "#000",
+      border: "1px solid #363F4E"
+    },
+    inUse: {
+      background: "#363F4E",
+      foreground: "#FFF",
+      border: "1px solid #363F4E"
+    }
+  }
+
+  const iconStyle = {
+    position: "absolute",
+    top: { xs: "4px", sm: "8px" },
+    right: { xs: "2px", sm: "5px" },
+    height: { xs: "10px", sm: "16px" },
+    width: { xs: "10px", sm: "16px" },
+  };
+
   return (
     <Box sx={{ display: "grid", gridTemplateColumns: "repeat(7, auto)" }}>
       {lockIsFetching
-        ? _.map(loadingArray, (index) => (
+        ? _.map(loadingArray, (_, index) => (
           <Skeleton
             key={index}
             variant="rectangular"
@@ -51,26 +82,18 @@ const LockContent = () => {
             }}
           />
         ))
-        : _.map(lockList, (item, index) => {
-          let lockBackGround = "#FFFFFF";
-          let lockColor = "#000000";
-          let lockBorder = "1px solid #363F4E";
+        : _.map(lockList, (item) => {
+          let status = "empty";
           if (item.error === 1) {
-            lockBackGround = "#FF5A5A";
-            lockColor = "#FFFFFF";
-            lockBorder = "1px solid #FF5A5A";
-          } else {
-            if (item.user !== null) {
-              lockBackGround = "#363F4E";
-              lockColor = "#FFFFFF";
-            }
-          }
-          if (item.lockerNo === null) {
-            lockBorder = "1px dashed";
-          }
+            status = "error";
+          } else if (item.lockerNo === null) {
+            status = "noLocker";
+          } else if (item.user !== null) {
+            status = "inUse";
+          } 
           return (
             <Lock
-              key={index + item}
+              key={item.id}
               onClickCapture={
                 item.lockerNo !== null
                   ? () => handleClick(item.lockerNo)
@@ -79,45 +102,24 @@ const LockContent = () => {
               sx={{
                 cursor: item.lockerNo !== null ? "pointer" : "",
                 position: "relative",
-                background: lockBackGround,
-                color: lockColor,
-                border: lockBorder,
+                background: lockerColor[status].background,
+                color: lockerColor[status].foreground,
+                border: lockerColor[status].border,
               }}
             >
               <Typography fontFamily="Mulish" fontWeight="bold" fontSize={{ xs: "h6.fontSize", md: "h5.fontSize" }}>{item.lockerNo}</Typography>
-              <Typography fontFamily="Mulish" fontSize={{ xs: "6px", md: "12px" }} >{item.lockerEncoding}</Typography>
-              <Typography fontFamily="Mulish" fontWeight="bold">{item.user?.name || ''}</Typography>
-              <Typography fontFamily="Mulish" fontSize={{ xs: "6px", md: "12px" }}>{item.user?.cardId || ''}</Typography>
-              {item.user !== null && item.lockUp === 1 ? (
-                <Tooltip title={t("locked")} placement="top">
-                  <LockIcon
-                    sx={{
-                      position: "absolute",
-                      top: "5px",
-                      right: "5px",
-                      height: "16px",
-                      width: "16px",
-                    }}
-                  />
+              <Typography fontFamily="Mulish" sx={{ display: { xs: "none", sm: "block" } }} fontSize={{ xs: "6px", md: "12px" }} >{item.lockerEncoding}</Typography>
+              <Typography fontFamily="Mulish" sx={{ display: { xs: "none", sm: "block" } }} fontWeight="bold">{item.user?.name || ''}</Typography>
+              <Typography fontFamily="Mulish" sx={{ display: { xs: "none", sm: "block" } }} fontSize={{ xs: "6px", md: "12px" }}>{item.user?.cardId || ''}</Typography>
+              {item.user !== null && item.lockerNo !== null
+                ? <Tooltip title={(item.lockUp === 1) ? t("locked") : t("unlocked")} placement="top">
+                  {
+                    item.lockUp === 1
+                      ? <LockIcon sx={iconStyle} />
+                      : <LockOpenIcon sx={iconStyle} />
+                  }
                 </Tooltip>
-              ) : (
-                ""
-              )}
-              {item.user !== null && item.lockUp === 0 ? (
-                <Tooltip title={t("unlocked")} placement="top">
-                  <LockOpenIcon
-                    sx={{
-                      position: "absolute",
-                      top: "8px",
-                      right: "5px",
-                      height: "16px",
-                      width: "16px",
-                    }}
-                  />
-                </Tooltip>
-              ) : (
-                ""
-              )}
+                : ""}
             </Lock>
           );
         })}

@@ -14,6 +14,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { clearToken, logout } from "../redux/userSlice";
 import PersonIcon from "@mui/icons-material/Person";
 import PublicIcon from "@mui/icons-material/Public";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import "./Appbar.css";
 import { useTranslation } from "react-i18next";
 
@@ -22,8 +23,9 @@ const Appbar = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState(false);
-  const [laungue, setLaungue] = React.useState(i18n.language);
+  const [languageAnchorEl, setLanguageAnchorEl] = React.useState(false);
+  const [userAnchorEl, setUserAnchorEl] = React.useState(false);
+  const [language, setLanguage] = React.useState(i18n.language);
   const name = localStorage.getItem("name");
 
   const handleClick = () => {
@@ -32,22 +34,31 @@ const Appbar = () => {
     dispatch(clearToken());
     navigate("/login");
   };
-  const open = Boolean(anchorEl);
-  const handleChangeLaungue = (event) => {
-    setAnchorEl(event.currentTarget);
+  const languageOpen = Boolean(languageAnchorEl);
+  const handleLanguageAnchor = (event) => {
+    setLanguageAnchorEl(event.currentTarget);
   };
-  const handleChangeLaungueClose = (e) => {
+  const userOpen = Boolean(userAnchorEl);
+  const handleUserAnchor = (event) => {
+    setUserAnchorEl(event.currentTarget);
+  };
+  const handleChangeLanguageClose = (e) => {
     const lang = e.target.innerText;
     if (lang != null) {
-      setLaungue(lang);
+      setLanguage(lang);
       i18n.changeLanguage(lang);
-      setAnchorEl(null);
+      setLanguageAnchorEl(null);
+      setUserAnchorEl(null);
     } else {
-      setAnchorEl(null);
+      setLanguageAnchorEl(null);
+      setUserAnchorEl(null);
     }
   };
-  const handleChangeLaungueCancel = () => {
-    setAnchorEl(null);
+  const handleChangeLanguageCancel = () => {
+    setLanguageAnchorEl(null);
+  };
+  const handleUserCancel = () => {
+    setUserAnchorEl(null);
   };
   return (
     <div className="Appbar">
@@ -57,41 +68,90 @@ const Appbar = () => {
             <img src="./mono.png" alt="" className="appbarLogo" />
             <p className="appbarTitle">{t("systemName")}</p>
           </Link>
-          <Box sx={{ flexGrow: 1 }} />
-          <div className="appbar">
-            <div className="appbarUser">
+          <Box className="appbar">
+            <Box className="appbarUser" sx={{ display: { xs: 'none', sm: 'flex' } }}>
               <Button
-                id="fade-button"
-                aria-controls={open ? "fade-menu" : undefined}
+                id="fade-language-button"
+                sx={{ color: '#fff' }}
+                aria-controls={languageOpen ? "fade-language-menu" : undefined}
                 aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleChangeLaungue}
+                aria-expanded={languageOpen ? "true" : undefined}
+                onClick={handleLanguageAnchor}
               >
                 <PublicIcon />
-                <p className="appbarUsername">{laungue}</p>
+                <p className="appbarUsername">{language}</p>
+                <ArrowDropDownIcon />
               </Button>
               <Menu
-                id="fade-menu"
+                id="fade-language-menu"
                 MenuListProps={{
-                  "aria-labelledby": "fade-button",
+                  "aria-labelledby": "fade-language-button",
                 }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleChangeLaungueCancel}
+                anchorEl={languageAnchorEl}
+                open={languageOpen}
+                onClose={handleChangeLanguageCancel}
                 TransitionComponent={Fade}
               >
-                <MenuItem onClick={handleChangeLaungueClose}>zh-tw</MenuItem>
-                <MenuItem onClick={handleChangeLaungueClose}>en</MenuItem>
-                <MenuItem onClick={handleChangeLaungueClose}>de</MenuItem>
+                <MenuItem onClick={handleChangeLanguageClose}>zh-tw</MenuItem>
+                <MenuItem onClick={handleChangeLanguageClose}>en</MenuItem>
+                <MenuItem onClick={handleChangeLanguageClose}>de</MenuItem>
               </Menu>
-            </div>
-            <div className="appbarUser">
+            </Box>
+            <Box className="appbarUser" sx={{ display: { xs: 'none', sm: 'flex' } }}>
               <Link to="/memberlist">
                 <PersonIcon />
                 <p className="appbarUsername"> {name} </p>
               </Link>
-            </div>
-            <div className="appbarLogout">
+            </Box>
+            <Box className="appbarUser" sx={{ display: { xs: 'flex', sm: 'none' } }}>
+              <Button
+                id="fade-user-button"
+                sx={{ color: '#fff' }}
+                aria-controls={userOpen ? "fade-user-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={userOpen ? "true" : undefined}
+                onClick={handleUserAnchor}
+              >
+                <PersonIcon />
+                <p className="appbarUsername"> {name} </p>
+                <ArrowDropDownIcon />
+              </Button>
+              <Menu
+                id="fade-user-menu"
+                MenuListProps={{
+                  "aria-labelledby": "fade-button",
+                }}
+                anchorEl={userAnchorEl}
+                open={userOpen}
+                onClose={handleUserCancel}
+                TransitionComponent={Fade}
+              >
+                <MenuItem className="menuUser">
+                  <Link
+                    id="fade-user-language-button"
+                    aria-controls={languageOpen ? "fade-language-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={languageOpen ? "true" : undefined}
+                    onClick={handleLanguageAnchor}
+                  >
+                    <PublicIcon />
+                    {language}
+                    <ArrowDropDownIcon />
+                  </Link>
+                </MenuItem>
+                <MenuItem className="menuUser" onClick={handleUserCancel}>
+                  <Link to="/memberlist">
+                    <PersonIcon />
+                    {t('adminList')}
+                  </Link>
+                </MenuItem>
+                <MenuItem className="menuUser" onClick={handleClick}>
+                  <LogoutIcon />
+                  {t("SignOut")}
+                </MenuItem>
+              </Menu>
+            </Box>
+            <Box className="appbarLogout" sx={{ display: { xs: 'none', sm: 'flex' } }} >
               <Button
                 variant="appbarLogout"
                 className="appbarLogoutButton"
@@ -109,8 +169,8 @@ const Appbar = () => {
                 <LogoutIcon className="appbarLogoutIcon"></LogoutIcon>
                 {t("SignOut")}
               </Button>
-            </div>
-          </div>
+            </Box>
+          </Box>
         </Toolbar>
       </AppBar>
       <Outlet />

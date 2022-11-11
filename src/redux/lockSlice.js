@@ -44,7 +44,7 @@ const getStatus = async (thunkAPI) => {
 export const lockSlice = createSlice({
   name: "lock",
   initialState: {
-    lockList: [{}],
+    lockList: [],
     currentNumber: "",
     lockIsFetching: true,
     isSuccess: false,
@@ -53,7 +53,7 @@ export const lockSlice = createSlice({
   },
   reducers: {
     clearState: (state) => {
-      state.lockList = [{}];
+      state.lockList = [];
       state.isError = false;
       state.isSuccess = false;
       state.lockIsFetching = true;
@@ -80,6 +80,7 @@ export const lockSlice = createSlice({
     [lockStatusNoLoading.fulfilled]: (state, { payload }) => {
       state.isSuccess = true;
       state.lockList = payload;
+      state.lockIsFetching = false;
       return state;
     },
     [lockStatusNoLoading.pending]: (state) => {
