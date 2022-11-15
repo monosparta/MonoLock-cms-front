@@ -1,165 +1,107 @@
 import React from "react";
 
-import { Box, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
+import { useTranslation } from "react-i18next";
 
 const LockStatus = () => {
+  const { t } = useTranslation();
+  const statusList = [
+    {
+      icon: (
+        <LockOpenIcon
+          sx={{
+            color: "#363F4E",
+            height: "16px",
+            width: "16px",
+          }}
+        ></LockOpenIcon>
+      ),
+      text: t("unlocked"),
+    },
+    {
+      icon: (
+        <LockIcon
+          sx={{
+            color: "#363F4E",
+            height: "16px",
+            width: "16px",
+          }}
+        ></LockIcon>
+      ),
+      text: t("locked"),
+    },
+    {
+      icon: (
+        <CircleIcon
+          sx={{
+            color: "#363F4E",
+            height: "16px",
+            width: "16px",
+          }}
+        ></CircleIcon>
+      ),
+      text: t("using"),
+    },
+    {
+      icon: (
+        <CircleIcon
+          sx={{
+            color: "#FFFFFF",
+            borderRadius: "50%",
+            height: "13.33px",
+            width: "13.33px",
+            margin: "1px",
+            boxSizing: "border-box",
+            border: "1px solid #000",
+          }}
+        ></CircleIcon>
+      ),
+      text: t("canUse"),
+    },
+    {
+      icon: (
+        <CircleIcon
+          sx={{
+            color: "#FF5A5A",
+            height: "16px",
+            width: "16px",
+          }}
+        ></CircleIcon>
+      ),
+      text: t("error"),
+    },
+  ];
+
   return (
     <Box
       sx={{
+        borderRadius: "10px",
+        border: "1px solid #000",
+        padding: "10px 16px",
         display: "flex",
-        flexWrap: "wrap",
-        "& > :not(style)": {
-          width: 128,
-          height: 176,
-          borderRadius: "10%",
-          borderColor: "#000000",
-          border: "1px solid ",
-        },
+        flexWrap: { xs: "wrap", lg: "nowrap" },
+        flexDirection: { xs: "row", lg: "column" },
+        gap: 1,
+        justifyContent: "center",
       }}
+      className="lockStatusGrid"
     >
-      <Paper className="lockStatusPaper" elevation={0}>
-        <div className="lockCirclePaper">
-          <LockOpenIcon
-            sx={{
-              color: "#363F4E",
-              height: "16px",
-              width: "16px",
-            }}
-          ></LockOpenIcon>
-          開啟中
-        </div>
-        <div className="lockCirclePaper">
-          <LockIcon
-            sx={{
-              color: "#363F4E",
-              height: "16px",
-              width: "16px",
-            }}
-          ></LockIcon>
-          關閉中
-        </div>
-        <div className="lockCirclePaper">
-          <CircleIcon
-            sx={{
-              color: "#363F4E",
-              height: "16px",
-              width: "16px",
-            }}
-          ></CircleIcon>
-          使用中
-        </div>
-        <div className="lockCirclePaper">
-          <CircleIcon
-            sx={{
-              color: "#FFFFFF",
-              borderRadius: "50%",
-              height: "13.33px",
-              width: "13.33px",
-              margin: "1px",
-              boxSizing: "border-box",
-              border: "1px solid #000",
-            }}
-          ></CircleIcon>
-          可使用
-        </div>
-        <div className="lockCirclePaper">
-          <CircleIcon
-            sx={{
-              color: "#FF5A5A",
-              height: "16px",
-              width: "16px",
-            }}
-          ></CircleIcon>
-          異常&ensp;{" "}
-        </div>
-      </Paper>
+      {statusList.map((status) => {
+        return (
+          <Box
+            key={status.text}
+            sx={{ display: "inline-flex", flexWrap: "nowrap", gap: 1 }}
+          >
+            {status.icon}
+            <span style={{ whiteSpace: "nowrap" }}>{status.text}</span>
+          </Box>
+        );
+      })}
     </Box>
   );
 };
 
 export default LockStatus;
-
-// const Available = () => {
-//   return (
-//     <div
-//       style={{
-//         background: "#FFFFFF",
-//         color: "#363F4E",
-//         border: "1px solid #000",
-//         cursor: "pointer",
-//       }}
-//     ></div>
-//   );
-// };
-
-// const unAvailable = () => {
-//   return (
-//     <div
-//       style={{
-//         background: "#FF5A5A",
-//         color: "#FFFFFF",
-//         border: "1px solid #000",
-//         cursor: "pointer",
-//       }}
-//     ></div>
-//   );
-// };
-
-// const Block = () => {
-//   return (
-//     <div
-//       style={{
-//         background: "#FFFFFF",
-//         border: "1px dashed",
-//       }}
-//     ></div>
-//   );
-// };
-
-// const Locked = () => {
-//   return (
-//     <div
-//       style={{
-//         background: "#FFFFFF",
-//         color: "#363F4E",
-//         border: "1px solid #000",
-//         cursor: "pointer",
-//       }}
-//     >
-//       <LockIcon
-//         sx={{
-//           position: "absolute",
-//           top: "5px",
-//           right: "5px",
-//           height: "16px",
-//           width: "16px",
-//         }}
-//       />
-//     </div>
-//   );
-// };
-
-// const unLocked = () => {
-//   return (
-//     <div
-//       style={{
-//         background: "#FFFFFF",
-//         color: "#363F4E",
-//         border: "1px solid #000",
-//       }}
-//     >
-//       <LockOpenIcon
-//         sx={{
-//           position: "absolute",
-//           top: "5px",
-//           right: "5px",
-//           height: "16px",
-//           width: "16px",
-//         }}
-//       />
-//     </div>
-//   );
-// };

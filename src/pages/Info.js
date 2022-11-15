@@ -19,13 +19,16 @@ import {
 } from "../components/IconStyle";
 import UserRecordSkeleton from "../components/UserRecordSkeleton";
 
+import { Grid } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import Skeleton from "@mui/material/Skeleton";
+import { useTranslation } from 'react-i18next';
 
 const Info = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [luckIconStatus, setLuckIconStatus] = React.useState(null);
   const [userStatus, setUserStatus] = React.useState(null);
@@ -43,22 +46,20 @@ const Info = () => {
     dispatch(clearState());
     dispatch(clearMsg());
     dispatch(userInfo(location.state));
-    _.map(lockList, (item, index) => {
-      if (item.lockerNo === location.state) {
-        setLuckIconStatus(item.lockUp);
-        setError(item.error);
-      }
-    });
+    const state = _.find(lockList, (item) => item.lockerNo === location.state);
+    if (state) {
+      setLuckIconStatus(state.lockUp);
+      setError(state.error);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userStatus]);
 
   useEffect(() => {
-    _.map(lockList, (item, index) => {
-      if (item.lockerNo === location.state) {
-        setLuckIconStatus(item.lockUp);
-        setError(item.error);
-      }
-    });
+    const state = _.find(lockList, (item) => item.lockerNo === location.state);
+    if (state) {
+      setLuckIconStatus(state.lockUp);
+      setError(state.error);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lockList]);
 
@@ -82,17 +83,24 @@ const Info = () => {
   };
 
   const selectFormMode = () => {
-    return user.id === undefined ? (
-      userStatus === "AddStatus" ? (
-        <InfoForm setUserStatus={setUserStatus} userStatus={userStatus} />
-      ) : (
-        <Adduser setUserStatus={setUserStatus} />
-      )
-    ) : userStatus === "EditStatus" ? (
-      <InfoForm setUserStatus={setUserStatus} userStatus={userStatus} />
-    ) : (
-      <Readmode setUserStatus={setUserStatus} />
-    );
+    if (userStatus === "AddStatus" || userStatus === "EditStatus") {
+      return <InfoForm setUserStatus={setUserStatus} userStatus={userStatus} />;
+    } else if (user.id === undefined) {
+      return <Adduser setUserStatus={setUserStatus} />;
+    } else {
+      return <Readmode setUserStatus={setUserStatus} />;
+    }
+  };
+
+
+  const selectIconStyle = () => {
+    if (error) {
+      return <CancelIconStyle />;
+    } else if (user.id !== undefined) {
+      return <CheckCircleIconStyle />
+    } else {
+      return <AccessTimeFilledIconStyle />
+    }
   };
 
   useEffect(() => {
@@ -118,54 +126,53 @@ const Info = () => {
       </div>
 
       <div className="userInfoSection">
-        <div className="userInfoContainer">
-          <div className="userInfoTitle">
-            <UserInfoTitle
-              luckIconStatus={luckIconStatus}
-              setUserStatus={setUserStatus}
-              user={user}
-              handleClickRefresh={handleClickRefresh}
-            />
-            <div className="userInfoLockState">
-              {lockIsFetching ? (
-                <Skeleton
-                  animation="wave"
-                  sx={{
-                    width: "50%",
-                    height: "24px",
-                    marginLeft: "15%",
-                    display: "flex",
-                    alignItems: "center",}}
-                />
-              ) : error ? (
-                <CancelIconStyle />
-              ) : user.id !== undefined ? (
-                <CheckCircleIconStyle />
-              ) : (
-                <AccessTimeFilledIconStyle />
-              )}
+        <Grid container spacing={2} sx={{padding: "2vh 0"}}>
+          <Grid item xs={12} sm={5} md={4}>
+            <div className="userInfoContainer">
+              <UserInfoTitle
+                luckIconStatus={luckIconStatus}
+                setUserStatus={setUserStatus}
+                user={user}
+                handleClickRefresh={handleClickRefresh}
+              />
+              <div className="userInfoLockState">
+                {lockIsFetching ? (
+                  <Skeleton
+                    animation="wave"
+                    sx={{
+                      width: "50%",
+                      height: "24px",
+                      marginLeft: `${24+15}px`,
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  />
+                ) : selectIconStyle()}
+              </div>
+              <div className="userInfoMode">{lockIsFetching ? "" : selectFormMode()}</div>
             </div>
-            <div className="userInfoMode">{selectFormMode()}</div>
-          </div>
-        </div>
+          </Grid>
 
-        <div className="userRecordSection">
-          <p className="userRecordTitle">
-            <span>操作紀錄</span>
-            <RefreshIcon
-              sx={{ cursor: "pointer", height: "20px" }}
-              onClick={handleClickRefresh}
-            />
-          </p>
+          <Grid item xs={12} sm={7} md={8}>
+            <div className="userRecordSection">
+              <p className="userRecordTitle">
+                <span>{t('operationRecord')}</span>
+                <RefreshIcon
+                  sx={{ cursor: "pointer", height: "20px" }}
+                  onClick={handleClickRefresh}
+                />
+              </p>
 
-          <div className="userRecord">
-            {isFetching ? (
-              <UserRecordSkeleton />
-            ) : (
-              <UserRecord records={records} />
-            )}
-          </div>
-        </div>
+              <div className="userRecord">
+                {isFetching ? (
+                  <UserRecordSkeleton />
+                ) : (
+                  <UserRecord records={records} />
+                )}
+              </div>
+            </div>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );

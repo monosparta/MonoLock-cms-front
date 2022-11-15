@@ -1,23 +1,29 @@
 import React, { useEffect } from "react";
-import { lockStatus, lockStatusNoLoading } from "../redux/lockSlice";
-import { useDispatch } from "react-redux";
+import { lockStatus, lockStatusNoLoading, selectLock } from "../redux/lockSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./Lock.css";
 import LockContent from "../components/LockContent";
 import LockStatus from "../components/LockStatus";
+import { useTranslation } from "react-i18next";
 
-import { Box, Paper } from "@mui/material";
+import { Box, Paper, Grid } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
 const Luck = () => {
   const dispatch = useDispatch();
-
+  const { t } = useTranslation();
+  const { lockList } = useSelector(selectLock);
   const handleClickRefresh = () => {
     dispatch(lockStatus());
   };
 
   useEffect(() => {
-    dispatch(lockStatus());
+    if (lockList.length === 0) {
+      dispatch(lockStatus());
+    } else {
+      dispatch(lockStatusNoLoading());
+    }
     let refresh = setInterval(() => {
       dispatch(lockStatusNoLoading());
     }, 3000);
@@ -28,14 +34,22 @@ const Luck = () => {
   return (
     <div id="Lock">
       <div className="lockHeader">
-        置物櫃當前使用狀態
+        {t("lockerCurrentStatus")}
         <RefreshIcon sx={{ cursor: "pointer" }} onClick={handleClickRefresh} />
       </div>
-      <div className="lockContainer">
+      <Grid
+        container
+        direction={{ xs: "column", lg: "row" }}
+        wrap="nowrap"
+        justifyContent="center"
+        gap={4}
+        alignItems={{ xs: "center", lg: "flex-end" }}
+        padding={{ xs: 2, sm: 1 }}
+      >
         <div className="lockStatusDisable">
           <Box
             sx={{
-              display: "flex",
+              display: { xs: "none", lg: "flex" },
               flexWrap: "wrap",
               "& > :not(style)": {
                 width: 128,
@@ -49,13 +63,9 @@ const Luck = () => {
             <Paper className="lockStatusPaper" elevation={0}></Paper>
           </Box>
         </div>
-        <div className="lockContent">
-          <LockContent />
-        </div>
-        <div className="lockStatus">
-          <LockStatus />
-        </div>
-      </div>
+        <LockContent />
+        <LockStatus />
+      </Grid>
     </div>
   );
 };

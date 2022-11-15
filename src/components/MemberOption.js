@@ -1,7 +1,10 @@
 import React from "react";
 import Button from "@mui/material/Button";
+import { useTranslation } from 'react-i18next';
 
 const MemberOption = (props) => {
+  const { t } = useTranslation();
+
   return (
     <div className="memberOption">
       <Button
@@ -11,18 +14,18 @@ const MemberOption = (props) => {
           props.setCheckAction("edit");
           props.setRowId(props.id);
         }}
-        style={{
-          width: 108,
-          height: 36,
+        size="small"
+        sx={{
           background: "#2F384F",
           color: "#fff",
           boxShadow: "none",
           borderRadius: "10px",
-          fontSize: 14,
-          margin: 5,
+          padding: { xs: "4px", sm: "4px 16px" },
+          fontSize: { xs: 8, sm: 14 },
+          whiteSpace: { xs: "break-spaces", md: "no-wrap" },
         }}
       >
-        修改密碼
+        {t('editPassword')}
       </Button>
 
       <img

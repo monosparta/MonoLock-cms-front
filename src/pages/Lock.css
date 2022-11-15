@@ -6,12 +6,6 @@
   height: 100%;
   width: 100%;
 }
-.lockItem {
-  display: flex;
-  align-items: flex-end;
-  /* margin-left: 50px; */
-  /* min-width: 900px; */
-}
 .lockHeader {
   text-align: center;
   font-size: 28px;
@@ -22,29 +16,11 @@
   color: #363f4e;
 }
 
-.lockStatusPaper {
+.lockStatusGrid {
   font-size: 20px;
   font-weight: 700;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   /* font-family: "Roboto";
 	font-style: normal; */
-}
-
-.lockCirclePaper {
-  width: 70%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 7px 0;
-  font-family: "Roboto";
-  font-style: "normal";
-}
-
-.lockContent {
-  margin: 0 80px;
 }
 
 .lockContainer {

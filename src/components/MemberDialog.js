@@ -11,30 +11,32 @@ import Stack from "@mui/material/Stack";
 import { TextField } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { deleteAdmin, updateAdmin } from "../redux/adminSlice";
+import { useTranslation } from 'react-i18next';
 
 const MemberDialog = (props) => {
   const [errorPassword, setErrorPassword] = React.useState(false);
   const [inputNewPassword, setInputNewPassword] = React.useState("");
   const [inputCheckNewPassword, setInputCheckNewPassword] = React.useState("");
   const [helperText, setHelperText] = React.useState("");
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
   if (props.checkAction === "edit") {
     props.setCheckAction("");
-    props.setAlertText("修改密碼");
+    props.setAlertText(t('editPassword'));
   } else if (props.checkAction === "delete") {
     props.setCheckAction("");
-    props.setAlertText("刪除使用者");
+    props.setAlertText(t('deleteUser'));
     props.setCheckOpen(false);
     props.setOpen(true);
   }
 
   const handelDelete = () => {
-    if (props.alertText === "刪除使用者") {
+    if (props.alertText === t('deleteUser')) {
       dispatch(deleteAdmin(props.rowId));
       props.setRefresh(!props.refresh);
-    } else if (props.alertText === "修改密碼") {
+    } else if (props.alertText === t('editPassword')) {
       dispatch(
         updateAdmin({
           id: props.rowId,
@@ -68,7 +70,7 @@ const MemberDialog = (props) => {
             variant="filled"
             severity="info"
           >
-            {props.alertText}成功
+            {props.alertText}{t('success')}
           </Alert>
         </Collapse>
       </Stack>
@@ -98,7 +100,7 @@ const MemberDialog = (props) => {
         }}
       >
         <DialogTitle id="alert-dialog-title" sx={{ textAlign: "center" }}>
-          {"重設密碼"}
+          {t('resetPassword')}
         </DialogTitle>
         <div className="diacontent">
           <DialogContent sx={{ m: "0 auto" }}>
@@ -113,7 +115,7 @@ const MemberDialog = (props) => {
               required
               type="password"
               id="input-password"
-              placeholder="請輸入新密碼"
+              placeholder={t('inputNewPassword')}
               sx={{ width: "100%" }}
               inputProps={{
                 style: {
@@ -132,7 +134,7 @@ const MemberDialog = (props) => {
               required
               type="password"
               id="input-newpassword"
-              placeholder="再次確認新密碼"
+              placeholder={t('confirmNewPassword')}
               helperText={helperText}
               sx={{ width: "100%" }}
               inputProps={{
@@ -143,7 +145,7 @@ const MemberDialog = (props) => {
             />
           </DialogContent>
         </div>
-        <DialogActions sx={{ width: 328 }}>
+        <DialogActions sx={{ justifyContent: "center" }}>
           <Button
             variant="contained"
             onClick={() => {
@@ -157,10 +159,10 @@ const MemberDialog = (props) => {
                 setHelperText("");
               } else if (inputNewPassword === "") {
                 setErrorPassword(true);
-                setHelperText("欄位不可以為空");
+                setHelperText(t('fieldNotNull'));
               } else {
                 setErrorPassword(true);
-                setHelperText("密碼輸入不一致");
+                setHelperText(t('comparePassword'));
               }
             }}
             style={{
@@ -172,7 +174,7 @@ const MemberDialog = (props) => {
               margin: 5,
             }}
           >
-            提交
+            {t('submit')}
           </Button>
           <Button
             variant="contained"
@@ -194,7 +196,7 @@ const MemberDialog = (props) => {
               border: "1px solid #2F384F",
             }}
           >
-            取消
+            {t('cancel')}
           </Button>
         </DialogActions>
       </Dialog>
@@ -237,10 +239,10 @@ const MemberDialog = (props) => {
         >
           <div className="alert">
             <img src="./alert.png" alt="" className="alert" />
-            <p>確定要{props.alertText}嗎？</p>
+            <p>{t('sure')}{props.alertText}？</p>
           </div>
         </DialogTitle>
-        <DialogActions sx={{ width: 244 }}>
+        <DialogActions>
           <Button
             variant="contained"
             onClick={() => {
@@ -257,7 +259,7 @@ const MemberDialog = (props) => {
               margin: 5,
             }}
           >
-            確認
+            {t('confirm')}
           </Button>
           <Button
             variant="contained"
@@ -275,7 +277,7 @@ const MemberDialog = (props) => {
               border: "1px solid #2F384F",
             }}
           >
-            取消
+            {t('cancel')}
           </Button>
         </DialogActions>
       </Dialog>

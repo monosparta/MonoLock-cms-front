@@ -7,12 +7,16 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
-const Record = (props) => {
+import { useTranslation } from "react-i18next";
+
+const UserRecord = (props) => {
+  const { t } = useTranslation();
+
   return (
     <div>
       {_.map(props.records, (item, index) => (
         <div key={index}>
-          {item.user.permission !== 0 ? (
+          {item.description === null ? (
             <Box
               sx={{
                 marginBottom: "16px",
@@ -26,7 +30,7 @@ const Record = (props) => {
                   {item.user.name}
                 </Typography>
                 <Typography sx={{ color: "text.secondary" }}>
-                  於 {item.time} 開啟
+                  {t("openAt", { time: item.time })}
                 </Typography>
               </AccordionSummary>
             </Box>
@@ -40,16 +44,16 @@ const Record = (props) => {
                 }}
               >
                 <AccordionSummary
-                  sx={{ height: 64 }}
+                  sx={{ minHeight: 64 }}
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
                 >
-                  <Typography sx={{ width: "33%", flexShrink: 0 }}>
-                    管理員 - {item.user.name}
+                  <Typography sx={{ width: { xs: "100%", md: "33%" }, flexShrink: 0 }}>
+                    {t("admin")} - {item.user.name}
                   </Typography>
                   <Typography sx={{ color: "text.secondary" }}>
-                    於 {item.time} 強制開啟
+                    {t("forcedOpenAt", { time: item.time })}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails
@@ -70,4 +74,4 @@ const Record = (props) => {
   );
 };
 
-export default Record;
+export default UserRecord;

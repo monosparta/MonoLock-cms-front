@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userDelete } from "../redux/userSlice";
-import { selectUser } from "../redux/userSlice";
+import { userDelete, selectUser } from "../redux/userSlice";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -11,9 +10,11 @@ import Collapse from "@mui/material/Collapse";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CheckIcon from "@mui/icons-material/Check";
+import { useTranslation } from "react-i18next";
 
 const UserDelete = (props) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [checkOpen, setCheckOpen] = React.useState(false);
   const [alertOpen, setAlertOpen] = React.useState(false);
@@ -85,7 +86,7 @@ const UserDelete = (props) => {
         >
           <div className="alert">
             <img src="./alert.png" alt="" className="alert" />
-            <p>確定要執行刪除會員資料的動作嗎？</p>
+            <p>{t("sureDeleteMember")}</p>
           </div>
         </DialogTitle>
         <DialogActions sx={{ width: 244 }}>
@@ -101,7 +102,7 @@ const UserDelete = (props) => {
               margin: 5,
             }}
           >
-            確認
+            {t("confirm")}
           </Button>
           <Button
             variant="contained"
@@ -117,7 +118,7 @@ const UserDelete = (props) => {
               border: "1px solid #2F384F",
             }}
           >
-            取消
+            {t("cancel")}
           </Button>
         </DialogActions>
       </Dialog>
@@ -138,7 +139,7 @@ const UserDelete = (props) => {
             variant="filled"
             severity="error"
           >
-            已刪除該會員資料
+            {t("deleted")}
           </Alert>
         </Collapse>
       </Stack>

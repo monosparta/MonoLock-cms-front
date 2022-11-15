@@ -2,19 +2,44 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { selectUser } from "../redux/userSlice";
 import { useSelector } from "react-redux";
-
-import { TextField, Button, styled } from "@mui/material";
-
-// import {
-//   Checkbox,
-//   Typography,
-//   FormControlLabel,
-// } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import {
+  TextField,
+  Button,
+  styled,
+  Grid,
+  Menu,
+  MenuItem,
+  Fade,
+} from "@mui/material";
+import PublicIcon from "@mui/icons-material/Public";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const LoginForm = (props) => {
   const { register, handleSubmit } = useForm();
+  const { t, i18n } = useTranslation();
+  const [anchorEl, setAnchorEl] = React.useState(false);
+  const [language, setLaungue] = React.useState(i18n.language);
 
   const { isFetching, isError } = useSelector(selectUser);
+
+  const open = Boolean(anchorEl);
+  const handleChangeLaungue = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleChangeLaungueClose = (e) => {
+    const lang = e.target.innerText;
+    if (lang != null) {
+      setLaungue(lang);
+      i18n.changeLanguage(lang);
+      setAnchorEl(null);
+    } else {
+      setAnchorEl(null);
+    }
+  };
+  const handleChangeLaungueCancel = () => {
+    setAnchorEl(null);
+  };
 
   const CssTextField = styled(TextField)({
     "& .MuiFormHelperText-root": {
@@ -44,15 +69,51 @@ const LoginForm = (props) => {
       <form className="loginForm" onSubmit={handleSubmit(props.onSubmit)}>
         <div className="loginFormItem">
           <div className="loginFormItemTitle">
-            <h1>Sign in</h1>
+            <Grid container direction="row" justifyContent="space-between">
+              <h1>Sign in</h1>
+              <Button
+                id="fade-button"
+                aria-controls={open ? "fade-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleChangeLaungue}
+                style={{ padding: "0" }}
+              >
+                <Grid
+                  container
+                  direction="row"
+                  gap={1}
+                  justifyContent="flex-start"
+                  style={{ width: "7rem" }}
+                >
+                  <PublicIcon />
+                  <p>{language}</p>
+                  <ArrowDropDownIcon />
+                </Grid>
+              </Button>
+              <Menu
+                id="fade-menu"
+                MenuListProps={{
+                  "aria-labelledby": "fade-button",
+                }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleChangeLaungueCancel}
+                TransitionComponent={Fade}
+              >
+                <MenuItem onClick={handleChangeLaungueClose}>zh-tw</MenuItem>
+                <MenuItem onClick={handleChangeLaungueClose}>en</MenuItem>
+                <MenuItem onClick={handleChangeLaungueClose}>de</MenuItem>
+              </Menu>
+            </Grid>
           </div>
           <div className="loginFormItemUser">
-            <h2>帳號 Email</h2>
+            <h2>{t("account")} {language !== 'en' ? <span style={{ color: '#aaa'}}>Email</span> : ''}</h2>
             <CssTextField
               required
               type="email"
               id="input-email"
-              placeholder="請輸入帳號"
+              placeholder={t("inputAccount")}
               sx={{ width: "100%" }}
               inputProps={{
                 style: {
@@ -63,12 +124,12 @@ const LoginForm = (props) => {
             />
           </div>
           <div className="loginFormItemPassword">
-            <h2>密碼 Password</h2>
+            <h2>{t("password")} {language !== 'en' ? <span style={{ color: '#aaa'}}>Password</span> : ''}</h2>
             <CssTextField
               required
               type="password"
               id="input-password"
-              placeholder="請輸入密碼"
+              placeholder={t("inputPassword")}
               sx={{ width: "100%", borderColor: "#000" }}
               inputProps={{
                 style: {
@@ -78,18 +139,14 @@ const LoginForm = (props) => {
               {...register("password")}
             />
           </div>
-          {/* <div className="loginFormItemCheck">
-            <FormControlLabel
-              control={<Checkbox size="small" style={{ color: "#363F4E" }} />}
-              label={<Typography sx={{ fontSize: 12 }}>保持登入</Typography>}
-            />
-          </div> */}
           <div className="loginFormItemButton">
             <span>
               {isFetching
-                ? props.toast.loading("登入中", { id: "loading" })
+                ? props.toast.loading(t("logining"), { id: "loading" })
                 : props.toast.remove("loading")}
-              {isError ? props.toast.error("帳號或密碼錯誤") : null}
+              {isError
+                ? props.toast.error(t("accountOrPasswordIncorrect"))
+                : null}
             </span>
             <Button
               type="submit"
@@ -102,7 +159,7 @@ const LoginForm = (props) => {
                 fontSize: 24,
               }}
             >
-              立即登入
+              {t("signInNow")}
             </Button>
           </div>
         </div>
