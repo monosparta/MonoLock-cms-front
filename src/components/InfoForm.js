@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import Skeleton from "@mui/material/Skeleton";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, userAdd, userUpdate } from "../redux/userSlice";
+import { lockUpdateUserId } from "../redux/lockSlice";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { useLocation } from "react-router-dom";
@@ -12,17 +13,21 @@ import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import "./InfoForm.css";
 import { useTranslation } from "react-i18next";
+import { useGetUserQuery } from "../redux/userSlice";
+import Autocomplete from '@mui/material/Autocomplete';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const InfoForm = (props) => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const location = useLocation();
-  const { user, updating } = useSelector(selectUser);
+  const { user, updating, token } = useSelector(selectUser);
   const [inputName, setInputName] = React.useState(user.name || "");
   const [inputCard, setInputCard] = React.useState(user.cardId || "");
   const [inputPhone, setInputPhone] = React.useState(user.phone || "");
   const [inputEmail, setInputEmail] = React.useState(user.mail || "");
+  const [inputId, setInputId] = React.useState(user.id || 0)
   const [errorName, setErrorName] = React.useState(false);
   const [errorCard, setErrorCard] = React.useState(false);
   const [errorPhone, setErrorPhone] = React.useState(false);
@@ -42,7 +47,7 @@ const InfoForm = (props) => {
   const handleLeave = () => {
     props.setUserStatus("");
   };
-
+  console.log(token)
   let Infodata = {
     id: user.id,
     name: inputName,
@@ -58,6 +63,11 @@ const InfoForm = (props) => {
     phone: inputPhone,
     cardId: inputCard,
   };
+
+  let Linkdata = {
+    userId: inputId,
+    lockNo: location.state
+  }
 
   const verifyName = (e) => {
     if (e.target.value.length <= 0) {
@@ -153,70 +163,118 @@ const InfoForm = (props) => {
           dispatch(userUpdate(Infodata));
           props.setUserStatus("");
           break;
+        case "LinkStatus":
+          dispatch(lockUpdateUserId(Linkdata))
+          props.setUserStatus("")
         default:
           props.setUserStatus("");
           return true;
       }
     }
   };
+
+  // selector user
+  const { data, error, isLoading } = useGetUserQuery()
+  let option
+
+  if (isLoading == false) {
+    if (data.length === 0) {
+      setErrorCard(true);
+      setColorCard("#d32f2f");
+      return setHelperCard(t("There are no user."));
+    }
+    option = data.map(data => {
+      return {
+        label: data.name,
+        data: data
+      }
+    })
+  }
+  function handleChange(e, value) {
+    if (value) {
+      const data = value.data
+      setInputEmail(data.mail)
+      setInputCard(data.cardId)
+      setInputPhone(data.phone)
+      setInputId(data.id)
+      setErrorPhone(false);
+      setColorPhone("gray");
+      setHelperPhone(false);
+      setErrorCard(false);
+      setColorCard("gray");
+      setHelperCard(false);
+      setErrorEmail(false);
+      setColorEmail("gray");
+      setHelperEmail(false);
+    } else {
+      setInputEmail('')
+      setInputCard('')
+      setInputPhone('')
+      setInputId(0)
+    }
+    console.log(e)
+  }
   return (
     <div>
       <div className="userInfo name">
         <AccountCircleIcon style={{ fontSize: "30", margin: "8px 0" }} />
-        {updating ? (
-          <Box
-            sx={{
-              display: "flex",
-              width: "60px",
-              justifyContent: "space-between",
-            }}
-          >
-            <Box sx={{ width: 10 }}>
-              <Skeleton animation="wave" />
+        {updating ?
+          (
+            <Box
+              sx={{
+                display: "flex",
+                width: "60px",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: 10 }}>
+                <Skeleton animation="wave" />
+              </Box>
+              <Box sx={{ width: 10 }}>
+                <Skeleton animation="wave" />
+              </Box>
+              <Box sx={{ width: 10 }}>
+                <Skeleton animation="wave" />
+              </Box>
             </Box>
-            <Box sx={{ width: 10 }}>
-              <Skeleton animation="wave" />
-            </Box>
-            <Box sx={{ width: 10 }}>
-              <Skeleton animation="wave" />
-            </Box>
-          </Box>
-        ) : (
-          <TextField
-            size="small"
-            error={errorName}
-            value={inputName}
-            onBlur={(e) => {
-              verifyName(e);
-            }}
-            onChange={(e) => {
-              setInputName(
-                e.target.value.replace(/[\d"'˙<>;().!#$%&*+\-/=?^_`{|}~@]/g, "")
-              );
-              setErrorName(false);
-            }}
-            // defaultValue={user.name}
-            // onChange={(e) => setInputName(e.target.value)}
-            InputLabelProps={{ style: { color: colorName } }}
-            sx={{
-              width: "100%",
-              borderColor: "#000",
-              margin: "6px",
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: { colorName }, //FIELD 框
-                },
-              },
-            }}
-            label={t("name")}
-            autoComplete="current-password"
-            inputProps={{
-              size: "small",
-              style: {},
-            }}
-            helperText={helperName}
-          ></TextField>
-        )}
+          ) :
+          (props.userStatus === 'LinkStatus') ? (<ComboBox option={option} handleChange={handleChange} />) :
+            (
+              <TextField
+                size="small"
+                error={errorName}
+                value={inputName}
+                onBlur={(e) => {
+                  verifyName(e);
+                }}
+                onChange={(e) => {
+                  setInputName(
+                    e.target.value.replace(/[\d"'˙<>;().!#$%&*+\-/=?^_`{|}~@]/g, "")
+                  );
+                  setErrorName(false);
+                }}
+                // defaultValue={user.name}
+                // onChange={(e) => setInputName(e.target.value)}
+                InputLabelProps={{ style: { color: colorName } }}
+                sx={{
+                  width: "100%",
+                  borderColor: "#000",
+                  margin: "6px",
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor: { colorName }, //FIELD 框
+                    },
+                  },
+                }}
+                label={t("name")}
+                autoComplete="current-password"
+                inputProps={{
+                  size: "small",
+                  style: {},
+                }}
+                helperText={helperName}
+              ></TextField>
+            )}
       </div>
       <div className="userInfo card">
         <CreditCardIcon style={{ fontSize: "30", margin: "8px 0" }} />
@@ -253,6 +311,7 @@ const InfoForm = (props) => {
             autoComplete="current-password"
             inputProps={{
               style: {},
+              readOnly: (props.userStatus === 'LinkStatus') ? true : false,
             }}
             helperText={helperCard}
           ></TextField>
@@ -292,6 +351,7 @@ const InfoForm = (props) => {
             autoComplete="current-password"
             inputProps={{
               style: {},
+              readOnly: (props.userStatus === 'LinkStatus') ? true : false,
             }}
             helperText={helperPhone}
           ></TextField>
@@ -332,6 +392,7 @@ const InfoForm = (props) => {
             autoComplete="current-password"
             inputProps={{
               style: {},
+              readOnly: (props.userStatus === 'LinkStatus') ? true : false,
             }}
             helperText={helperEmail}
           ></TextField>
@@ -373,3 +434,23 @@ const InfoForm = (props) => {
 };
 
 export default InfoForm;
+function ComboBox(props) {
+  return (
+    <Autocomplete
+      onChange={(e, value) => {
+        props.handleChange(e, value)
+      }}
+      disablePortal
+      id="combo-box-demo"
+      options={props.option}
+      sx={{
+        width: "100%",
+        borderColor: "#000",
+        margin: "6px",
+      }}
+      renderInput={(params) => <TextField
+        {...params} label="Select a User"
+        size="small" />}
+    />
+  );
+}

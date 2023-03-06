@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
+import MenuIcon from '@mui/icons-material/Menu';
 import { selectUser } from "../redux/userSlice";
 import { useSelector } from "react-redux";
 import Skeleton from "@mui/material/Skeleton";
@@ -9,32 +10,64 @@ const Adduser = (props) => {
   const { isFetching } = useSelector(selectUser);
   const { t } = useTranslation();
 
-  const handleAdd = () => {
-    props.setUserStatus("AddStatus");
+  const handleAdd = (status) => {
+    switch (status) {
+      case 'add':
+        props.setUserStatus("AddStatus");
+        break
+      case 'link':
+        props.setUserStatus('LinkStatus')
+        break
+    }
+
   };
 
   return (
-    <div className="add-btn">
-      {isFetching ? (
-        <Skeleton animation="wave" width={"50%"} sx={{ marginLeft: 1 }} />
-      ) : (
-        <Button
-          onClick={handleAdd}
-          variant="contained"
-          style={{
-            width: "100%",
-            height: 39,
-            background: "#363F4E",
-            boxShadow: "none",
-            fontSize: 18,
-            margin: 5,
-            fontFamily: "Roboto",
-          }}
-          startIcon={<EditIcon />}
-        >
-          {t('addMemberInfo')}
-        </Button>
-      )}
+    <div>
+      <div className="add-btn">
+        {isFetching ? (
+          <Skeleton animation="wave" width={"50%"} sx={{ marginLeft: 1 }} />
+        ) : (
+          <Button
+            onClick={() => handleAdd('add')}
+            variant="contained"
+            style={{
+              width: "100%",
+              height: 39,
+              background: "#363F4E",
+              boxShadow: "none",
+              fontSize: 18,
+              margin: 5,
+              fontFamily: "Roboto",
+            }}
+            startIcon={<EditIcon />}
+          >
+            {t('addMemberInfo')}
+          </Button>
+        )}
+      </div>
+      <div className="add-btn">
+        {isFetching ? (
+          <Skeleton animation="wave" width={"50%"} sx={{ marginLeft: 1 }} />
+        ) : (
+          <Button
+            onClick={() => handleAdd('link')}
+            variant="contained"
+            style={{
+              width: "100%",
+              height: 39,
+              background: "#363F4E",
+              boxShadow: "none",
+              fontSize: 18,
+              margin: 5,
+              fontFamily: "Roboto",
+            }}
+            startIcon={<MenuIcon />}
+          >
+            綁定現有會員
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const login = createAsyncThunk(
   "user/login",
@@ -265,6 +266,23 @@ export const userDelete = createAsyncThunk(
     }
   }
 );
+// RTK query
+const token = localStorage.getItem("token");
+export const userApi = createApi({
+  reducerPath: 'userAPi',
+  baseQuery: fetchBaseQuery({ baseUrl: `${process.env.REACT_APP_URL}/api` }),
+  endpoints: builder => ({
+    getUser: builder.query({
+      query: () => ({
+        url: '/user',
+        headers: {
+          'token': token
+        }
+      })
+    })
+  })
+})
+export const { useGetUserQuery } = userApi
 
 export const userSlice = createSlice({
   name: "user",
