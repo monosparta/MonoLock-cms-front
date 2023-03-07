@@ -47,7 +47,6 @@ const InfoForm = (props) => {
   const handleLeave = () => {
     props.setUserStatus("");
   };
-  console.log(token)
   let Infodata = {
     id: user.id,
     name: inputName,
@@ -177,7 +176,7 @@ const InfoForm = (props) => {
   const { data, error, isLoading } = useGetUserQuery()
   let option
 
-  if (isLoading == false) {
+  if (isLoading == false && data) {
     if (data.length === 0) {
       setErrorCard(true);
       setColorCard("#d32f2f");
@@ -212,7 +211,6 @@ const InfoForm = (props) => {
       setInputPhone('')
       setInputId(0)
     }
-    console.log(e)
   }
   return (
     <div>
