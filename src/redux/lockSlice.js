@@ -38,9 +38,9 @@ export const lockUpdateUserId = createAsyncThunk('lock/lockUpdateUserId', async 
       })
       let data = await response.json();
       if (response.ok) {
-        return data;
+        return response;
       } else {
-        throw data;
+        throw response;
       }
     }
   } catch (e) {

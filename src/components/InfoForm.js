@@ -15,7 +15,6 @@ import "./InfoForm.css";
 import { useTranslation } from "react-i18next";
 import { useGetUserQuery } from "../redux/userSlice";
 import Autocomplete from '@mui/material/Autocomplete';
-import MenuIcon from '@mui/icons-material/Menu';
 
 const InfoForm = (props) => {
   const { t } = useTranslation();
