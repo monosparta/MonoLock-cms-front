@@ -171,23 +171,7 @@ const InfoForm = (props) => {
     }
   };
 
-  // selector user
-  const { data, error, isLoading } = useGetUserQuery()
-  let option
 
-  if (isLoading == false && data) {
-    if (data.length === 0) {
-      setErrorCard(true);
-      setColorCard("#d32f2f");
-      return setHelperCard(t("There are no user."));
-    }
-    option = data.map(data => {
-      return {
-        label: data.name,
-        data: data
-      }
-    })
-  }
   function handleChange(e, value) {
     if (value) {
       const data = value.data
@@ -235,7 +219,7 @@ const InfoForm = (props) => {
               </Box>
             </Box>
           ) :
-          (props.userStatus === 'LinkStatus') ? (<ComboBox option={option} handleChange={handleChange} />) :
+          (props.userStatus === 'LinkStatus') ? (<ComboBox handleChange={handleChange} setColorCard={setColorCard} setErrorCard={setErrorCard} setHelperCard={setHelperCard} />) :
             (
               <TextField
                 size="small"
@@ -431,23 +415,41 @@ const InfoForm = (props) => {
 };
 
 export default InfoForm;
-function ComboBox(props) {
-  return (
-    <Autocomplete
-      onChange={(e, value) => {
-        props.handleChange(e, value)
-      }}
-      disablePortal
-      id="combo-box-demo"
-      options={props.option}
-      sx={{
-        width: "100%",
-        borderColor: "#000",
-        margin: "6px",
-      }}
-      renderInput={(params) => <TextField
-        {...params} label="Select a User"
-        size="small" />}
-    />
-  );
+const ComboBox = (props) => {
+  const { data, error, isLoading } = useGetUserQuery()
+  if (error) console.log(error)
+  let option
+
+  if (isLoading == false && data) {
+    if (data.length === 0) {
+      props.setErrorCard(true);
+      props.setColorCard("#d32f2f");
+      return props.setHelperCard("There are no user.");
+    }
+    option = data.map(data => {
+      return {
+        label: data.name,
+        data: data
+      }
+    })
+    
+    return (
+      <Autocomplete
+        onChange={(e, value) => {
+          props.handleChange(e, value)
+        }}
+        disablePortal
+        id="combo-box-demo"
+        options={option}
+        sx={{
+          width: "100%",
+          borderColor: "#000",
+          margin: "6px",
+        }}
+        renderInput={(params) => <TextField
+          {...params} label="Select a User"
+          size="small" />}
+      />
+    );
+  }
 }
