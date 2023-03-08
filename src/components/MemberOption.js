@@ -7,7 +7,7 @@ const MemberOption = (props) => {
 
   return (
     <div className="memberOption">
-      <Button
+      {props.isUser ? null : (<Button
         onClick={() => {
           props.setAlertOpen(false);
           props.setCheckOpen(true);
@@ -26,7 +26,7 @@ const MemberOption = (props) => {
         }}
       >
         {t('editPassword')}
-      </Button>
+      </Button>)}
 
       <img
         onClick={() => {

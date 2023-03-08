@@ -32,7 +32,8 @@ const App = () => {
             <Route path="/" element={<Appbar />}>
               <Route path="/" index element={<Luck />} />
               <Route path="/info" element={<Info />} />
-              <Route path="/register" element={<Register />} />
+              <Route path="/register" element={<Register role="adimn"/>} />
+              <Route path="/register/user" element={<Register role="user"/>} />
               <Route path="/memberlist" element={<MemberList />} />
             </Route>
             <Route path="*" element={<Navigate replace to="/" />} />

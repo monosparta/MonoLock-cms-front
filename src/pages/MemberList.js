@@ -7,6 +7,7 @@ import MemberDialog from "../components/MemberDialog";
 import MemberListDataGrid from "../components/MemberListDataGrid";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAdmin, getAdminList, clearState } from "../redux/adminSlice";
+import { userList, selectUser } from "../redux/userSlice"
 import MemberOption from "../components/MemberOption";
 import { useTranslation } from 'react-i18next';
 
@@ -17,14 +18,18 @@ const MemberList = () => {
   const [alertText, setAlertText] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [rows, setRows] = React.useState([]);
+  const [userRows, setUserRows] = React.useState([])
   const [rowId, setRowId] = React.useState("");
   const [refresh, setRefresh] = React.useState(false);
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
+
+
   const { adminList, isFetching, isError, isSuccess } =
     useSelector(selectAdmin);
+  const { list } = useSelector(selectUser)
 
   const handleModify = () => {
     setCheckOpen(false);
@@ -36,6 +41,7 @@ const MemberList = () => {
 
   useEffect(() => {
     dispatch(getAdminList());
+    dispatch(userList())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh]);
 
@@ -48,12 +54,13 @@ const MemberList = () => {
     }
     if (isSuccess) {
       setRows(adminList);
+      setUserRows(list)
       dispatch(clearState());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError, isSuccess]);
 
-  const columns = [
+  const columns = (prop) => ([
     {
       field: "name",
       headerName: t('userName'),
@@ -82,11 +89,12 @@ const MemberList = () => {
             setAlertOpen={setAlertOpen}
             setCheckOpen={setCheckOpen}
             setCheckAction={setCheckAction}
+            isUser={prop}
           />
         );
       },
     },
-  ];
+  ])
   return (
     <div id="memberList">
       <MemberDialog
@@ -116,7 +124,7 @@ const MemberList = () => {
                 color: "#2F384F",
                 boxShadow: "none",
                 borderRadius: "10px",
-                fontSize: {xs: 10, md: 16},
+                fontSize: { xs: 10, md: 16 },
                 textAlign: "left",
                 textDecoration: "none",
               }}
@@ -127,8 +135,35 @@ const MemberList = () => {
         </div>
       </div>
       <div className="memberList">
-        <Box sx={{ height: 450, width: "100%" }}>
-          <MemberListDataGrid adminList={rows} columns={columns} />
+        <Box sx={{ width: "100%" }}>
+          <MemberListDataGrid adminList={rows} columns={columns()} />
+        </Box>
+      </div>
+      <div className="memberHeader">
+        <p>{t('userList')}</p>
+        <div>
+          <Link to="/register/user">
+            <Button
+              variant="contained"
+              style={{
+                border: "1px solid #2F384F",
+                background: "transparent",
+                color: "#2F384F",
+                boxShadow: "none",
+                borderRadius: "10px",
+                fontSize: { xs: 10, md: 16 },
+                textAlign: "left",
+                textDecoration: "none",
+              }}
+            >
+              {t('addUser')}
+            </Button>
+          </Link>
+        </div>
+      </div>
+      <div className="memberList">
+        <Box sx={{ width: "100%" }}>
+          <MemberListDataGrid adminList={userRows} columns={columns(true)} />
         </Box>
       </div>
     </div>
