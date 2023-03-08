@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Skeleton from "@mui/material/Skeleton";
 import { useSelector, useDispatch } from "react-redux";
-import { selectUser, userAdd, userUpdate } from "../redux/userSlice";
+import { selectUser, userAdd, userUpdate, userList } from "../redux/userSlice";
 import { lockUpdateUserId } from "../redux/lockSlice";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -39,6 +39,8 @@ const InfoForm = (props) => {
   const [helperCard, setHelperCard] = React.useState(false);
   const [helperPhone, setHelperPhone] = React.useState(false);
   const [helperEmail, setHelperEmail] = React.useState(false);
+  const [label, setLabel] = React.useState([])
+  const { list } = useSelector(selectUser)
   const emailRule =
     /^[\w!#$%&'*+/=?^_`{|}~-]+(\.[\w!#$%&'*+/=?^`{|}~-]+)*@[\w-]{1,63}(\.[\w-]{1,63})+$/;
   const phoneRule = "^(09)[0-9]{8}$";
@@ -195,6 +197,12 @@ const InfoForm = (props) => {
       setInputId(0)
     }
   }
+
+  useEffect(() => {
+    dispatch(userList())
+    setLabel(list)
+  }, [])
+
   return (
     <div>
       <div className="userInfo name">
@@ -219,7 +227,7 @@ const InfoForm = (props) => {
               </Box>
             </Box>
           ) :
-          (props.userStatus === 'LinkStatus') ? (<ComboBox handleChange={handleChange} setColorCard={setColorCard} setErrorCard={setErrorCard} setHelperCard={setHelperCard} />) :
+          (props.userStatus === 'LinkStatus') ? (<ComboBox data={list} handleChange={handleChange} />) :
             (
               <TextField
                 size="small"
@@ -416,40 +424,31 @@ const InfoForm = (props) => {
 
 export default InfoForm;
 const ComboBox = (props) => {
-  const { data, error, isLoading } = useGetUserQuery()
-  if (error) console.log(error)
-  let option
 
-  if (isLoading == false && data) {
-    if (data.length === 0) {
-      props.setErrorCard(true);
-      props.setColorCard("#d32f2f");
-      return props.setHelperCard("There are no user.");
+  const option = props.data.map(data => {
+    return {
+      label: data.name,
+      data: data
     }
-    option = data.map(data => {
-      return {
-        label: data.name,
-        data: data
-      }
-    })
-    
-    return (
-      <Autocomplete
-        onChange={(e, value) => {
-          props.handleChange(e, value)
-        }}
-        disablePortal
-        id="combo-box-demo"
-        options={option}
-        sx={{
-          width: "100%",
-          borderColor: "#000",
-          margin: "6px",
-        }}
-        renderInput={(params) => <TextField
-          {...params} label="Select a User"
-          size="small" />}
-      />
-    );
-  }
+  })
+
+
+  return (
+    <Autocomplete
+      onChange={(e, value) => {
+        props.handleChange(e, value)
+      }}
+      disablePortal
+      id="combo-box-demo"
+      options={option}
+      sx={{
+        width: "100%",
+        borderColor: "#000",
+        margin: "6px",
+      }}
+      renderInput={(params) => <TextField
+        {...params} label="Select a User"
+        size="small" />}
+    />
+  );
 }
