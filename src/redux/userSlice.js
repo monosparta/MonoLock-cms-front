@@ -133,7 +133,6 @@ export const userUnlock = createAsyncThunk(
       //   throw data;
       // }
     } catch (e) {
-      console.log(e.response.status);
       return thunkAPI.rejectWithValue(e);
     }
   }
@@ -371,8 +370,6 @@ export const userSlice = createSlice({
     },
     [userList.rejected]: (state) => {
       state.isFetching = false;
-      state.user = [];
-      state.records = [];
       return state;
     },
     [login.fulfilled]: (state, { payload }) => {

@@ -7,7 +7,7 @@ import MemberDialog from "../components/MemberDialog";
 import MemberListDataGrid from "../components/MemberListDataGrid";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAdmin, getAdminList, clearState } from "../redux/adminSlice";
-import { userList, selectUser } from "../redux/userSlice"
+import { userList, selectUser, clearState as userClearState } from "../redux/userSlice"
 import MemberOption from "../components/MemberOption";
 import { useTranslation } from 'react-i18next';
 
@@ -29,7 +29,7 @@ const MemberList = () => {
 
   const { adminList, isFetching, isError, isSuccess } =
     useSelector(selectAdmin);
-  const { list } = useSelector(selectUser)
+  const { list, isError: userIsError, isFetching: userIsFetching, isSuccess: userIsSuccess } = useSelector(selectUser)
 
   const handleModify = () => {
     setCheckOpen(false);
@@ -40,26 +40,29 @@ const MemberList = () => {
   };
 
   useEffect(() => {
-    dispatch(getAdminList());
+    if (isError) dispatch(clearState());
+    if (isFetching) dispatch(clearState())
+    if (isSuccess) {
+      setRows(adminList)
+      dispatch(clearState())
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetching, isSuccess]);
+
+  useEffect(() => {
+    if (userIsError) dispatch(userClearState())
+    if (userIsFetching) dispatch(userClearState())
+    if (userIsSuccess) {
+      setUserRows(list)
+      dispatch(userClearState())
+    }
+  }, [userIsFetching, userIsSuccess])
+
+  useEffect(() => {
+    dispatch(getAdminList())
     dispatch(userList())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh]);
-
-  useEffect(() => {
-    if (isError) {
-      dispatch(clearState());
-    }
-    if (isFetching) {
-      dispatch(clearState());
-    }
-    if (isSuccess) {
-      setRows(adminList);
-      setUserRows(list)
-      dispatch(clearState());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isError, isSuccess]);
-
   const columns = (prop) => ([
     {
       field: "name",
