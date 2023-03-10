@@ -63,7 +63,47 @@ const MemberList = () => {
     dispatch(userList())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh]);
-  const columns = (prop) => ([
+  const columns = (prop) => (prop ? [
+    {
+      field: "name",
+      headerName: t('userName'),
+      flex: 1,
+      disableColumnMenu: true,
+      sortable: false,
+    },
+    {
+      field: "mail",
+      headerName: t('mail'),
+      flex: 1,
+      disableColumnMenu: true,
+      sortable: false,
+    }, {
+      field: 'isLock',
+      headerName: t('isLock'),
+      flex: 1,
+      disableColumnMenutrue: true,
+      sortable: true
+    },
+    {
+      field: "button",
+      headerName: "",
+      flex: 1,
+      disableColumnMenu: true,
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <MemberOption
+            setRowId={setRowId}
+            id={params.id}
+            setAlertOpen={setAlertOpen}
+            setCheckOpen={setCheckOpen}
+            setCheckAction={setCheckAction}
+            isUser={prop}
+          />
+        );
+      },
+    },
+  ] : [
     {
       field: "name",
       headerName: t('userName'),
@@ -144,25 +184,7 @@ const MemberList = () => {
       </div>
       <div className="memberHeader">
         <p>{t('userList')}</p>
-        <div>
-          <Link to="/register/user">
-            <Button
-              variant="contained"
-              style={{
-                border: "1px solid #2F384F",
-                background: "transparent",
-                color: "#2F384F",
-                boxShadow: "none",
-                borderRadius: "10px",
-                fontSize: { xs: 10, md: 16 },
-                textAlign: "left",
-                textDecoration: "none",
-              }}
-            >
-              {t('addUser')}
-            </Button>
-          </Link>
-        </div>
+
       </div>
       <div className="memberList">
         <Box sx={{ width: "100%" }}>
