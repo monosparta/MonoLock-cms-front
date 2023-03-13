@@ -60,7 +60,7 @@ const MemberList = () => {
 
   useEffect(() => {
     dispatch(getAdminList())
-    dispatch(userList())
+    dispatch(userList(2))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh]);
   const columns = (prop) => (prop ? [
@@ -77,13 +77,7 @@ const MemberList = () => {
       flex: 1,
       disableColumnMenu: true,
       sortable: false,
-    }, {
-      field: 'isLock',
-      headerName: t('isLock'),
-      flex: 1,
-      disableColumnMenutrue: true,
-      sortable: true
-    },
+    }, 
     {
       field: "button",
       headerName: "",

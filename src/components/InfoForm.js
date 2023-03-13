@@ -13,7 +13,6 @@ import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import "./InfoForm.css";
 import { useTranslation } from "react-i18next";
-import { useGetUserQuery } from "../redux/userSlice";
 import Autocomplete from '@mui/material/Autocomplete';
 
 const InfoForm = (props) => {
@@ -199,7 +198,7 @@ const InfoForm = (props) => {
   }
 
   useEffect(() => {
-    dispatch(userList())
+    dispatch(userList({ has_lock: 0 }))
     setLabel(list)
   }, [])
 
