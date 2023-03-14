@@ -53,14 +53,19 @@ const MemberList = () => {
     if (userIsError) dispatch(userClearState())
     if (userIsFetching) dispatch(userClearState())
     if (userIsSuccess) {
-      setUserRows(list)
+      const listWithLockNo = list.map((user, index) => {
+        if (user.locker !== null)
+          return { ...user, lockerNo: user.locker.lockerNo }
+        return user
+      })
+      setUserRows(listWithLockNo)
       dispatch(userClearState())
     }
   }, [userIsFetching, userIsSuccess])
 
   useEffect(() => {
     dispatch(getAdminList())
-    dispatch(userList(2))
+    dispatch(userList({ has_lock: null }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh]);
   const columns = (prop) => (prop ? [
@@ -77,7 +82,13 @@ const MemberList = () => {
       flex: 1,
       disableColumnMenu: true,
       sortable: false,
-    }, 
+    }, {
+      field: "lockerNo",
+      headerName: t('lockerNo'),
+      flex: 1,
+      disableColumnMenu: false,
+      sortable: true,
+    },
     {
       field: "button",
       headerName: "",

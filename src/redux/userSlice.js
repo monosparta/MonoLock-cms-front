@@ -269,9 +269,12 @@ export const userDelete = createAsyncThunk(
 export const userList = createAsyncThunk(
   'user/list', async ({ has_lock }, thunkAPI) => {
     try {
+      let url = `${process.env.REACT_APP_URL}/api/user/?has_lock=${has_lock}`
+      if (has_lock === null)
+        url = `${process.env.REACT_APP_URL}/api/user/`
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `${process.env.REACT_APP_URL}/api/user/?has_lock=${has_lock}`,
+        url,
         {
           method: "GET",
           headers: {
