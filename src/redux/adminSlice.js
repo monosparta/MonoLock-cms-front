@@ -72,7 +72,7 @@ export const deleteAdmin = createAsyncThunk(
 
 export const updateAdmin = createAsyncThunk(
   "admin/update",
-  async ({ id, password, confirm }, thunkAPI) => {
+  async ({ id, password, name, mail, confirm }, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
@@ -86,6 +86,8 @@ export const updateAdmin = createAsyncThunk(
           },
           body: JSON.stringify({
             password,
+            name,
+            mail,
             confirm,
           }),
         }

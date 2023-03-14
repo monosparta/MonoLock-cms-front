@@ -20,11 +20,11 @@ const MemberList = () => {
   const [rows, setRows] = React.useState([]);
   const [userRows, setUserRows] = React.useState([])
   const [rowId, setRowId] = React.useState("");
+  const [row, setRow] = React.useState({ name: '', mail: '' })
   const [refresh, setRefresh] = React.useState(false);
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-
 
 
   const { adminList, isFetching, isError, isSuccess } =
@@ -68,6 +68,15 @@ const MemberList = () => {
     dispatch(userList({ has_lock: null }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh]);
+
+  useEffect(() => {
+    const user = rows.find(user => {
+      if (user.id === rowId) return user
+    })
+    if (!user)
+      return
+    setRow(user)
+  }, [rowId])
   const columns = (prop) => (prop ? [
     {
       field: "name",
@@ -149,6 +158,7 @@ const MemberList = () => {
         refresh={refresh}
         setRefresh={setRefresh}
         rowId={rowId}
+        row={row}
         setCheckOpen={setCheckOpen}
         checkOpen={checkOpen}
         handleModify={handleModify}

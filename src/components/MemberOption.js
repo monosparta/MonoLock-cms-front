@@ -25,7 +25,7 @@ const MemberOption = (props) => {
           whiteSpace: { xs: "break-spaces", md: "no-wrap" },
         }}
       >
-        {t('editPassword')}
+        {t('edit')}
       </Button>)}
 
       <img

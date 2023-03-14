@@ -15,16 +15,21 @@ import { useTranslation } from 'react-i18next';
 
 const MemberDialog = (props) => {
   const [errorPassword, setErrorPassword] = React.useState(false);
+  const [errorMail, setErrorMail] = React.useState(false)
+  const [errorName, setErrorName] = React.useState(false)
   const [inputNewPassword, setInputNewPassword] = React.useState("");
   const [inputCheckNewPassword, setInputCheckNewPassword] = React.useState("");
+  const [inputName, setInputName] = React.useState('')
+  const [inputMail, setInputMail] = React.useState('')
   const [helperText, setHelperText] = React.useState("");
   const { t } = useTranslation();
+  const mailRule = /^[\w!#$%&'*+/=?^_`{|}~-]+(\.[\w!#$%&'*+/=?^`{|}~-]+)*@[\w-]{1,63}(\.[\w-]{1,63})+$/;
 
   const dispatch = useDispatch();
 
   if (props.checkAction === "edit") {
     props.setCheckAction("");
-    props.setAlertText(t('editPassword'));
+    props.setAlertText(t('edit'));
   } else if (props.checkAction === "delete") {
     props.setCheckAction("");
     props.setAlertText(t('deleteUser'));
@@ -42,6 +47,8 @@ const MemberDialog = (props) => {
           id: props.rowId,
           password: inputNewPassword,
           confirm: inputCheckNewPassword,
+          name: inputName,
+          mail: inputMail
         })
       );
 
@@ -50,6 +57,11 @@ const MemberDialog = (props) => {
       props.setRefresh(!props.refresh);
     }
   };
+
+  React.useEffect(() => {
+    setInputName(props.row.name)
+    setInputMail(props.row.mail)
+  }, [props.row])
 
   return (
     <>
@@ -86,7 +98,7 @@ const MemberDialog = (props) => {
           "& .MuiDialog-container": {
             "& .MuiPaper-root": {
               width: 440,
-              height: 300, // Set your width here
+              height: 450, // Set your width here
             },
             "& .MuiOutlinedInput-root": {
               margin: "10px auto",
@@ -100,10 +112,48 @@ const MemberDialog = (props) => {
         }}
       >
         <DialogTitle id="alert-dialog-title" sx={{ textAlign: "center" }}>
-          {t('resetPassword')}
+          {t('edit')}
         </DialogTitle>
         <div className="diacontent">
           <DialogContent sx={{ m: "0 auto" }}>
+            <TextField
+              error={errorName}
+              value={inputName}
+              onChange={(e) =>
+                setInputName(
+                  e.target.value.replace(/[^\w!#$%&'*+-/=?^`{|}~@]|_/gi, "")
+                )
+              }
+              required
+              type="name"
+              id="input-name"
+              placeholder={t('name')}
+              sx={{ width: "100%" }}
+              inputProps={{
+                style: {
+                  height: "14px",
+                },
+              }}
+            />
+            <TextField
+              error={errorMail}
+              value={inputMail}
+              onChange={(e) =>
+                setInputMail(
+                  e.target.value.replace(/[^\w!#$%&'*+-/=?^`{|}~@]|_/gi, "")
+                )
+              }
+              required
+              type="mail"
+              id="input-mail"
+              placeholder={t('mail')}
+              sx={{ width: "100%" }}
+              inputProps={{
+                style: {
+                  height: "14px",
+                },
+              }}
+            />
             <TextField
               error={errorPassword}
               value={inputNewPassword}
@@ -149,20 +199,26 @@ const MemberDialog = (props) => {
           <Button
             variant="contained"
             onClick={() => {
-              if (
-                inputNewPassword === inputCheckNewPassword &&
-                inputNewPassword !== ""
-              ) {
-                props.setOpen(true);
-                props.setCheckOpen(false);
-                setErrorPassword(false);
-                setHelperText("");
-              } else if (inputNewPassword === "") {
-                setErrorPassword(true);
-                setHelperText(t('fieldNotNull'));
+              if (inputMail.search(mailRule) === -1) {
+                setErrorMail(true)
+                setHelperText(t('emailFormatDoesNotMatch'))
+              }
+              else if (inputName.length <= 0 || inputMail.length <= 0 || inputNewPassword.length <= 0 || inputCheckNewPassword.length <= 0) {
+                setErrorMail(true)
+                setErrorName(true)
+                setErrorPassword(true)
+                setHelperText(t('fieldNotNull'))
+              }
+              else if (inputCheckNewPassword !== inputNewPassword) {
+                setErrorPassword(true)
+                setHelperText(t('comparePassword'))
               } else {
-                setErrorPassword(true);
-                setHelperText(t('comparePassword'));
+                props.setOpen(true)
+                props.setCheckOpen(false)
+                setErrorPassword(false)
+                setErrorMail(false)
+                setErrorName(false)
+                setHelperText('')
               }
             }}
             style={{
@@ -183,6 +239,8 @@ const MemberDialog = (props) => {
               setInputCheckNewPassword("");
               setInputNewPassword("");
               setErrorPassword(false);
+              setErrorMail(false)
+              setErrorName(false)
               setHelperText("");
             }}
             style={{
