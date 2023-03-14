@@ -423,7 +423,7 @@ const InfoForm = (props) => {
 
 export default InfoForm;
 const ComboBox = (props) => {
-
+  const { t } = useTranslation();
   const option = props.data.map(data => {
     return {
       label: data.name,
@@ -446,7 +446,7 @@ const ComboBox = (props) => {
         margin: "6px",
       }}
       renderInput={(params) => <TextField
-        {...params} label="Select a User"
+        {...params} label={t('addMemberInfo')}
         size="small" />}
     />
   );

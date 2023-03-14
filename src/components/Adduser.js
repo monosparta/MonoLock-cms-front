@@ -64,7 +64,7 @@ const Adduser = (props) => {
             }}
             startIcon={<MenuIcon />}
           >
-            綁定現有會員
+            {t('bindExistingMembers')}
           </Button>
         )}
       </div>

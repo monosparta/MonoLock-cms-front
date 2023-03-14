@@ -58,5 +58,6 @@
   "openAt": "於 {{time}} 解鎖",
   "admin": "管理員",
   "forcedOpenAt": "於 {{time}} 強制開鎖",
-  "SignOut": "登出"
+  "SignOut": "登出",
+  "bindExistingMembers": "綁定現有會員"
 }

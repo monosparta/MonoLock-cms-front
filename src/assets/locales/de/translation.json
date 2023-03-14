@@ -58,5 +58,6 @@
   "admin": "Administrator",
   "openAt": "Entsperrt um {{time}}",
   "forcedOpenAt": "Entsperren um {{time}} erzwingen",
-  "SignOut": "Ausloggen"
+  "SignOut": "Ausloggen",
+  "bindExistingMembers": "Binden Sie bestehende Mitglieder"
 }
