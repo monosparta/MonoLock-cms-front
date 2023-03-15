@@ -59,5 +59,8 @@
   "openAt": "Entsperrt um {{time}}",
   "forcedOpenAt": "Entsperren um {{time}} erzwingen",
   "SignOut": "Ausloggen",
-  "bindExistingMembers": "Binden Sie bestehende Mitglieder"
+  "bindExistingMembers": "Binden Sie bestehende Mitglieder",
+  "lockerNo": "Schubladenummer",
+  "sureDeleteMemberRight": "Sind Sie sicher, dass Sie dem Benutzer die Berechtigung zum Verwenden der Schublade entziehen möchten?",
+  "userList": "Benutzerliste"
 }

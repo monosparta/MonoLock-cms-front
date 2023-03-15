@@ -21,7 +21,7 @@ const LockRelationClear = (props) => {
   const location = useLocation();
   const [checkOpen, setCheckOpen] = React.useState(false);
   const [alertOpen, setAlertOpen] = React.useState(false);
-  const { user, userClear } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
 
   const handleClearRelation = () => {
     dispatch(lockUpdateUserId({ lockNo: location.state, userId: null }));
@@ -88,7 +88,7 @@ const LockRelationClear = (props) => {
         >
           <div className="alert">
             <img src="./alert.png" alt="" className="alert" />
-            <p>{t("sureDeleteMember")}</p>
+            <p>{t("sureDeleteMemberRight")}</p>
           </div>
         </DialogTitle>
         <DialogActions sx={{ width: 244 }}>

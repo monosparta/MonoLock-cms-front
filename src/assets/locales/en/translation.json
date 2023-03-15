@@ -59,6 +59,8 @@
   "openAt": "Unlocked at {{time}}",
   "forcedOpenAt": "Force unlocked at {{time}}",
   "SignOut": "Sign out",
-  "bindExistingMembers": "Bind existing members"
-
+  "bindExistingMembers": "Bind existing members",
+  "lockerNo": "drawer number",
+  "sureDeleteMemberRight": "Are you sure you want to revoke the user's permission to use the drawer?",
+  "userList" : "User List"
 }
