@@ -41,7 +41,7 @@ const MemberDialog = (props) => {
     if (props.alertText === t('deleteUser')) {
       dispatch(deleteAdmin(props.rowId));
       props.setRefresh(!props.refresh);
-    } else if (props.alertText === t('editPassword')) {
+    } else if (props.alertText === t('edit')) {
       dispatch(
         updateAdmin({
           id: props.rowId,
@@ -304,6 +304,7 @@ const MemberDialog = (props) => {
           <Button
             variant="contained"
             onClick={() => {
+              console.log('click')
               props.setOpen(false);
               handelDelete();
               props.handleModify();
