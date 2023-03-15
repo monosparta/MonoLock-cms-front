@@ -59,6 +59,7 @@ export const deleteAdmin = createAsyncThunk(
           }
         }
       });
+      console.log(response)
       if (response.ok) {
         return response.json();
       } else {

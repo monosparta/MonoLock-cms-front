@@ -203,7 +203,7 @@ const MemberDialog = (props) => {
                 setErrorMail(true)
                 setHelperText(t('emailFormatDoesNotMatch'))
               }
-              else if (inputName.length <= 0 || inputMail.length <= 0 || inputNewPassword.length <= 0 || inputCheckNewPassword.length <= 0) {
+              else if (inputName.length <= 0 || inputMail.length <= 0) {
                 setErrorMail(true)
                 setErrorName(true)
                 setErrorPassword(true)
@@ -304,7 +304,6 @@ const MemberDialog = (props) => {
           <Button
             variant="contained"
             onClick={() => {
-              console.log('click')
               props.setOpen(false);
               handelDelete();
               props.handleModify();
