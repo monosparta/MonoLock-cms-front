@@ -13,7 +13,6 @@ jobs:
       REACT_APP_URL: ${{secrets.REACT_APP_URL}}
     steps:
       - uses: actions/checkout@v3
-      - run: sudo apt update
       - run: node --version
       - run: npm --version
       - run: yarn --version
