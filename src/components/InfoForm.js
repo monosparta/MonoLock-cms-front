@@ -20,7 +20,7 @@ const InfoForm = (props) => {
 
   const dispatch = useDispatch();
   const location = useLocation();
-  const { user, updating, token } = useSelector(selectUser);
+  const { user, updating } = useSelector(selectUser);
   const [inputName, setInputName] = React.useState(user.name || "");
   const [inputCard, setInputCard] = React.useState(user.cardId || "");
   const [inputPhone, setInputPhone] = React.useState(user.phone || "");
@@ -38,7 +38,7 @@ const InfoForm = (props) => {
   const [helperCard, setHelperCard] = React.useState(false);
   const [helperPhone, setHelperPhone] = React.useState(false);
   const [helperEmail, setHelperEmail] = React.useState(false);
-  const [label, setLabel] = React.useState([])
+  // const [label, setLabel] = React.useState([])
   const { list } = useSelector(selectUser)
   const emailRule =
     /^[\w!#$%&'*+/=?^_`{|}~-]+(\.[\w!#$%&'*+/=?^`{|}~-]+)*@[\w-]{1,63}(\.[\w-]{1,63})+$/;
@@ -199,7 +199,7 @@ const InfoForm = (props) => {
 
   useEffect(() => {
     dispatch(userList({ has_lock: 0 }))
-    setLabel(list)
+    // setLabel(list)
   }, [])
 
   return (
