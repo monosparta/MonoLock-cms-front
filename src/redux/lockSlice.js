@@ -40,7 +40,7 @@ export const lockUpdateUserId = createAsyncThunk('lock/lockUpdateUserId', async 
       } else {
         throw response;
       }
-Ｆ  } catch (e) {
+  } catch (e) {
     return thunkAPI.rejectWithValue(e)
   }
 })
