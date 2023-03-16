@@ -11,7 +11,6 @@ export const lockStatusNoLoading = createAsyncThunk("lock/lockStatusNoLoading", 
 
 export const lockUpdateUserId = createAsyncThunk('lock/lockUpdateUserId', async ({ userId, lockNo }, thunkAPI) => {
   try {
-    {
       const token = localStorage.getItem('token')
       const response = await fetch(`${process.env.REACT_APP_URL}/api/locker/${lockNo}`, {
         method: 'PATCH',
@@ -36,14 +35,12 @@ export const lockUpdateUserId = createAsyncThunk('lock/lockUpdateUserId', async 
           }
         }
       })
-      let data = await response.json();
       if (response.ok) {
         return response;
       } else {
         throw response;
       }
-    }
-  } catch (e) {
+Ｆ  } catch (e) {
     return thunkAPI.rejectWithValue(e)
   }
 })
