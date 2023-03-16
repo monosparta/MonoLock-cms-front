@@ -165,6 +165,7 @@ const InfoForm = (props) => {
         case "LinkStatus":
           dispatch(lockUpdateUserId(Linkdata))
           props.setUserStatus("")
+          break;
         default:
           props.setUserStatus("");
           return true;
@@ -200,7 +201,7 @@ const InfoForm = (props) => {
   useEffect(() => {
     dispatch(userList({ has_lock: 0 }))
     // setLabel(list)
-  }, [])
+  }, [dispatch])
 
   return (
     <div>
