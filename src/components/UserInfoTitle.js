@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectLock } from "../redux/lockSlice";
 
-import UserDelete from "../components/UserDelete";
+import LockRelationClear from "./LockRelationClear";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import Skeleton from "@mui/material/Skeleton";
@@ -26,7 +26,7 @@ const UserInfoTitle = (props) => {
           {props.luckIconStatus === 1 ? <LockIcon /> : <LockOpenIcon />}
           <h1>{t('locker')} - {location.state}</h1>
 
-          <UserDelete
+          <LockRelationClear
             setLuckIconStatus={props.setLuckIconStatus}
             setUserStatus={props.setUserStatus}
             user={props.user}
