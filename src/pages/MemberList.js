@@ -61,7 +61,7 @@ const MemberList = () => {
       setUserRows(listWithLockNo)
       dispatch(userClearState())
     }
-  }, [userIsFetching, userIsSuccess])
+  }, [userIsFetching, userIsSuccess, dispatch, list, userIsError])
 
   useEffect(() => {
     dispatch(getAdminList())
@@ -71,12 +71,14 @@ const MemberList = () => {
 
   useEffect(() => {
     const user = rows.find(user => {
-      if (user.id === rowId) return user
+      if (user.id === rowId)
+        return user
+      return null
     })
     if (!user)
       return
     setRow(user)
-  }, [rowId])
+  }, [rowId, rows])
   const columns = (prop) => (prop ? [
     {
       field: "name",
