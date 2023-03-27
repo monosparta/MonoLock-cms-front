@@ -18,6 +18,7 @@ const Adduser = (props) => {
       case 'link':
         props.setUserStatus('LinkStatus')
         break
+      default:
     }
 
   };
