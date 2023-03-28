@@ -8,6 +8,43 @@ export const lockStatusNoLoading = createAsyncThunk("lock/lockStatusNoLoading", 
   return getStatus();
 });
 
+
+export const lockUpdateUserId = createAsyncThunk('lock/lockUpdateUserId', async ({ userId, lockNo }, thunkAPI) => {
+  try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/locker/${lockNo}`, {
+        method: 'PATCH',
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          token: token,
+        }, body: JSON.stringify(
+          {
+            userId: userId
+          }
+        )
+      }).then(response => {
+        if (response.status === 200) {
+          return response;
+        }
+        if (response.status === 401) {
+          if (token !== "") {
+            localStorage.clear();
+            alert("請重新登入");
+            window.location.reload();
+          }
+        }
+      })
+      if (response.ok) {
+        return response;
+      } else {
+        throw response;
+      }
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e)
+  }
+})
+
 const getStatus = async (thunkAPI) => {
   try {
     const token = localStorage.getItem("token");
@@ -88,6 +125,21 @@ export const lockSlice = createSlice({
     },
     [lockStatusNoLoading.rejected]: (state) => {
       state.isError = true;
+      return state;
+    },
+    [lockUpdateUserId.fulfilled]: (state, { payload }) => {
+      state.isSuccess = true;
+      state.lockList = payload;
+      state.lockIsFetching = false;
+      return state;
+    },
+    [lockUpdateUserId.pending]: (state) => {
+      state.lockIsFetching = true;
+      return state;
+    },
+    [lockUpdateUserId.rejected]: (state) => {
+      state.isError = true;
+      state.lockIsFetching = false;
       return state;
     },
   },

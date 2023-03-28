@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const login = createAsyncThunk(
   "user/login",
@@ -132,7 +133,6 @@ export const userUnlock = createAsyncThunk(
       //   throw data;
       // }
     } catch (e) {
-      console.log(e.response.status);
       return thunkAPI.rejectWithValue(e);
     }
   }
@@ -266,12 +266,72 @@ export const userDelete = createAsyncThunk(
   }
 );
 
+export const userList = createAsyncThunk(
+  'user/list', async ({ has_lock }, thunkAPI) => {
+    try {
+      let url = `${process.env.REACT_APP_URL}/api/user/?has_lock=${has_lock}`
+      if (has_lock === null)
+        url = `${process.env.REACT_APP_URL}/api/user/`
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        url,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            token,
+          },
+        }
+      ).then((response) => {
+        if (response.status === 200) {
+          return response;
+        }
+        if (response.status === 401) {
+          if (token !== "") {
+            localStorage.clear();
+            alert("請重新登入");
+            window.location.reload();
+          }
+        }
+      });
+      let data = await response.json()
+      if (response.ok) {
+        return data;
+      } else {
+        throw data;
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+)
+
+// RTK query
+const token = localStorage.getItem("token");
+export const userApi = createApi({
+  reducerPath: 'userAPi',
+  baseQuery: fetchBaseQuery({ baseUrl: `${process.env.REACT_APP_URL}/api` }),
+  endpoints: builder => ({
+    getUser: builder.query({
+      query: () => ({
+        url: '/user',
+        headers: {
+          'token': token
+        }
+      })
+    })
+  })
+})
+export const { useGetUserQuery } = userApi
+
 export const userSlice = createSlice({
   name: "user",
   initialState: {
     token: "",
     name: "",
     user: [],
+    list: [],
     records: [],
     isFetching: false,
     isUnlocking: false,
@@ -301,6 +361,20 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: {
+    [userList.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isSuccess = true;
+      state.list = payload
+      return state;
+    },
+    [userList.pending]: (state) => {
+      state.isFetching = true;
+      return state;
+    },
+    [userList.rejected]: (state) => {
+      state.isFetching = false;
+      return state;
+    },
     [login.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.isSuccess = true;

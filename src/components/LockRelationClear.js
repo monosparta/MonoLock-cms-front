@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userDelete, selectUser } from "../redux/userSlice";
+import { selectUser } from "../redux/userSlice";
+import { lockUpdateUserId } from "../redux/lockSlice";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -11,27 +12,28 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CheckIcon from "@mui/icons-material/Check";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
-const UserDelete = (props) => {
+
+const LockRelationClear = (props) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-
+  const location = useLocation();
   const [checkOpen, setCheckOpen] = React.useState(false);
   const [alertOpen, setAlertOpen] = React.useState(false);
-  const { user, userClear } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
 
-  const handleUserDelete = () => {
-    dispatch(userDelete({ id: props.user.id }));
+  const handleClearRelation = () => {
+    dispatch(lockUpdateUserId({ lockNo: location.state, userId: null }));
     setCheckOpen(false);
     setAlertOpen(true);
+    props.handleClickRefresh();
     setTimeout(() => {
       setAlertOpen(false);
+
     }, 3000);
   };
 
-  if (userClear) {
-    props.handleClickRefresh();
-  }
   const handleCheckOpen = () => {
     setCheckOpen(true);
   };
@@ -39,7 +41,7 @@ const UserDelete = (props) => {
     setCheckOpen(false);
   };
   return (
-    <div className="userDelete">
+    <div className="lockRelationClear">
       {user.id ? (
         <DeleteSweepIcon
           onClick={handleCheckOpen}
@@ -86,13 +88,13 @@ const UserDelete = (props) => {
         >
           <div className="alert">
             <img src="./alert.png" alt="" className="alert" />
-            <p>{t("sureDeleteMember")}</p>
+            <p>{t("sureDeleteMemberRight")}</p>
           </div>
         </DialogTitle>
         <DialogActions sx={{ width: 244 }}>
           <Button
             variant="contained"
-            onClick={handleUserDelete}
+            onClick={handleClearRelation}
             style={{
               width: 108,
               height: 36,
@@ -147,4 +149,4 @@ const UserDelete = (props) => {
   );
 };
 
-export default UserDelete;
+export default LockRelationClear;

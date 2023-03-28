@@ -83,9 +83,10 @@ const Info = () => {
   };
 
   const selectFormMode = () => {
-    if (userStatus === "AddStatus" || userStatus === "EditStatus") {
+    if (userStatus === "AddStatus" || userStatus === "EditStatus" || userStatus === 'LinkStatus') {
       return <InfoForm setUserStatus={setUserStatus} userStatus={userStatus} />;
-    } else if (user.id === undefined) {
+    }
+    else if (user.id === undefined) {
       return <Adduser setUserStatus={setUserStatus} />;
     } else {
       return <Readmode setUserStatus={setUserStatus} />;
@@ -126,7 +127,7 @@ const Info = () => {
       </div>
 
       <div className="userInfoSection">
-        <Grid container spacing={2} sx={{padding: "2vh 0"}}>
+        <Grid container spacing={2} sx={{ padding: "2vh 0" }}>
           <Grid item xs={12} sm={5} md={4}>
             <div className="userInfoContainer">
               <UserInfoTitle
@@ -142,7 +143,7 @@ const Info = () => {
                     sx={{
                       width: "50%",
                       height: "24px",
-                      marginLeft: `${24+15}px`,
+                      marginLeft: `${24 + 15}px`,
                       display: "flex",
                       alignItems: "center",
                     }}
