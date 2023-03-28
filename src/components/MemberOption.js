@@ -7,7 +7,7 @@ const MemberOption = (props) => {
 
   return (
     <div className="memberOption">
-      <Button
+      {props.isUser ? null : (<Button
         onClick={() => {
           props.setAlertOpen(false);
           props.setCheckOpen(true);
@@ -25,8 +25,8 @@ const MemberOption = (props) => {
           whiteSpace: { xs: "break-spaces", md: "no-wrap" },
         }}
       >
-        {t('editPassword')}
-      </Button>
+        {t('edit')}
+      </Button>)}
 
       <img
         onClick={() => {
