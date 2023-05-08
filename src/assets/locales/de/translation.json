@@ -62,5 +62,20 @@
   "bindExistingMembers": "Binden Sie bestehende Mitglieder",
   "lockerNo": "Schubladenummer",
   "sureDeleteMemberRight": "Sind Sie sicher, dass Sie dem Benutzer die Berechtigung zum Verwenden der Schublade entziehen möchten?",
-  "userList": "Benutzerliste"
+  "userList": "Benutzerliste",
+  "sync": {
+    "auto": "automatisch",
+    "failed": "(scheitern)",
+    "history": {
+      "list-primary": "{{Zeit}} ({{Modus}}) {{Status}}",
+      "title": "Datensatz synchronisieren",
+      "triggered-by": "Ausgelöst von {{user}}"
+    },
+    "latest": {
+      "data": "Offline-Daten: zuletzt synchronisiert um {{time}} ({{mode}}) {{status}}",
+      "not-synced": "Offline-Daten: noch nicht synchronisiert"
+    },
+    "manual": "Handbuch",
+    "sync_now": "jetzt synchronisieren"
+  }
 }
