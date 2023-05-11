@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 
 import { Box, Paper, Grid } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import OfflineBar from "../components/OfflineBar";
 
 const Luck = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ const Luck = () => {
         {t("lockerCurrentStatus")}
         <RefreshIcon sx={{ cursor: "pointer" }} onClick={handleClickRefresh} />
       </div>
+      <OfflineBar />
       <Grid
         container
         direction={{ xs: "column", lg: "row" }}

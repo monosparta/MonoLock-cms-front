@@ -62,5 +62,20 @@
   "bindExistingMembers": "Bind existing members",
   "lockerNo": "drawer number",
   "sureDeleteMemberRight": "Are you sure you want to revoke the user's permission to use the drawer?",
-  "userList" : "User List"
+  "userList": "User List",
+  "sync": {
+    "auto": "Automatic",
+    "failed": "(Failed)",
+    "history": {
+      "list-primary": "{{time}} ({{mode}}) {{status}}",
+      "title": "Sync Record",
+      "triggered-by": "Triggered by {{user}}"
+    },
+    "latest": {
+      "data": "Offline data: Last synced at {{time}} ({{mode}}) {{status}}",
+      "not-synced": "Offline data: Not yet synced"
+    },
+    "manual": "Manual",
+    "sync_now": "Sync Now"
+  }
 }

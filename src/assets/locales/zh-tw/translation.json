@@ -62,5 +62,20 @@
   "bindExistingMembers": "綁定現有會員",
   "lockerNo": "櫃號",
   "sureDeleteMemberRight": "確定要移除使用者使用櫃子的權限嗎？",
-  "userList": "使用者列表"
+  "userList": "使用者列表",
+  "sync": {
+    "latest": {
+      "not-synced": "離線資料：尚未同步",
+      "data": "離線資料：最後同步於 {{time}} ({{mode}}) {{status}}"
+    },
+    "auto": "自動",
+    "manual": "手動",
+    "failed": "(失敗)",
+    "sync_now": "立即同步",
+    "history": {
+      "title": "同步紀錄",
+      "list-primary": "{{time}} ({{mode}}) {{status}}",
+      "triggered-by": "由 {{user}} 觸發"
+    }
+  }
 }
