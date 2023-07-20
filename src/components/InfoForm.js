@@ -351,7 +351,7 @@ const InfoForm = (props) => {
         {updating ? (
           <Skeleton animation="wave" width={"80%"} sx={{ marginLeft: 1 }} />
         ) : (
-          <TextField
+          <TextField  
             size="small"
             error={errorEmail}
             value={inputEmail}

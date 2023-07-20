@@ -19,9 +19,10 @@ import {
 } from "../components/IconStyle";
 import UserRecordSkeleton from "../components/UserRecordSkeleton";
 
-import { Grid } from "@mui/material";
+import { Grid, Icon } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import Skeleton from "@mui/material/Skeleton";
+import InfoIcon from '@mui/icons-material/Info';
 import { useTranslation } from 'react-i18next';
 
 const Info = () => {
@@ -151,6 +152,10 @@ const Info = () => {
                 ) : selectIconStyle()}
               </div>
               <div className="userInfoMode">{lockIsFetching ? "" : selectFormMode()}</div>
+              <div className="userButtonHint" >
+                <InfoIcon sx={{fontSize:16}} /> 
+                {t('bindingfunctionfirst')}
+              </div>
             </div>
           </Grid>
 

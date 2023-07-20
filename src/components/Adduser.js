@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import Skeleton from "@mui/material/Skeleton";
 import { useTranslation } from "react-i18next";
 const Adduser = (props) => {
-  const { isFetching } = useSelector(selectUser);
+  const {isFetching } = useSelector(selectUser);
   const { t } = useTranslation();
 
   const handleAdd = (status) => {
@@ -25,32 +25,12 @@ const Adduser = (props) => {
 
   return (
     <div>
-      <div className="add-btn">
+
+<div className="add-btn">
         {isFetching ? (
           <Skeleton animation="wave" width={"50%"} sx={{ marginLeft: 1 }} />
         ) : (
-          <Button
-            onClick={() => handleAdd('add')}
-            variant="contained"
-            style={{
-              width: "100%",
-              height: 39,
-              background: "#363F4E",
-              boxShadow: "none",
-              fontSize: 18,
-              margin: 5,
-              fontFamily: "Roboto",
-            }}
-            startIcon={<EditIcon />}
-          >
-            {t('addMemberInfo')}
-          </Button>
-        )}
-      </div>
-      <div className="add-btn">
-        {isFetching ? (
-          <Skeleton animation="wave" width={"50%"} sx={{ marginLeft: 1 }} />
-        ) : (
+          //綁定現有會員
           <Button
             onClick={() => handleAdd('link')}
             variant="contained"
@@ -69,6 +49,33 @@ const Adduser = (props) => {
           </Button>
         )}
       </div>
+
+      <div className="add-btn">
+        {isFetching ? (
+          <Skeleton animation="wave" width={"50%"} sx={{ marginLeft: 1 }} />
+        ) : (
+
+          //新增會員資訊
+          <Button
+            onClick={() => handleAdd('add')}
+            variant="contained"
+            style={{
+              width: "100%",
+              height: 39,
+              background: "#363F4E",
+              boxShadow: "none",
+              fontSize: 18,
+              margin: 5,
+              fontFamily: "Roboto",
+            }}
+            startIcon={<EditIcon />}
+          >
+            {t('addMemberInfoBySelf')}
+          </Button>
+        )}
+        
+      </div>
+      
     </div>
   );
 };
