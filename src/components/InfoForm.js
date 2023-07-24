@@ -300,7 +300,7 @@ const InfoForm = (props) => {
             autoComplete="current-password"
             inputProps={{
               style: {},
-              readOnly: (props.userStatus === 'LinkStatus') ? true : false,
+              // readOnly: (props.userStatus === 'LinkStatus') ? true : false,
             }}
             helperText={helperCard}
           ></TextField>
@@ -427,7 +427,7 @@ const ComboBox = (props) => {
   const { t } = useTranslation();
   const option = props.data.map(data => {
     return {
-      label: data.name,
+      label: data.mail,
       data: data
     }
   })

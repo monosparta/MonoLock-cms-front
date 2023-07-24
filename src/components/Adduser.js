@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import MenuIcon from '@mui/icons-material/Menu';
+import InfoIcon from '@mui/icons-material/Info';
 import { selectUser } from "../redux/userSlice";
 import { useSelector } from "react-redux";
 import Skeleton from "@mui/material/Skeleton";
@@ -72,9 +73,14 @@ const Adduser = (props) => {
           >
             {t('addMemberInfoBySelf')}
           </Button>
+
         )}
         
       </div>
+      <div className="userButtonHint" >
+                <InfoIcon sx={{fontSize:16}} /> 
+                {t('bindingfunctionfirst')}
+              </div>
       
     </div>
   );
