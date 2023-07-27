@@ -37,11 +37,14 @@ const Info = () => {
   const { user, records, isFetching, isError, isSuccess, errorMessage } =
     useSelector(selectUser);
   const { lockList, lockIsFetching } = useSelector(selectLock);
-  if (isError) {
+  useEffect(() => {
+    if (isError) {
     toast.error(errorMessage);
-  } else {
+    } else {
     toast.remove("loading");
-  }
+    }
+    })
+    
   useEffect(() => {
     dispatch(clearState());
     dispatch(clearMsg());
@@ -92,6 +95,7 @@ const Info = () => {
       return <Readmode setUserStatus={setUserStatus} />;
     }
   };
+  
 
 
   const selectIconStyle = () => {
@@ -127,9 +131,11 @@ const Info = () => {
       </div>
 
       <div className="userInfoSection">
-        <Grid container spacing={2} sx={{ padding: "2vh 0" }}>
-          <Grid item xs={12} sm={5} md={4}>
-            <div className="userInfoContainer">
+        {/* <Grid container spacing={2} sx={{ padding: "2vh 0" }}> */}
+        <Grid >
+          <Grid item xs={12} sm={5} md={4} >
+            {/* <div className="userInfoContainer"> */}
+            <div className="userInfoContainer" style={{height:"700px"}}>
               <UserInfoTitle
                 luckIconStatus={luckIconStatus}
                 setUserStatus={setUserStatus}
@@ -138,7 +144,7 @@ const Info = () => {
               />
               <div className="userInfoLockState">
                 {lockIsFetching ? (
-                  <Skeleton
+                  <Skeleton 
                     animation="wave"
                     sx={{
                       width: "50%",
@@ -154,7 +160,7 @@ const Info = () => {
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={7} md={8}>
+          {/* <Grid item xs={12} sm={7} md={8}>
             <div className="userRecordSection">
               <p className="userRecordTitle">
                 <span>{t('operationRecord')}</span>
@@ -172,7 +178,7 @@ const Info = () => {
                 )}
               </div>
             </div>
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>
     </div>
