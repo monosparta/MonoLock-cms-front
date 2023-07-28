@@ -177,13 +177,7 @@ const InfoForm = (props) => {
       }
     }
     else{
-      if(errorEmail){
-        alert("請輸入email")
-      }else if(errorName) {
-        alert("請輸入姓名")
-      }else if(errorPhone) {
-        alert("請輸入電話")
-      }
+      alert("請輸入正確資訊")
     }
   };
 
@@ -191,6 +185,11 @@ const InfoForm = (props) => {
   function handleChange(e, value) {
     if (value) {
       const data = value.data; 
+      // console.log(data, data.name.length, 444);
+      // if(data.email && data.name.length > 0) {
+      //   setErrorName(false)
+      // }
+      setErrorName(false)
       setInputName(data.name)
       // setInputEmail(data.email || data.mail);
       setInputCard("");
@@ -306,10 +305,10 @@ const InfoForm = (props) => {
             // error={errorName}
             value={inputName}
             onBlur={(e) => {
-              verifyName(e);
+              verifyName(e)
             }}
             onChange={(e) => {
-              setInputName(e.target.value.replace(/[^a-zA-Z\u4e00-\u9fa5]/g, ""));
+              setInputName(e.target.value.replace(/[^a-zA-Z\u4e00-\u9fa5\s]/g, ""));
 
               setErrorName(false);
             }}
