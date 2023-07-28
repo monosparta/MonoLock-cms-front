@@ -125,8 +125,8 @@ const InfoForm = (props) => {
   };
 
   const handleSave = () => {
+    console.log(errorName, errorCard, errorEmail, errorPhone, 899);
     if (inputName.length <= 0) {
-      
       setErrorName(true);
       setColorName("#d32f2f");
       setHelperName(t("mustEnorCh"));
@@ -157,7 +157,7 @@ const InfoForm = (props) => {
       inputPhone !== undefined &&
       inputEmail !== undefined
     ) {
-      console.log(errorName, errorCard, errorEmail, errorPhone, 899);
+      
       switch (props.userStatus) {
         case "AddStatus":
           dispatch(userAdd(Adddata));
@@ -190,8 +190,9 @@ const InfoForm = (props) => {
 
   function handleChange(e, value) {
     if (value) {
-      const data = value.data; // setInputName(data.name)
-      setInputEmail(data.email || data.mail);
+      const data = value.data; 
+      setInputName(data.name)
+      // setInputEmail(data.email || data.mail);
       setInputCard("");
       setInputPhone(data.mobile || data.phone);
       setInputId(data.id);
@@ -243,7 +244,7 @@ const InfoForm = (props) => {
 
   return (
     <div>
-      <div className="userInfo name">
+      <div className="userInfo mail">
         <MailOutlineIcon style={{ fontSize: "30", margin: "8px 0" }} />
         {updating ?
           (
@@ -271,7 +272,7 @@ const InfoForm = (props) => {
             <Autocomplete
               freeSolo
               onInputChange={(e, value) => {
-                setInputName(value);
+                setInputEmail(value);
               }}
               onChange={(e, value) => {
                 handleChange(e, value);
@@ -283,17 +284,57 @@ const InfoForm = (props) => {
                 width: "100%",
                 borderColor: "#000",
                 margin: "6px",
-                borderColor: { colorName }, //FIELD 框
+                borderColor: { colorEmail }, //FIELD 框
               }}
               renderInput={(params) => (
                 <TextField {...params} label={t("mail")} onBlur={(e) => {
-                  verifyName(e);
+                  verifyEmail(e);
                 }} size="small"
                   helperText={helperEmail} />
               )}
             />
           )}
 
+      </div>
+      <div className="userInfo name">
+        <AccountCircleIcon style={{ fontSize: "30", margin: "8px 0" }} />
+        {updating ? (
+          <Skeleton animation="wave" width={"80%"} sx={{ marginLeft: 1 }} />
+        ) : (
+          <TextField
+            size="small"
+            // error={errorName}
+            value={inputName}
+            onBlur={(e) => {
+              verifyName(e);
+            }}
+            onChange={(e) => {
+              setInputName(e.target.value.replace(/[^a-zA-Z\u4e00-\u9fa5]/g, ""));
+
+              setErrorName(false);
+            }}
+            // defaultValue={user.email} 
+            // onChange={(e) => setInputEmail(e.target.value)}
+            InputLabelProps={{ style: { color: colorName } }}
+            sx={{
+              width: "100%",
+              borderColor: "#000",
+              margin: "6px",
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: { colorName }, //FIELD 框
+                },
+              },
+            }}
+            label={t("name")}
+            autoComplete="current-password"
+            inputProps={{
+              style: {},
+              readOnly: props.userStatus === "LinkStatus" ? true : false,
+            }}
+            helperText={helperName}
+          ></TextField>
+        )}
       </div>
       <div className="userInfo card">
         <CreditCardIcon style={{ fontSize: "30", margin: "8px 0" }} />
@@ -376,47 +417,7 @@ const InfoForm = (props) => {
           ></TextField>
         )}
       </div>
-      <div className="userInfo mail">
-        <AccountCircleIcon style={{ fontSize: "30", margin: "8px 0" }} />
-        {updating ? (
-          <Skeleton animation="wave" width={"80%"} sx={{ marginLeft: 1 }} />
-        ) : (
-          <TextField
-            size="small"
-            // error={errorEmail}
-            value={inputEmail}
-            onBlur={(e) => {
-              verifyEmail(e);
-            }}
-            onChange={(e) => {
-              setInputEmail(
-                e.target.value.replace(/[^\w!#$%&'*+-/=?^`{|}~@]|_/gi, "")
-              );
-              setErrorEmail(false);
-            }}
-            // defaultValue={user.email} 
-            // onChange={(e) => setInputEmail(e.target.value)}
-            InputLabelProps={{ style: { color: colorEmail } }}
-            sx={{
-              width: "100%",
-              borderColor: "#000",
-              margin: "6px",
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: { colorEmail }, //FIELD 框
-                },
-              },
-            }}
-            label={t("name")}
-            autoComplete="current-password"
-            inputProps={{
-              style: {},
-              readOnly: props.userStatus === "LinkStatus" ? true : false,
-            }}
-            helperText={helperName}
-          ></TextField>
-        )}
-      </div>
+
       <div className="save-btn">
         <Button
           onClick={handleSave}
@@ -459,7 +460,7 @@ const ComboBox = (props) => {
 
   const option = props.data.map((data) => {
     return {
-      label: data.name,
+      label: data.mail,
       data: data,
     };
   });
