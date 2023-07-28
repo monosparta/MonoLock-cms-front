@@ -13,7 +13,9 @@ import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import "./InfoForm.css";
 import { useTranslation } from "react-i18next";
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete'
+
+let data7 = []; //會員系統獲取之資料
 
 const InfoForm = (props) => {
   const { t } = useTranslation();
@@ -26,10 +28,10 @@ const InfoForm = (props) => {
   const [inputPhone, setInputPhone] = React.useState(user.phone || "");
   const [inputEmail, setInputEmail] = React.useState(user.mail || "");
   const [inputId, setInputId] = React.useState(user.id || 0)
-  const [errorName, setErrorName] = React.useState(false);
-  const [errorCard, setErrorCard] = React.useState(false);
-  const [errorPhone, setErrorPhone] = React.useState(false);
-  const [errorEmail, setErrorEmail] = React.useState(false);
+  const [errorName, setErrorName] = React.useState(true);
+  const [errorCard, setErrorCard] = React.useState(true);
+  const [errorPhone, setErrorPhone] = React.useState(true);
+  const [errorEmail, setErrorEmail] = React.useState(true);
   const [colorName, setColorName] = React.useState("gray");
   const [colorCard, setColorCard] = React.useState("gray");
   const [colorPhone, setColorPhone] = React.useState("gray");
@@ -123,10 +125,12 @@ const InfoForm = (props) => {
   };
 
   const handleSave = () => {
-    if (inputName === undefined) {
+    console.log(errorName, errorCard, errorEmail, errorPhone, 899);
+    if (inputName.length <= 0) {
       setErrorName(true);
       setColorName("#d32f2f");
       setHelperName(t("mustEnorCh"));
+      console.log("settrue", errorName);
     }
     if (inputPhone === undefined) {
       setErrorPhone(true);
@@ -153,6 +157,7 @@ const InfoForm = (props) => {
       inputPhone !== undefined &&
       inputEmail !== undefined
     ) {
+      
       switch (props.userStatus) {
         case "AddStatus":
           dispatch(userAdd(Adddata));
@@ -171,16 +176,25 @@ const InfoForm = (props) => {
           return true;
       }
     }
+    else{
+      alert("請輸入正確資訊")
+    }
   };
 
 
   function handleChange(e, value) {
     if (value) {
-      const data = value.data
-      setInputEmail(data.mail)
-      setInputCard(data.cardId)
-      setInputPhone(data.phone)
-      setInputId(data.id)
+      const data = value.data; 
+      // console.log(data, data.name.length, 444);
+      // if(data.email && data.name.length > 0) {
+      //   setErrorName(false)
+      // }
+      setErrorName(false)
+      setInputName(data.name)
+      // setInputEmail(data.email || data.mail);
+      setInputCard("");
+      setInputPhone(data.mobile || data.phone);
+      setInputId(data.id);
       setErrorPhone(false);
       setColorPhone("gray");
       setHelperPhone(false);
@@ -199,14 +213,38 @@ const InfoForm = (props) => {
   }
 
   useEffect(() => {
-    dispatch(userList({ has_lock: 0 }))
+    (async () => {
+      await window.parent.postMessage(true, "*");
+      await window.addEventListener("message", async (e) => {
+        if(Array.isArray(e.data)){
+          data7 = e.data;
+        }
+      });
+    })();
+  }, []);
+
+  let option7 = null;
+  if (data7 != []) {
+    option7 = data7.map((data) => {
+      return {
+        label: data.email,
+        data: data,
+      }
+    })
+  }
+
+
+
+
+  useEffect(() => {
+    dispatch(userList({ has_lock: 0 }));
     // setLabel(list)
   }, [dispatch])
 
   return (
     <div>
-      <div className="userInfo name">
-        <AccountCircleIcon style={{ fontSize: "30", margin: "8px 0" }} />
+      <div className="userInfo mail">
+        <MailOutlineIcon style={{ fontSize: "30", margin: "8px 0" }} />
         {updating ?
           (
             <Box
@@ -227,43 +265,75 @@ const InfoForm = (props) => {
               </Box>
             </Box>
           ) :
-          (props.userStatus === 'LinkStatus') ? (<ComboBox data={list} handleChange={handleChange} />) :
-            (
-              <TextField
-                size="small"
-                error={errorName}
-                value={inputName}
-                onBlur={(e) => {
-                  verifyName(e);
-                }}
-                onChange={(e) => {
-                  setInputName(
-                    e.target.value.replace(/[\d"'˙<>;().!#$%&*+\-/=?^_`{|}~@]/g, "")
-                  );
-                  setErrorName(false);
-                }}
-                // defaultValue={user.name}
-                // onChange={(e) => setInputName(e.target.value)}
-                InputLabelProps={{ style: { color: colorName } }}
-                sx={{
-                  width: "100%",
-                  borderColor: "#000",
-                  margin: "6px",
-                  "& .MuiOutlinedInput-root": {
-                    "&.Mui-focused fieldset": {
-                      borderColor: { colorName }, //FIELD 框
-                    },
-                  },
-                }}
-                label={t("name")}
-                autoComplete="current-password"
-                inputProps={{
-                  size: "small",
-                  style: {},
-                }}
-                helperText={helperName}
-              ></TextField>
-            )}
+          (props.userStatus === 'LinkStatus') ? (
+            <ComboBox data={list} handleChange={handleChange} />
+          ) : (
+            <Autocomplete
+              freeSolo
+              onInputChange={(e, value) => {
+                setInputEmail(value);
+              }}
+              onChange={(e, value) => {
+                handleChange(e, value);
+              }}
+              disablePortal
+              id="combo-box-demo"
+              options={option7 ? option7 : null}
+              sx={{
+                width: "100%",
+                borderColor: "#000",
+                margin: "6px",
+                borderColor: { colorEmail }, //FIELD 框
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label={t("mail")} onBlur={(e) => {
+                  verifyEmail(e);
+                }} size="small"
+                  helperText={helperEmail} />
+              )}
+            />
+          )}
+
+      </div>
+      <div className="userInfo name">
+        <AccountCircleIcon style={{ fontSize: "30", margin: "8px 0" }} />
+        {updating ? (
+          <Skeleton animation="wave" width={"80%"} sx={{ marginLeft: 1 }} />
+        ) : (
+          <TextField
+            size="small"
+            // error={errorName}
+            value={inputName}
+            onBlur={(e) => {
+              verifyName(e)
+            }}
+            onChange={(e) => {
+              setInputName(e.target.value.replace(/[^a-zA-Z\u4e00-\u9fa5\s]/g, ""));
+
+              setErrorName(false);
+            }}
+            // defaultValue={user.email} 
+            // onChange={(e) => setInputEmail(e.target.value)}
+            InputLabelProps={{ style: { color: colorName } }}
+            sx={{
+              width: "100%",
+              borderColor: "#000",
+              margin: "6px",
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: { colorName }, //FIELD 框
+                },
+              },
+            }}
+            label={t("name")}
+            autoComplete="current-password"
+            inputProps={{
+              style: {},
+              readOnly: props.userStatus === "LinkStatus" ? true : false,
+            }}
+            helperText={helperName}
+          ></TextField>
+        )}
       </div>
       <div className="userInfo card">
         <CreditCardIcon style={{ fontSize: "30", margin: "8px 0" }} />
@@ -272,7 +342,7 @@ const InfoForm = (props) => {
         ) : (
           <TextField
             size="small"
-            error={errorCard}
+            // error={errorCard}
             value={inputCard}
             onBlur={(e) => {
               verifyCard(e);
@@ -281,7 +351,7 @@ const InfoForm = (props) => {
               setInputCard(e.target.value.replace(/\D/g, ""));
               setErrorCard(false);
             }}
-            // defaultValue={user.cardId}
+            // defaultValue={user.cardId} 
             // onChange={(e) => setInputCard(e.target.value)}
             InputLabelProps={{ style: { color: colorCard } }}
             sx={{
@@ -300,7 +370,7 @@ const InfoForm = (props) => {
             autoComplete="current-password"
             inputProps={{
               style: {},
-              readOnly: (props.userStatus === 'LinkStatus') ? true : false,
+              //   readOnly: props.userStatus === "LinkStatus" ? true : false,
             }}
             helperText={helperCard}
           ></TextField>
@@ -313,7 +383,7 @@ const InfoForm = (props) => {
         ) : (
           <TextField
             size="small"
-            error={errorPhone}
+            // error={errorPhone}
             value={inputPhone}
             onBlur={(e) => {
               verifyPhone(e);
@@ -322,7 +392,7 @@ const InfoForm = (props) => {
               setInputPhone(e.target.value.replace(/[^\d.]/g, ""));
               setErrorPhone(false);
             }}
-            // defaultValue={user.phone}
+            // defaultValue={user.phone} 
             // onChange={(e) => setInputPhone(e.target.value)}
             InputLabelProps={{ style: { color: colorPhone } }}
             sx={{
@@ -340,53 +410,13 @@ const InfoForm = (props) => {
             autoComplete="current-password"
             inputProps={{
               style: {},
-              readOnly: (props.userStatus === 'LinkStatus') ? true : false,
+              readOnly: props.userStatus === "LinkStatus" ? true : false,
             }}
             helperText={helperPhone}
           ></TextField>
         )}
       </div>
-      <div className="userInfo mail">
-        <MailOutlineIcon style={{ fontSize: "30", margin: "8px 0" }} />
-        {updating ? (
-          <Skeleton animation="wave" width={"80%"} sx={{ marginLeft: 1 }} />
-        ) : (
-          <TextField
-            size="small"
-            error={errorEmail}
-            value={inputEmail}
-            onBlur={(e) => {
-              verifyEmail(e);
-            }}
-            onChange={(e) => {
-              setInputEmail(
-                e.target.value.replace(/[^\w!#$%&'*+-/=?^`{|}~@]|_/gi, "")
-              );
-              setErrorEmail(false);
-            }}
-            // defaultValue={user.email}
-            // onChange={(e) => setInputEmail(e.target.value)}
-            InputLabelProps={{ style: { color: colorEmail } }}
-            sx={{
-              width: "100%",
-              borderColor: "#000",
-              margin: "6px",
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: { colorEmail }, //FIELD 框
-                },
-              },
-            }}
-            label={t("mail")}
-            autoComplete="current-password"
-            inputProps={{
-              style: {},
-              readOnly: (props.userStatus === 'LinkStatus') ? true : false,
-            }}
-            helperText={helperEmail}
-          ></TextField>
-        )}
-      </div>
+
       <div className="save-btn">
         <Button
           onClick={handleSave}
@@ -424,19 +454,20 @@ const InfoForm = (props) => {
 
 export default InfoForm;
 const ComboBox = (props) => {
+  console.log(99999, props);
   const { t } = useTranslation();
-  const option = props.data.map(data => {
-    return {
-      label: data.name,
-      data: data
-    }
-  })
 
+  const option = props.data.map((data) => {
+    return {
+      label: data.mail,
+      data: data,
+    };
+  });
 
   return (
     <Autocomplete
       onChange={(e, value) => {
-        props.handleChange(e, value)
+        props.handleChange(e, value);
       }}
       disablePortal
       id="combo-box-demo"
@@ -446,9 +477,9 @@ const ComboBox = (props) => {
         borderColor: "#000",
         margin: "6px",
       }}
-      renderInput={(params) => <TextField
-        {...params} label={t('addMemberInfo')}
-        size="small" />}
+      renderInput={(params) => (
+        <TextField {...params} label={t("addMemberInfo")} size="small" />
+      )}
     />
   );
-}
+};
