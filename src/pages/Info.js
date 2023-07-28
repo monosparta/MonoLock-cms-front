@@ -37,11 +37,13 @@ const Info = () => {
   const { user, records, isFetching, isError, isSuccess, errorMessage } =
     useSelector(selectUser);
   const { lockList, lockIsFetching } = useSelector(selectLock);
-  if (isError) {
-    toast.error(errorMessage);
-  } else {
-    toast.remove("loading");
-  }
+  useEffect(() => {
+    if (isError) {
+      toast.error(errorMessage);
+    } else {
+      toast.remove("loading");
+    }
+  })
   useEffect(() => {
     dispatch(clearState());
     dispatch(clearMsg());

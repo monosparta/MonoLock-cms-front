@@ -26,7 +26,7 @@
   "addAdmin": "添加管理員",
   "addMemberInfo": "新增會員資訊",
   "addMemberInfoBySelf": "手動新增會員",
-  "bindingfunctionfirst":" 若已有會員資料請優先使用綁定功能",
+  "bindingFunctionFirst": " 若已有會員資料請優先使用綁定功能",
   "mustEnorCh": "必須為中文或英文",
   "cardNumberFormatDoesNotMatch": "卡號輸入格式不符",
   "phoneNumberFormatDoesNotMatch": "手機輸入格式不符",
@@ -79,5 +79,6 @@
       "list-primary": "{{time}} ({{mode}}) {{status}}",
       "triggered-by": "由 {{user}} 觸發"
     }
-  }
+  },
+  "bindingfunctionfirst": "請優先使用綁定功能"
 }

@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 const Adduser = (props) => {
   const {isFetching } = useSelector(selectUser);
   const { t } = useTranslation();
-
   const handleAdd = (status) => {
     switch (status) {
       case 'add':
@@ -21,17 +20,13 @@ const Adduser = (props) => {
         break
       default:
     }
-
   };
-
   return (
     <div>
-
 <div className="add-btn">
         {isFetching ? (
           <Skeleton animation="wave" width={"50%"} sx={{ marginLeft: 1 }} />
-        ) : (
-          //綁定現有會員
+        ) : (    
           <Button
             onClick={() => handleAdd('link')}
             variant="contained"
@@ -50,13 +45,10 @@ const Adduser = (props) => {
           </Button>
         )}
       </div>
-
       <div className="add-btn">
         {isFetching ? (
           <Skeleton animation="wave" width={"50%"} sx={{ marginLeft: 1 }} />
         ) : (
-
-          //新增會員資訊
           <Button
             onClick={() => handleAdd('add')}
             variant="contained"
@@ -73,17 +65,13 @@ const Adduser = (props) => {
           >
             {t('addMemberInfoBySelf')}
           </Button>
-
         )}
-        
       </div>
       <div className="userButtonHint" >
                 <InfoIcon sx={{fontSize:16}} /> 
-                {t('bindingfunctionfirst')}
+                {t('bindingFunctionFirst')}
               </div>
-      
     </div>
   );
 };
-
 export default Adduser;
