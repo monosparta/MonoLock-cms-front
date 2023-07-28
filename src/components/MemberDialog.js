@@ -27,16 +27,18 @@ const MemberDialog = (props) => {
 
   const dispatch = useDispatch();
 
-  if (props.checkAction === "edit") {
-    props.setCheckAction("");
-    props.setAlertText(t('edit'));
-  } else if (props.checkAction === "delete") {
-    props.setCheckAction("");
-    props.setAlertText(t('deleteUser'));
-    props.setCheckOpen(false);
-    props.setOpen(true);
-  }
 
+React.useEffect (()=> {
+    if (props.checkAction === "edit") {
+      props.setCheckAction("");
+      props.setAlertText(t('edit'));
+    } else if (props.checkAction === "delete") {
+      props.setCheckAction("");
+      props.setAlertText(t('deleteUser'));
+      props.setCheckOpen(false);
+      props.setOpen(true);
+    }
+  })
   const handelDelete = () => {
     if (props.alertText === t('deleteUser')) {
       dispatch(deleteAdmin(props.rowId));
@@ -342,5 +344,4 @@ const MemberDialog = (props) => {
     </>
   );
 };
-
 export default MemberDialog;

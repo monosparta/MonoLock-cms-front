@@ -79,6 +79,5 @@
       "list-primary": "{{time}} ({{mode}}) {{status}}",
       "triggered-by": "由 {{user}} 觸發"
     }
-  },
-  "bindingfunctionfirst": "請優先使用綁定功能"
+  }
 }
