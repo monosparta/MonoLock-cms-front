@@ -355,7 +355,6 @@ const InfoForm = (props) => {
             autoComplete="current-password"
             inputProps={{
               style: {},
-              //   readOnly: props.userStatus === "LinkStatus" ? true : false,
             }}
             helperText={helperCard}
           ></TextField>
