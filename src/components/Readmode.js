@@ -85,7 +85,7 @@ const Readmode = (props) => {
 
   const handleClose = () => {
     setInputDescription("");
-    setButtonClicked([false, false, false]); // 重置按鈕狀態為未點擊
+    setButtonClicked([false, false, false]); 
     setOpen(false);
   };
   
@@ -271,7 +271,7 @@ const Readmode = (props) => {
               />
             </DialogContent>
           </div>
-          <Box sx={{ justifyContent: "center",marginLeft:"100px" }}>請點擊下方選擇原因或自行輸入</Box>
+          <Box sx={{ justifyContent: "center",marginLeft:"100px" }}>{t("causeClick")}</Box>
           <DialogActions sx={{ justifyContent: "center" }}>
             <Button
               onClick={() => handleButtonClick(1)} 

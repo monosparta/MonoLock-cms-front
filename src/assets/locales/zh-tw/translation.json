@@ -14,7 +14,7 @@
   "failedForced": "強制開鎖失敗",
   "forcedReason": "強制開鎖原因",
   "reminderContent": "請輸入提醒內容",
-  "cause_click":"請點擊下方選擇原因",
+  "causeClick":"請點擊下方選擇原因或自行輸入",
   "memberCheck":"會員到期檢查",
   "deviceTest":"設備測試",
   "forgotCard":"會員忘記帶卡",
