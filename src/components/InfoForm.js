@@ -13,9 +13,9 @@ import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import "./InfoForm.css";
 import { useTranslation } from "react-i18next";
-import Autocomplete from '@mui/material/Autocomplete'
+import Autocomplete from "@mui/material/Autocomplete";
 
-let data7 = []; //會員系統獲取之資料
+let parentMemberData = []; //會員系統獲取之資料
 
 const InfoForm = (props) => {
   const { t } = useTranslation();
@@ -28,10 +28,10 @@ const InfoForm = (props) => {
   const [inputPhone, setInputPhone] = React.useState(user.phone || "");
   const [inputEmail, setInputEmail] = React.useState(user.mail || "");
   const [inputId, setInputId] = React.useState(user.id || 0)
-  const [errorName, setErrorName] = React.useState(true);
-  const [errorCard, setErrorCard] = React.useState(true);
-  const [errorPhone, setErrorPhone] = React.useState(true);
-  const [errorEmail, setErrorEmail] = React.useState(true);
+  const [errorName, setErrorName] = React.useState(false);
+  const [errorCard, setErrorCard] = React.useState(false);
+  const [errorPhone, setErrorPhone] = React.useState(false);
+  const [errorEmail, setErrorEmail] = React.useState(false);
   const [colorName, setColorName] = React.useState("gray");
   const [colorCard, setColorCard] = React.useState("gray");
   const [colorPhone, setColorPhone] = React.useState("gray");
@@ -40,7 +40,6 @@ const InfoForm = (props) => {
   const [helperCard, setHelperCard] = React.useState(false);
   const [helperPhone, setHelperPhone] = React.useState(false);
   const [helperEmail, setHelperEmail] = React.useState(false);
-  // const [label, setLabel] = React.useState([])
   const { list } = useSelector(selectUser)
   const emailRule =
     /^[\w!#$%&'*+/=?^_`{|}~-]+(\.[\w!#$%&'*+/=?^`{|}~-]+)*@[\w-]{1,63}(\.[\w-]{1,63})+$/;
@@ -49,7 +48,7 @@ const InfoForm = (props) => {
   const handleLeave = () => {
     props.setUserStatus("");
   };
-  let Infodata = {
+  let InfoData = {
     id: user.id,
     name: inputName,
     email: inputEmail,
@@ -57,7 +56,7 @@ const InfoForm = (props) => {
     cardId: inputCard,
   };
 
-  let Adddata = {
+  let AddData = {
     lockerNo: location.state,
     name: inputName,
     email: inputEmail,
@@ -65,10 +64,10 @@ const InfoForm = (props) => {
     cardId: inputCard,
   };
 
-  let Linkdata = {
+  let LinkData = {
     userId: inputId,
-    lockNo: location.state
-  }
+    lockNo: location.state,
+  };
 
   const verifyName = (e) => {
     if (e.target.value.length <= 0) {
@@ -125,76 +124,70 @@ const InfoForm = (props) => {
   };
 
   const handleSave = () => {
-    console.log(errorName, errorCard, errorEmail, errorPhone, 899);
+    let invalidName = false;
+    let invalidCard = false;
+    let invalidEmail = false;
+    let invalidPhone = false;
     if (inputName.length <= 0) {
-      setErrorName(true);
+      invalidName = !errorName;
       setColorName("#d32f2f");
       setHelperName(t("mustEnorCh"));
-      console.log("settrue", errorName);
     }
     if (inputPhone === undefined) {
-      setErrorPhone(true);
+      invalidPhone = !errorPhone;
       setColorPhone("#d32f2f");
       setHelperPhone(t("cardNumberFormatDoesNotMatch"));
     }
     if (inputCard === undefined) {
-      setErrorCard(true);
+      invalidCard = !errorCard;
       setColorCard("#d32f2f");
       setHelperCard(t("phoneNumberFormatDoesNotMatch"));
     }
     if (inputEmail === undefined) {
-      setErrorEmail(true);
+      invalidEmail = !errorEmail;
       setColorEmail("#d32f2f");
       setHelperEmail(t("emailFormatDoesNotMatch"));
     }
     if (
-      errorName === false &&
-      errorCard === false &&
-      errorPhone === false &&
-      errorEmail === false &&
+      invalidName === false &&
+      invalidCard === false &&
+      invalidPhone === false &&
+      invalidEmail === false &&
       inputName !== undefined &&
       inputCard !== undefined &&
       inputPhone !== undefined &&
       inputEmail !== undefined
     ) {
-      
       switch (props.userStatus) {
         case "AddStatus":
-          dispatch(userAdd(Adddata));
+          dispatch(userAdd(AddData));
           props.setUserStatus("");
           break;
         case "EditStatus":
-          dispatch(userUpdate(Infodata));
+          dispatch(userUpdate(InfoData));
           props.setUserStatus("");
           break;
         case "LinkStatus":
-          dispatch(lockUpdateUserId(Linkdata))
+          dispatch(lockUpdateUserId(LinkData))
           props.setUserStatus("")
           break;
         default:
           props.setUserStatus("");
           return true;
       }
-    }
-    else{
-      alert("請輸入正確資訊")
+    } else {
+      alert("請輸入正確資訊");
     }
   };
 
-
   function handleChange(e, value) {
     if (value) {
-      const data = value.data; 
-      // console.log(data, data.name.length, 444);
-      // if(data.email && data.name.length > 0) {
-      //   setErrorName(false)
-      // }
+      const data = value.data
       setErrorName(false)
       setInputName(data.name)
-      // setInputEmail(data.email || data.mail);
-      setInputCard("");
-      setInputPhone(data.mobile || data.phone);
-      setInputId(data.id);
+      setInputCard("")
+      setInputPhone(data.mobile || data.phone)
+      setInputId(data.id)
       setErrorPhone(false);
       setColorPhone("gray");
       setHelperPhone(false);
@@ -216,84 +209,81 @@ const InfoForm = (props) => {
     (async () => {
       await window.parent.postMessage(true, "*");
       await window.addEventListener("message", async (e) => {
-        if(Array.isArray(e.data)){
-          data7 = e.data;
+        if (Array.isArray(e.data)) {
+          parentMemberData = e.data;
         }
       });
     })();
   }, []);
 
-  let option7 = null;
-  if (data7 != []) {
-    option7 = data7.map((data) => {
+  let parentMemberOption = null;
+  if (parentMemberData !== []) {
+    parentMemberOption = parentMemberData.map((data) => {
       return {
         label: data.email,
         data: data,
-      }
-    })
+      };
+    });
   }
 
-
-
-
   useEffect(() => {
-    dispatch(userList({ has_lock: 0 }));
-    // setLabel(list)
+    dispatch(userList({ has_lock: 0 }))
   }, [dispatch])
 
   return (
     <div>
       <div className="userInfo mail">
         <MailOutlineIcon style={{ fontSize: "30", margin: "8px 0" }} />
-        {updating ?
-          (
-            <Box
-              sx={{
-                display: "flex",
-                width: "60px",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ width: 10 }}>
-                <Skeleton animation="wave" />
-              </Box>
-              <Box sx={{ width: 10 }}>
-                <Skeleton animation="wave" />
-              </Box>
-              <Box sx={{ width: 10 }}>
-                <Skeleton animation="wave" />
-              </Box>
+        {updating ? (
+          <Box
+            sx={{
+              display: "flex",
+              width: "60px",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box sx={{ width: 10 }}>
+              <Skeleton animation="wave" />
             </Box>
-          ) :
-          (props.userStatus === 'LinkStatus') ? (
-            <ComboBox data={list} handleChange={handleChange} />
-          ) : (
-            <Autocomplete
-              freeSolo
-              onInputChange={(e, value) => {
-                setInputEmail(value);
-              }}
-              onChange={(e, value) => {
-                handleChange(e, value);
-              }}
-              disablePortal
-              id="combo-box-demo"
-              options={option7 ? option7 : null}
-              sx={{
-                width: "100%",
-                borderColor: "#000",
-                margin: "6px",
-                borderColor: { colorEmail }, //FIELD 框
-              }}
-              renderInput={(params) => (
-                <TextField {...params} label={t("mail")} onBlur={(e) => {
+            <Box sx={{ width: 10 }}>
+              <Skeleton animation="wave" />
+            </Box>
+            <Box sx={{ width: 10 }}>
+              <Skeleton animation="wave" />
+            </Box>
+          </Box>
+        ) : props.userStatus === "LinkStatus" ? (
+          <ComboBox data={list} handleChange={handleChange} />
+        ) : (
+          <Autocomplete
+            freeSolo
+            onInputChange={(e, value) => {
+              setInputEmail(value);
+            }}
+            onChange={(e, value) => {
+              handleChange(e, value);
+            }}
+            disablePortal
+            id="combo-box-demo"
+            options={parentMemberOption ? parentMemberOption : null}
+            sx={{
+              width: "100%",
+              margin: "6px",
+              borderColor: { colorEmail }, //FIELD 框
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label={t("mail")}
+                onBlur={(e) => {
                   verifyEmail(e);
-                }} size="small"
-                  helperText={helperEmail} />
-              )}
-            />
-          )}
-
+                }}
+                size="small"
+                helperText={helperEmail}
+              />
+            )}
+          />
+        )}
       </div>
       <div className="userInfo name">
         <AccountCircleIcon style={{ fontSize: "30", margin: "8px 0" }} />
@@ -302,22 +292,20 @@ const InfoForm = (props) => {
         ) : (
           <TextField
             size="small"
-            // error={errorName}
+            error={errorName}
             value={inputName}
             onBlur={(e) => {
-              verifyName(e)
+              verifyName(e);
             }}
             onChange={(e) => {
-              setInputName(e.target.value.replace(/[^a-zA-Z\u4e00-\u9fa5\s]/g, ""));
-
+              setInputName(
+                e.target.value.replace(/[^a-zA-Z\u4e00-\u9fa5\s]/g, "")
+              );
               setErrorName(false);
             }}
-            // defaultValue={user.email} 
-            // onChange={(e) => setInputEmail(e.target.value)}
             InputLabelProps={{ style: { color: colorName } }}
             sx={{
               width: "100%",
-              borderColor: "#000",
               margin: "6px",
               "& .MuiOutlinedInput-root": {
                 "&.Mui-focused fieldset": {
@@ -342,7 +330,7 @@ const InfoForm = (props) => {
         ) : (
           <TextField
             size="small"
-            // error={errorCard}
+            error={errorCard}
             value={inputCard}
             onBlur={(e) => {
               verifyCard(e);
@@ -351,12 +339,9 @@ const InfoForm = (props) => {
               setInputCard(e.target.value.replace(/\D/g, ""));
               setErrorCard(false);
             }}
-            // defaultValue={user.cardId} 
-            // onChange={(e) => setInputCard(e.target.value)}
             InputLabelProps={{ style: { color: colorCard } }}
             sx={{
               width: "100%",
-              borderColor: "#000",
               margin: "6px",
               "& .MuiOutlinedInput-root": {
                 "&.Mui-focused fieldset": {
@@ -370,7 +355,6 @@ const InfoForm = (props) => {
             autoComplete="current-password"
             inputProps={{
               style: {},
-              //   readOnly: props.userStatus === "LinkStatus" ? true : false,
             }}
             helperText={helperCard}
           ></TextField>
@@ -383,7 +367,7 @@ const InfoForm = (props) => {
         ) : (
           <TextField
             size="small"
-            // error={errorPhone}
+            error={errorPhone}
             value={inputPhone}
             onBlur={(e) => {
               verifyPhone(e);
@@ -392,12 +376,9 @@ const InfoForm = (props) => {
               setInputPhone(e.target.value.replace(/[^\d.]/g, ""));
               setErrorPhone(false);
             }}
-            // defaultValue={user.phone} 
-            // onChange={(e) => setInputPhone(e.target.value)}
             InputLabelProps={{ style: { color: colorPhone } }}
             sx={{
               width: "100%",
-              borderColor: "#000",
               margin: "6px",
               "& .MuiInputLabel-root": {},
               "& .MuiOutlinedInput-root": {
@@ -416,7 +397,6 @@ const InfoForm = (props) => {
           ></TextField>
         )}
       </div>
-
       <div className="save-btn">
         <Button
           onClick={handleSave}
@@ -454,7 +434,6 @@ const InfoForm = (props) => {
 
 export default InfoForm;
 const ComboBox = (props) => {
-  console.log(99999, props);
   const { t } = useTranslation();
 
   const option = props.data.map((data) => {
