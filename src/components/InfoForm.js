@@ -19,6 +19,7 @@ let parentMemberData = []; //會員系統獲取之資料
 
 const InfoForm = (props) => {
   const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const location = useLocation();
   const { user, updating } = useSelector(selectUser);
@@ -26,7 +27,7 @@ const InfoForm = (props) => {
   const [inputCard, setInputCard] = React.useState(user.cardId || "");
   const [inputPhone, setInputPhone] = React.useState(user.phone || "");
   const [inputEmail, setInputEmail] = React.useState(user.mail || "");
-  const [inputId, setInputId] = React.useState(user.id || 0);
+  const [inputId, setInputId] = React.useState(user.id || 0)
   const [errorName, setErrorName] = React.useState(false);
   const [errorCard, setErrorCard] = React.useState(false);
   const [errorPhone, setErrorPhone] = React.useState(false);
@@ -39,7 +40,7 @@ const InfoForm = (props) => {
   const [helperCard, setHelperCard] = React.useState(false);
   const [helperPhone, setHelperPhone] = React.useState(false);
   const [helperEmail, setHelperEmail] = React.useState(false);
-  const { list } = useSelector(selectUser);
+  const { list } = useSelector(selectUser)
   const emailRule =
     /^[\w!#$%&'*+/=?^_`{|}~-]+(\.[\w!#$%&'*+/=?^`{|}~-]+)*@[\w-]{1,63}(\.[\w-]{1,63})+$/;
   const phoneRule = "^(09)[0-9]{8}$";
@@ -71,7 +72,6 @@ const InfoForm = (props) => {
   const verifyName = (e) => {
     if (e.target.value.length <= 0) {
       setErrorName(true);
-      console.log(errorName, 777);
       setColorName("#d32f2f");
       setHelperName(t("mustEnorCh"));
     } else {
@@ -168,8 +168,8 @@ const InfoForm = (props) => {
           props.setUserStatus("");
           break;
         case "LinkStatus":
-          dispatch(lockUpdateUserId(LinkData));
-          props.setUserStatus("");
+          dispatch(lockUpdateUserId(LinkData))
+          props.setUserStatus("")
           break;
         default:
           props.setUserStatus("");
@@ -182,12 +182,12 @@ const InfoForm = (props) => {
 
   function handleChange(e, value) {
     if (value) {
-      const data = value.data;
-      setErrorName(false);
-      setInputName(data.name);
-      setInputCard("");
-      setInputPhone(data.mobile || data.phone);
-      setInputId(data.id);
+      const data = value.data
+      setErrorName(false)
+      setInputName(data.name)
+      setInputCard("")
+      setInputPhone(data.mobile || data.phone)
+      setInputId(data.id)
       setErrorPhone(false);
       setColorPhone("gray");
       setHelperPhone(false);
@@ -198,10 +198,10 @@ const InfoForm = (props) => {
       setColorEmail("gray");
       setHelperEmail(false);
     } else {
-      setInputEmail("");
-      setInputCard("");
-      setInputPhone("");
-      setInputId(0);
+      setInputEmail('')
+      setInputCard('')
+      setInputPhone('')
+      setInputId(0)
     }
   }
 
@@ -227,8 +227,8 @@ const InfoForm = (props) => {
   }
 
   useEffect(() => {
-    dispatch(userList({ has_lock: 0 }));
-  }, [dispatch]);
+    dispatch(userList({ has_lock: 0 }))
+  }, [dispatch])
 
   return (
     <div>
@@ -355,7 +355,6 @@ const InfoForm = (props) => {
             autoComplete="current-password"
             inputProps={{
               style: {},
-              //   readOnly: props.userStatus === 'LinkStatus' ? true : false,
             }}
             helperText={helperCard}
           ></TextField>
