@@ -370,7 +370,11 @@ const InfoForm = (props) => {
             autoComplete="current-password"
             inputProps={{
               style: {},
+<<<<<<< HEAD
               //   readOnly: props.userStatus === "LinkStatus" ? true : false,
+=======
+              // readOnly: (props.userStatus === 'LinkStatus') ? true : false,
+>>>>>>> origin/Tommy
             }}
             helperText={helperCard}
           ></TextField>
@@ -416,7 +420,51 @@ const InfoForm = (props) => {
           ></TextField>
         )}
       </div>
+<<<<<<< HEAD
 
+=======
+      <div className="userInfo mail">
+        <MailOutlineIcon style={{ fontSize: "30", margin: "8px 0" }} />
+        {updating ? (
+          <Skeleton animation="wave" width={"80%"} sx={{ marginLeft: 1 }} />
+        ) : (
+          <TextField  
+            size="small"
+            error={errorEmail}
+            value={inputEmail}
+            onBlur={(e) => {
+              verifyEmail(e);
+            }}
+            onChange={(e) => {
+              setInputEmail(
+                e.target.value.replace(/[^\w!#$%&'*+-/=?^`{|}~@]|_/gi, "")
+              );
+              setErrorEmail(false);
+            }}
+            // defaultValue={user.email}
+            // onChange={(e) => setInputEmail(e.target.value)}
+            InputLabelProps={{ style: { color: colorEmail } }}
+            sx={{
+              width: "100%",
+              borderColor: "#000",
+              margin: "6px",
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: { colorEmail }, //FIELD 框
+                },
+              },
+            }}
+            label={t("mail")}
+            autoComplete="current-password"
+            inputProps={{
+              style: {},
+              readOnly: (props.userStatus === 'LinkStatus') ? true : false,
+            }}
+            helperText={helperEmail}
+          ></TextField>
+        )}
+      </div>
+>>>>>>> origin/Tommy
       <div className="save-btn">
         <Button
           onClick={handleSave}
@@ -456,6 +504,15 @@ export default InfoForm;
 const ComboBox = (props) => {
   console.log(99999, props);
   const { t } = useTranslation();
+<<<<<<< HEAD
+=======
+  const option = props.data.map(data => {
+    return {
+      label: data.mail,
+      data: data
+    }
+  })
+>>>>>>> origin/Tommy
 
   const option = props.data.map((data) => {
     return {
