@@ -15,7 +15,7 @@ import "./InfoForm.css";
 import { useTranslation } from "react-i18next";
 import Autocomplete from "@mui/material/Autocomplete";
 
-let parentMemberData = []; //會員系統獲取之資料
+let parentMemberData = null; //會員系統獲取之資料
 
 const InfoForm = (props) => {
   const { t } = useTranslation();
@@ -217,7 +217,7 @@ const InfoForm = (props) => {
   }, []);
 
   let parentMemberOption = null;
-  if (parentMemberData !== []) {
+  if (parentMemberData.length > 0) {
     parentMemberOption = parentMemberData.map((data) => {
       return {
         label: data.email,
