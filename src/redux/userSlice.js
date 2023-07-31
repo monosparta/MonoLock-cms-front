@@ -100,7 +100,6 @@ const getUserInfo = async (lockerNo, thunkAPI) => {
 export const userUnlock = createAsyncThunk(
   "user/unlock",
   async (inputData, thunkAPI) => {
-    console.log(inputData,999)
     try {
       const token = localStorage.getItem("token");
       return await fetch(`${process.env.REACT_APP_URL}/api/unlock`, {

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import {
+  Box,
   Collapse,
   TextField,
   Alert,
@@ -10,6 +11,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Typography,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
@@ -23,12 +25,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { lockStatus } from "../redux/lockSlice";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
 import "./Readmode.css";
 
 const Readmode = (props) => {
   const { t } = useTranslation();
-
   const [open, setOpen] = React.useState(false);
   const [alertValue, setAlertValue] = React.useState({
     show: false,
@@ -40,31 +40,55 @@ const Readmode = (props) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [update, setUpdate] = React.useState(false);
-
+  const [buttonClicked, setButtonClicked] = React.useState([false, false, false]);
   const { user, isFetching, isUnlocking } = useSelector(selectUser);
 
   const handleEdit = () => {
     props.setUserStatus("EditStatus");
   };
-  const inputRef = React.useRef(null);
 
-  const handleButtonClick = (event) => {
-    const buttonText = event.target.innerText;
-    const updatedInputDescription = `${inputDescription}${buttonText}\n`;
-    setInputDescription(updatedInputDescription);
-    if (inputRef.current) {
-      inputRef.current.focus();
+  const handleButtonClick = (buttonNumber) => {
+    setButtonClicked((prev) => {
+      const updatedButtons = prev.map((clicked, index) => {
+        if (index === buttonNumber - 1) {
+          return !clicked; 
+        }
+        return clicked;
+      });
+      return updatedButtons;
+    });
+  
+    switch (buttonNumber) {
+      case 1:
+        setInputDescription((prev) =>
+          prev.includes(t("會員到期檢查") + "\n") ? prev.replace(t("會員到期檢查") + "\n", "") : prev + t("會員到期檢查") + "\n"
+        );
+        break;
+      case 2:
+        setInputDescription((prev) =>
+          prev.includes(t("設備測試") + "\n") ? prev.replace(t("設備測試") + "\n", "") : prev + t("設備測試") + "\n"
+        );
+        break;
+      case 3:
+        setInputDescription((prev) =>
+          prev.includes(t("會員忘記帶卡") + "\n") ? prev.replace(t("會員忘記帶卡") + "\n", "") : prev + t("會員忘記帶卡") + "\n"
+        );
+        break;
+      default:
+        break;
     }
   };
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setInputDescription("");
+    setButtonClicked([false, false, false]); // 重置按鈕狀態為未點擊
     setOpen(false);
   };
-
+  
   const handleClickCheckOpen = () => {
     if (inputDescription !== "") {
       setCheckOpen(true);
@@ -116,6 +140,18 @@ const Readmode = (props) => {
   const handleCheckClose = () => {
     setInputDescription("");
     setCheckOpen(false);
+  };
+  const buttonStyle = {
+    margin: '5px',
+    backgroundColor: 'white',
+    color: 'black',
+    border:"1px solid black"
+  };
+
+  const clickedButtonStyle = {
+    margin: '5px',
+    backgroundColor: 'black',
+    color: 'white',
   };
 
   return (
@@ -199,11 +235,11 @@ const Readmode = (props) => {
             "& .MuiDialog-container": {
               "& .MuiPaper-root": {
                 width: 440,
-                height: 300, // Set your width here
+                height: 400,
               },
               "& .MuiOutlinedInput-root": {
                 width: 328,
-                height: 156, // Set your width here
+                height: 156,
               },
               "& .MuiDialogContent-root ": {
                 padding: 0,
@@ -235,38 +271,28 @@ const Readmode = (props) => {
               />
             </DialogContent>
           </div>
-           <DialogActions sx={{ justifyContent: "center" }}>
+          <Box sx={{ justifyContent: "center",marginLeft:"100px" }}>請點擊下方選擇原因或自行輸入</Box>
+          <DialogActions sx={{ justifyContent: "center" }}>
             <Button
-              onClick={handleButtonClick}
+              onClick={() => handleButtonClick(1)} 
               variant="contained"
-              style={{
-                background: "#516EC5",
-                width: 108,
-                heow: "none",
-                fontSize: 12,
-                margin: 5,
-              }}
-            >{t("memberCheck")}</Button>
+              style={buttonClicked[0] ? clickedButtonStyle : buttonStyle}
+            >
+              {t("memberCheck")}
+            </Button>
             <Button
-              onClick={handleButtonClick}
+              onClick={() => handleButtonClick(2)} 
               variant="contained"
-              style={{
-                background: "#516EC5",
-                width: 108,
-                heow: "none",
-                fontSize: 12,
-                margin: 5,
-              }}>{t("deviceTest")}</Button>
+              style={buttonClicked[1] ? clickedButtonStyle : buttonStyle}
+            >
+              {t("deviceTest")}
+            </Button>
             <Button
-              onClick={handleButtonClick}
-              variant="contained"
-              style={{
-                background: "#516EC5",
-                width: 108,
-                heow: "none",
-                fontSize: 12,
-                margin: 5,
-              }}>{t("forgot card")}</Button>
+              onClick={() => handleButtonClick(3)} 
+              style={buttonClicked[2] ? clickedButtonStyle : buttonStyle}
+            >
+              {t("forgotCard")}
+            </Button>
           </DialogActions>
 
           <DialogActions sx={{ width: 328 }}>
@@ -315,11 +341,11 @@ const Readmode = (props) => {
             "& .MuiDialog-container": {
               "& .MuiPaper-root": {
                 width: 375,
-                height: 250, 
+                height: 250,
                 borderRadius: "10px",
               },
               "& .MuiOutlinedInput-root": {
-                width: 244, 
+                width: 244,
                 height: 150,
               },
               "& .MuiDialogContent-root ": {
