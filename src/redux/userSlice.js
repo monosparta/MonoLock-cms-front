@@ -126,12 +126,6 @@ export const userUnlock = createAsyncThunk(
         }
         return 1;
       });
-      // let data = response;
-      // if (response.ok) {
-      //   return data;
-      // } else {
-      //   throw data;
-      // }
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }

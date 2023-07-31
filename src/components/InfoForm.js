@@ -355,7 +355,7 @@ const InfoForm = (props) => {
             autoComplete="current-password"
             inputProps={{
               style: {},
-              //   readOnly: props.userStatus === 'LinkStatus' ? true : false,
+              //   readOnly: props.userStatus === "LinkStatus" ? true : false,
             }}
             helperText={helperCard}
           ></TextField>
@@ -398,7 +398,6 @@ const InfoForm = (props) => {
           ></TextField>
         )}
       </div>
-
       <div className="save-btn">
         <Button
           onClick={handleSave}

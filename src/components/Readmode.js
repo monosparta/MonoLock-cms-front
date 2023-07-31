@@ -1,19 +1,16 @@
-import React, { useEffect, useRef } from "react";
-import ExpandMore from '@mui/icons-material/ExpandMore'
+import React, { useEffect } from "react";
 import {
-  Accordion,
+  Box,
   Collapse,
   TextField,
   Alert,
   Stack,
   Skeleton,
   Button,
-  Typography,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  AccordionSummary,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
@@ -31,51 +28,66 @@ import "./Readmode.css";
 
 const Readmode = (props) => {
   const { t } = useTranslation();
-
   const [open, setOpen] = React.useState(false);
-  const [submittedReason, setSubmittedReason] = React.useState(''); // 提交後的原因
-  const [isSubmitted, setIsSubmitted] = React.useState(false); // 是否已經提交
-  const [locked, setLocked] = React.useState(true);
-  // const [alertValue, setAlertValue] = React.useState({
-  //   show: false,
-  //   type: "success",
-  //   text: "",
-  // });
+  const [alertValue, setAlertValue] = React.useState({
+    show: false,
+    type: "success",
+    text: "",
+  });
   const [checkOpen, setCheckOpen] = React.useState(false);
   const [inputDescription, setInputDescription] = React.useState("");
-  // const dispatch = useDispatch();
-  // const location = useLocation();
-  // const [update, setUpdate] = React.useState(false);
-  const [expandedAccordionIndex, setExpandedAccordionIndex] = React.useState(-1);
-  const accordionRef = useRef(null); // 步驟2：新增 useRef
-
-
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const [update, setUpdate] = React.useState(false);
+  const [buttonClicked, setButtonClicked] = React.useState([false, false, false]);
   const { user, isFetching, isUnlocking } = useSelector(selectUser);
 
   const handleEdit = () => {
     props.setUserStatus("EditStatus");
   };
 
-  const inputRef = useRef(null);
-
-  const handleButtonClick = (event) => {
-    const buttonText = event.target.innerText;
-    const updatedInputDescription = `${inputDescription}${buttonText}\n`;
-    setInputDescription(updatedInputDescription);
-    if (inputRef.current) {
-      inputRef.current.focus();
+  const handleButtonClick = (buttonNumber) => {
+    setButtonClicked((prev) => {
+      const updatedButtons = prev.map((clicked, index) => {
+        if (index === buttonNumber - 1) {
+          return !clicked; 
+        }
+        return clicked;
+      });
+      return updatedButtons;
+    });
+  
+    switch (buttonNumber) {
+      case 1:
+        setInputDescription((prev) =>
+          prev.includes(t("會員到期檢查") + "\n") ? prev.replace(t("會員到期檢查") + "\n", "") : prev + t("會員到期檢查") + "\n"
+        );
+        break;
+      case 2:
+        setInputDescription((prev) =>
+          prev.includes(t("設備測試") + "\n") ? prev.replace(t("設備測試") + "\n", "") : prev + t("設備測試") + "\n"
+        );
+        break;
+      case 3:
+        setInputDescription((prev) =>
+          prev.includes(t("會員忘記帶卡") + "\n") ? prev.replace(t("會員忘記帶卡") + "\n", "") : prev + t("會員忘記帶卡") + "\n"
+        );
+        break;
+      default:
+        break;
     }
   };
-
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setInputDescription("");
+    setButtonClicked([false, false, false]); 
     setOpen(false);
   };
-
+  
   const handleClickCheckOpen = () => {
     if (inputDescription !== "") {
       setCheckOpen(true);
@@ -83,93 +95,62 @@ const Readmode = (props) => {
     }
   };
 
-  const handleCheckCloseAPI = () => {
+  const handleCheckCloseAPI = async () => {
     setCheckOpen(false);
-    setSubmittedReason(inputDescription); // 提交後將原因保存
-    setIsSubmitted(true); // 將 isSubmitted 設為 true
-    setCheckOpen(false); // 提交後關閉對話框
-    setInputDescription("")
-    setLocked(!locked);
-    alert("已解鎖");
-    setSubmitCount(submitCount + 1);
-
-
-
-
-    // const a = await dispatch(
-    //   userUnlock([{ lockerNo: location.state, description: inputDescription }])
-    // );
-    // setUpdate(true);
-    // dispatch(lockStatus());
-    // if (a.payload === 0) {
-    //   setAlertValue({
-    //     type: "success",
-    //     text: t("finishForced"),
-    //     show: true,
-    //   });
-    // } else {
-    //   setAlertValue({
-    //     type: "error",
-    //     text: t("failedForced"),
-    //     show: true,
-    //   });
-    // }
+    const a = await dispatch(
+      userUnlock([{ lockerNo: location.state, description: inputDescription }])
+    );
+    setUpdate(true);
+    dispatch(lockStatus());
+    if (a.payload === 0) {
+      setAlertValue({
+        type: "success",
+        text: t("finishForced"),
+        show: true,
+      });
+    } else {
+      setAlertValue({
+        type: "error",
+        text: t("failedForced"),
+        show: true,
+      });
+    }
   };
-
-    // 操作時間
-    const [currentTime, setCurrentTime] = React.useState(new Date()); 
-    const [submitCount, setSubmitCount] = React.useState(0);
-  
-
-    useEffect(() => {
-      // 只有在提交次數改變時才更新時間
-      setCurrentTime(new Date());
-    }, [submitCount]);
-  
-    const formattedTime = currentTime.toLocaleTimeString();
-
-
-
 
   useEffect(() => {
-    if (expandedAccordionIndex !== -1 && accordionRef.current) {
-      accordionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (update) {
+      dispatch(userInfo(location.state));
+      setInputDescription("");
+      setUpdate(false);
     }
-  }, [expandedAccordionIndex]);
+  }, [update, dispatch, location]);
 
-  const handleClickAccordion = (index) => {
-    if (index === expandedAccordionIndex) {
-      // 如果手風琴已經展開，則關閉它
-      setExpandedAccordionIndex(-1);
-
-    } else {
-      // 如果手風琴未展開，則展開它
-      setExpandedAccordionIndex(index);
+  useEffect(() => {
+    if (alertValue.show) {
+      setTimeout(() => {
+        setAlertValue({
+          ...alertValue,
+          show: false,
+        });
+      }, 3000);
     }
-  };
-
-  // useEffect(() => {
-  //   if (update) {
-  //     dispatch(userInfo(location.state));
-  //     setInputDescription("");
-  //     setUpdate(false);
-  //   }
-  // }, [update, dispatch, location]);
-
-  // useEffect(() => {
-  //   if (alertValue.show) {
-  //     setTimeout(() => {
-  //       setAlertValue({
-  //         ...alertValue,
-  //         show: false,
-  //       });
-  //     }, 3000);
-  //   }
-  // }, [alertValue]);
+  }, [alertValue]);
 
   const handleCheckClose = () => {
     setInputDescription("");
     setCheckOpen(false);
+  };
+  const buttonStyle = {
+    margin: '5px',
+    backgroundColor: 'white',
+    color: 'black',
+    border:"1px solid black"
+  };
+
+  const clickedButtonStyle = {
+    margin: '5px',
+    backgroundColor: 'black',
+    color: 'white',
   };
 
   return (
@@ -211,40 +192,36 @@ const Readmode = (props) => {
           onClick={handleEdit}
           variant="contained"
           style={{
-            width: "40%",
+            width: "100%",
             height: 39,
             background: "#363f4e",
             boxShadow: "none",
             fontSize: 18,
-            // marginTop: 10,
-            marginRight: 10,
+            margin: 5,
           }}
           startIcon={<EditIcon />}
         >
           {t("edit")}
         </Button>
 
-        {/* 強制開鎖按鈕 */}
         <LoadingButton
           loading={isUnlocking}
           disabled={isUnlocking}
           variant="contained"
           onClick={handleClickOpen}
           style={{
-            width: "40%",
+            width: "100%",
             height: 39,
             background: "#FFC440",
             boxShadow: "none",
             fontSize: 18,
-            // marginTop: 10,
-            marginRight: 10,
+            margin: 5,
           }}
           startIcon={<LockOpenIcon />}
         >
           {t("forced")}
         </LoadingButton>
 
-        {/* 強制開鎖原因介面 */}
         <Dialog
           open={open}
           onClose={handleClose}
@@ -257,11 +234,11 @@ const Readmode = (props) => {
             "& .MuiDialog-container": {
               "& .MuiPaper-root": {
                 width: 440,
-                height: 400, // Set your width here
+                height: 400,
               },
               "& .MuiOutlinedInput-root": {
                 width: 328,
-                height: 156, // Set your width here
+                height: 156,
               },
               "& .MuiDialogContent-root ": {
                 padding: 0,
@@ -278,58 +255,46 @@ const Readmode = (props) => {
                 required
                 multiline
                 value={inputDescription}
-                onChange={(event) => setInputDescription(event.target.value)}
+                onChange={(e) => setInputDescription(e.target.value)}
                 id="input-reason"
                 placeholder={t("reminderContent")}
-                inputRef={inputRef}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     display: "flex",
                     alignItems: "flex-start",
                     "&.Mui-focused fieldset": {
-                      borderColor: "gray",
+                      borderColor: "gray", //FIELD 框
                     },
                   },
                 }}
               />
             </DialogContent>
           </div>
-          <Typography variant="h6" sx={{ textAlign: "center" }} >{t("cause_click")}</Typography>
-          {/* 選項button */}
+          <Box sx={{ justifyContent: "center",marginLeft:"100px" }}>{t("causeClick")}</Box>
           <DialogActions sx={{ justifyContent: "center" }}>
             <Button
-              onClick={handleButtonClick}
+              onClick={() => handleButtonClick(1)} 
               variant="contained"
-              style={{
-                background: "#516EC5",
-                width: 108,
-                heow: "none",
-                fontSize: 12,
-                margin: 5,
-              }}
-            >{t("memberCheck")}</Button>
+              style={buttonClicked[0] ? clickedButtonStyle : buttonStyle}
+            >
+              {t("memberCheck")}
+            </Button>
             <Button
-              onClick={handleButtonClick}
+              onClick={() => handleButtonClick(2)} 
               variant="contained"
-              style={{
-                background: "#516EC5",
-                width: 108,
-                heow: "none",
-                fontSize: 12,
-                margin: 5,
-              }}>{t("deviceTest")}</Button>
+              style={buttonClicked[1] ? clickedButtonStyle : buttonStyle}
+            >
+              {t("deviceTest")}
+            </Button>
             <Button
-              onClick={handleButtonClick}
-              variant="contained"
-              style={{
-                background: "#516EC5",
-                width: 108,
-                heow: "none",
-                fontSize: 12,
-                margin: 5,
-              }}>{t("forgot card")}</Button>
+              onClick={() => handleButtonClick(3)} 
+              style={buttonClicked[2] ? clickedButtonStyle : buttonStyle}
+            >
+              {t("forgotCard")}
+            </Button>
           </DialogActions>
-          <DialogActions sx={{ justifyContent: "center" }}>
+
+          <DialogActions sx={{ width: 328 }}>
             <Button
               variant="contained"
               onClick={handleClickCheckOpen}
@@ -375,11 +340,11 @@ const Readmode = (props) => {
             "& .MuiDialog-container": {
               "& .MuiPaper-root": {
                 width: 375,
-                height: 250, // Set your width here
+                height: 250,
                 borderRadius: "10px",
               },
               "& .MuiOutlinedInput-root": {
-                width: 244, // Set your width here
+                width: 244,
                 height: 150,
               },
               "& .MuiDialogContent-root ": {
@@ -434,7 +399,7 @@ const Readmode = (props) => {
           </DialogActions>
         </Dialog>
       </div>
-      {/* <Stack
+      <Stack
         className="success"
         sx={{
           width: "478px",
@@ -450,38 +415,8 @@ const Readmode = (props) => {
             {alertValue.text}
           </Alert>
         </Collapse>
-      </Stack> */}
-
-      {/* 將提交後的原因渲染到頁面上 */}
-
-      {isSubmitted && (
-        <Accordion
-          id="accordion"
-          ref={accordionRef} // 步驟4：將 ref 綁定到手風琴
-          expanded={expandedAccordionIndex === 0} // 當索引為 0 時展開第一個手風琴
-          onChange={() => handleClickAccordion(0)}  // 點擊時切換展開狀態
-          sx={{
-            width: "1000px", marginTop: "100px", backgroundColor: "rgb(112, 112, 112)"
-          }}>
-
-          <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel-content" id="panel-header">
-            <Typography sx={{ fontSize: "18px" }}>{t("unlocked cause")}</Typography>
-          </AccordionSummary>
-          <Collapse in={expandedAccordionIndex === 0}>
-            <Typography sx={{ p: 2 }}>
-              root: {submittedReason} 
-            </Typography>
-            <span>&nbsp;&nbsp;&nbsp;操作時間:{formattedTime}</span>
-          </Collapse>
-        </Accordion>
-
-
-      )}
-
-
-
+      </Stack>
     </div>
-
   );
 };
 
