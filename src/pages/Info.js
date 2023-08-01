@@ -62,6 +62,7 @@ const Info = () => {
       setLuckIconStatus(state.lockUp);
       setError(state.error);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lockList]);
 
   useEffect(() => {
@@ -72,6 +73,7 @@ const Info = () => {
       dispatch(userInfoNoLoading(location.state));
     }, 30000);
     return () => clearInterval(refresh);
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClick = () => {
