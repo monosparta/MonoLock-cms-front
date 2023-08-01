@@ -216,8 +216,8 @@ const InfoForm = (props) => {
     })();
   }, []);
 
-  let parentMemberOption = null;
-  if (parentMemberData.length > 0) {
+  let parentMemberOption = [];
+  if (parentMemberData) {
     parentMemberOption = parentMemberData.map((data) => {
       return {
         label: data.email,
