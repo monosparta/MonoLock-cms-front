@@ -116,6 +116,7 @@ const Info = () => {
     if (isSuccess) {
       dispatch(clearState());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError, isSuccess]);
 
   return (
