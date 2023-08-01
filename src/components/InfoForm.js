@@ -209,8 +209,9 @@ const InfoForm = (props) => {
     (async () => {
       await window.parent.postMessage(true, "*");
       await window.addEventListener("message", async (e) => {
-        if (Array.isArray(e.data)) {
-          parentMemberData = e.data;
+        const middleData = JSON.parse(e.data);
+        if (Array.isArray(middleData)) {
+          parentMemberData = middleData;
         }
       });
     })();
