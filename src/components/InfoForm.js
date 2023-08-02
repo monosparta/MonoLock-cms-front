@@ -23,10 +23,10 @@ const InfoForm = (props) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { user, updating } = useSelector(selectUser);
+  const [inputEmail, setInputEmail] = React.useState(user.mail || "");
   const [inputName, setInputName] = React.useState(user.name || "");
   const [inputCard, setInputCard] = React.useState(user.cardId || "");
   const [inputPhone, setInputPhone] = React.useState(user.phone || "");
-  const [inputEmail, setInputEmail] = React.useState(user.mail || "");
   const [inputId, setInputId] = React.useState(user.id || 0)
   const [errorName, setErrorName] = React.useState(false);
   const [errorCard, setErrorCard] = React.useState(false);
@@ -51,7 +51,7 @@ const InfoForm = (props) => {
   let InfoData = {
     id: user.id,
     name: inputName,
-    email: inputEmail,
+    mail: inputEmail,
     phone: inputPhone,
     cardId: inputCard,
   };
@@ -258,6 +258,7 @@ const InfoForm = (props) => {
         ) : (
           <Autocomplete
             freeSolo
+            value={inputEmail}
             onInputChange={(e, value) => {
               setInputEmail(value);
             }}
@@ -276,7 +277,6 @@ const InfoForm = (props) => {
               <TextField
                 {...params}
                 label={t("mail")}
-                value={inputEmail}
                 onBlur={(e) => {
                   verifyEmail(e);
                 }}
