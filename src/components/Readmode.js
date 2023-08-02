@@ -102,6 +102,7 @@ const Readmode = (props) => {
     );
     setUpdate(true);
     dispatch(lockStatus());
+    window.location.reload();
     if (a.payload === 0) {
       setAlertValue({
         type: "success",
