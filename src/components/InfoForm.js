@@ -276,6 +276,7 @@ const InfoForm = (props) => {
               <TextField
                 {...params}
                 label={t("mail")}
+                value={inputEmail}
                 onBlur={(e) => {
                   verifyEmail(e);
                 }}
