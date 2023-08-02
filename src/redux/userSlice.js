@@ -126,12 +126,6 @@ export const userUnlock = createAsyncThunk(
         }
         return 1;
       });
-      // let data = response;
-      // if (response.ok) {
-      //   return data;
-      // } else {
-      //   throw data;
-      // }
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }
@@ -205,6 +199,11 @@ export const userAdd = createAsyncThunk(
           cardId,
         }),
       }).then((response) => {
+        console.log(response, response.message, "此資料已被登錄過");
+        if (response.status === 422) {
+          alert("此卡號、電話或信箱已被使用過");
+          return response;
+        }
         if (response.status === 200) {
           return response;
         }

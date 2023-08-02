@@ -40,11 +40,11 @@
   }
 }
 
-@media (max-width: 900px) {
+ /* @media (max-width: 900px) {
   .MuiAccordionSummary-content{
     flex-direction: column
-  }
-}
+  } 
+} */
 
 .userInfo {
   width: 90%;
@@ -137,4 +137,11 @@
 .userDelete {
   text-align: right;
   flex-grow: 1;
+}
+#accordion{
+  width: 100%;
+  margin-top: "50px";
+  background-color:rgb(232, 232, 232);
+  color:#363f4e;
+  box-shadow: none;
 }

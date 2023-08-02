@@ -37,11 +37,13 @@ const Info = () => {
   const { user, records, isFetching, isError, isSuccess, errorMessage } =
     useSelector(selectUser);
   const { lockList, lockIsFetching } = useSelector(selectLock);
-  if (isError) {
-    toast.error(errorMessage);
-  } else {
-    toast.remove("loading");
-  }
+  useEffect(() => {
+    if (isError) {
+      toast.error(errorMessage);
+    } else {
+      toast.remove("loading");
+    }
+  })
   useEffect(() => {
     dispatch(clearState());
     dispatch(clearMsg());
@@ -71,7 +73,7 @@ const Info = () => {
       dispatch(userInfoNoLoading(location.state));
     }, 30000);
     return () => clearInterval(refresh);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClick = () => {
@@ -151,6 +153,7 @@ const Info = () => {
                 ) : selectIconStyle()}
               </div>
               <div className="userInfoMode">{lockIsFetching ? "" : selectFormMode()}</div>
+             
             </div>
           </Grid>
 

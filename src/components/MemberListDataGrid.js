@@ -5,7 +5,7 @@ const MemberListDataGrid = (props) => {
   return (
     <>
       <DataGrid
-        autoHeight{...props.adminList}
+       autoHeight {...props.adminList}
         sx={{ border: 0 }}
         rows={props.adminList}
         columns={props.columns}
