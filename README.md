@@ -32,7 +32,7 @@
 切換分支 git checkout [分支名稱]
 刪除分支 git branch -D [分支名稱]
 合併指定分支到目前分支 git merge [分支名稱]
-遠端 Clone 專案並移動到特定目錄 git clone [Url] [目錄路徑]
+遠端 Clone 專案並移動到特定目錄 git clone [Url] [目錄路徑] 
 查詢遠端 repo git remote
 本地分支上傳到遠端分支 git push 遠端repo 遠端分支名稱
 遠端分支更新拉下來到本地合併 git pull
@@ -50,4 +50,5 @@
 6..gitignore 配置
 https://www.freecodecamp.org/chinese/news/gitignore-file-how-to-ignore-files-and-folders-in-git/
 
-7.
+7.GitFlow 介紹
+https://gitbook.tw/chapters/gitflow/why-need-git-flow
